@@ -1,0 +1,93 @@
+import java.util.Arrays;
+
+//import java.awt.Point;
+
+public class Solution {
+
+	public static void main(String[] args) {
+		Job a[] = new Job[4];//
+		a[0] = new Job(3, 10, 20);
+		a[1] = new Job(1, 2, 50);
+		a[2] = new Job(6, 19, 100);
+		a[3] = new Job(2, 100, 200);
+		int n = a.length;
+
+		Arrays.sort(a, (first, second) -> first.end - second.end);
+		System.out.println(findMaxProfit(a, n));
+		System.out.println(findMaxProfit_BinarySearch(a, n));
+	}
+
+	private static int findMaxProfit(Job[] a, int aSize) {
+		// TODO Auto-generated method stub
+		int maxProfit = 0;
+		int[] profits = new int[aSize];
+		profits[0] = a[0].profit;
+
+		for (int i = 1; i < aSize; i++) {
+			for (int j = 0; j < i; j++) {
+				if (a[j].end <= a[i].start)
+					profits[i] = Math.max(a[j].profit + a[i].profit, profits[i]);
+			}
+			maxProfit = Math.max(maxProfit, profits[i]);
+		}
+
+		return maxProfit;
+	}
+
+	private static int findMaxProfit_BinarySearch(Job[] a, int aSize) {
+		// TODO Auto-generated method stub
+		int maxProfit = 0;
+		int[] profits = new int[aSize];
+		profits[0] = a[0].profit;
+		int inclProfit;
+		int lastLower;
+
+		for (int i = 1; i < aSize; i++) {
+			inclProfit = a[i].profit;
+			lastLower = binarySearch(a, i);
+			if (lastLower != -1)
+				inclProfit += a[lastLower].profit;
+
+			profits[i] = Math.max(profits[i - 1], inclProfit);
+
+			maxProfit = Math.max(maxProfit, profits[i]);
+		}
+
+		return maxProfit;
+	}
+
+	public static int binarySearch(Job[] a, int index) {
+		int low = 0;
+		int high = index - 1;
+		int mid;
+		while (low <= high) {
+			mid = low + (high - low) / 2;
+			if (a[mid].end <= a[index].start) {
+				if (a[mid + 1].end <= a[index].start) {
+					low = mid + 1;
+				} else {
+					return mid;
+				}
+			} else {
+				high = mid - 1;
+			}
+
+		}
+
+		return -1;
+	}
+}
+
+class Job {
+	int start;
+	int end;
+	int profit;
+
+	public Job(int start, int end, int profit) {
+		super();
+		this.start = start;
+		this.end = end;
+		this.profit = profit;
+	}
+
+}
