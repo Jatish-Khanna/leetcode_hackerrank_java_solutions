@@ -1,0 +1,76 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Solution {
+
+	// Complete the maxRegion function below.
+	static int maxRegion(int[][] grid) {
+		int regionSize = 0;
+		int grid_x = grid.length;
+		int grid_y = grid[0].length;
+		for (int i = 0; i < grid_x; i++) {
+			for (int j = 0; j < grid_y; j++) {
+				regionSize = Math.max(regionSize, calculateNext(grid, i, j));
+			}
+		}
+
+		return regionSize;
+	}
+
+	private static int calculateNext(int[][] grid, int grid_x, int grid_y) {
+		if (grid_x < 0 || grid_x >= grid.length || grid_y < 0 || grid_y >= grid[0].length) {
+			return 0;
+		}
+		if (grid[grid_x][grid_y] == 0)
+			return 0;
+		int count = grid[grid_x][grid_y]--;
+		count += calculateNext(grid, grid_x - 1, grid_y);
+		count += calculateNext(grid, grid_x - 1, grid_y - 1);
+		count += calculateNext(grid, grid_x - 1, grid_y + 1);
+
+		count += calculateNext(grid, grid_x + 1, grid_y);
+		count += calculateNext(grid, grid_x + 1, grid_y - 1);
+		count += calculateNext(grid, grid_x + 1, grid_y + 1);
+
+		count += calculateNext(grid, grid_x, grid_y);
+		count += calculateNext(grid, grid_x, grid_y - 1);
+		count += calculateNext(grid, grid_x, grid_y + 1);
+
+		return count;
+	}
+
+	private static final Scanner scanner = new Scanner(System.in);
+
+	public static void main(String[] args) throws IOException {
+		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+		int n = scanner.nextInt();
+		scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+		int m = scanner.nextInt();
+		scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+		int[][] grid = new int[n][m];
+
+		for (int i = 0; i < n; i++) {
+			String[] gridRowItems = scanner.nextLine().split(" ");
+			scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+			for (int j = 0; j < m; j++) {
+				int gridItem = Integer.parseInt(gridRowItems[j]);
+				grid[i][j] = gridItem;
+			}
+		}
+
+		int res = maxRegion(grid);
+		System.out.println(res);
+		bufferedWriter.write(String.valueOf(res));
+		bufferedWriter.newLine();
+
+		bufferedWriter.close();
+
+		scanner.close();
+	}
+}
