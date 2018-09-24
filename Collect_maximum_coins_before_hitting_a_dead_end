@@ -1,0 +1,57 @@
+public class Solution {
+
+	static int dpSol[][][];
+
+	public static void main(String[] args) {
+		char arr[][] = { { 'E', 'C', 'C', 'C', 'C' }, { 'C', '#', 'C', '#', 'E' }, { '#', 'C', 'C', '#', 'C' },
+				{ 'C', 'E', 'E', 'C', 'E' }, { 'C', 'E', '#', 'C', 'E' } };
+
+		dpSol = new int[arr.length][arr[0].length][2];
+		System.out.println("Maximum number of collected coins is " + maxCoins(arr));
+
+	}
+
+	private static int maxCoins(char[][] arr) {
+
+		return calculatedCoins(arr, 0, 0, 1);
+	}
+
+	private static int calculatedCoins(char[][] arr, int i, int j, int k) {
+
+		//Bounds
+		
+		if (checkBounds(i, j, arr.length, arr[0].length) || arr[i][j] == '#')
+			return 0;
+		
+		//Memoization
+		if (dpSol[i][j][k] != 0)
+			return dpSol[i][j][k];
+
+		//Base case
+		dpSol[i][j][k] = (arr[i][j] == 'C') ? 1 : 0;
+
+		//Direction right
+		if (k == 1) {
+			//Max of direction right or direction down moving left
+			dpSol[i][j][k] += Math.max(calculatedCoins(arr, i, j + 1, k), calculatedCoins(arr, i + 1, j, 0));
+		}
+
+		if (k == 0) {
+			//Max of direction left or direction down moving right
+			dpSol[i][j][k] += Math.max(calculatedCoins(arr, i, j - 1, k), calculatedCoins(arr, i + 1, j, 1));
+		}
+
+		//return solution
+		return dpSol[i][j][k];
+	}
+
+	private static boolean checkBounds(int i, int j, int x, int y) {
+
+		//Out of bounds return true
+		if (i < 0 || j < 0 || i >= x || j >= y)
+			return true;
+		//The indexes are in bounds
+		return false;
+	}
+
+}
