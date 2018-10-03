@@ -61,18 +61,25 @@ public class Solution {
 	 */
 	static int findMergeNode(SinglyLinkedListNode head1, SinglyLinkedListNode head2) {
 
+		//Create aux space to store visited nodes
 		Set<SinglyLinkedListNode> auxSpaceSolution = new HashSet<>();
+		//Update current working node to head of list#1
 		SinglyLinkedListNode current = head1;
+		
+		//Iterate over complete list and push all the nodes in aux space (Set of unique items)
 		while(current!=null){
 			auxSpaceSolution.add(current);
 			current = current.next;
 		}
 		current = head2;
+		
+		//Iterate over complete list and check if node is alread visited; break if found
 		while(current!=null){
 			if(auxSpaceSolution.contains(current))
 				break;
 			current = current.next;
 		}
+		//return current data
 		return current.data;
 	}
 
