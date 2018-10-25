@@ -23,13 +23,13 @@ class Solution {
 		preOrder(root.right);
 
 	}
-  	/*
+  /*
 	 * Node is defined as : class Node int data; Node left; Node right;
-	 */
 	 * Insert the node on conditions of BST i.e. left.data < root < right.data
 	 * @param root The head or top of the tree
 	 * @param data new node to be created with data
 	 * @return root node to iterate over
+	 */
 	public static Node insert(Node root, int data) {
 		if (root == null) {
 			root = createNode(data);
