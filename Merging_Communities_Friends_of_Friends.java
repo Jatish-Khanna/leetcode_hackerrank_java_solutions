@@ -8,7 +8,7 @@ class Solution {
 	// Rank of each node i.e. number of nodes connected to root of tree
 	static int ranks[];
 
-	
+	// Driver Program
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		int people = in.nextInt();
