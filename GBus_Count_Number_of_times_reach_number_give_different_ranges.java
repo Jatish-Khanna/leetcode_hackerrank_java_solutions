@@ -11,7 +11,8 @@ public class Solution {
 
 		for (int test = 0; test < TEST; test++) {
 			rangeCheck = new int[5001];
-
+			System.out.print("Case #"+(test+1)+": ");
+			
 			int cities = in.nextInt();
 			for (int index = 0; index < cities; index++) {
 				fillRange(in.nextInt(), in.nextInt());
