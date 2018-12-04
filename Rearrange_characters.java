@@ -13,7 +13,6 @@ class Solution {
 		}
 
 	}
-
 	private static void rearrangeStringNoSameAlternateCharacter(String str) {
 		PriorityQueue<Entry> freqQueue = new PriorityQueue<Entry>(new Comparator<Entry>() {
 
