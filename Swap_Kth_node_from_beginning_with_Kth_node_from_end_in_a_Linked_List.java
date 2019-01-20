@@ -1,4 +1,3 @@
-class Solution {
 	static class Node {
 		int data;
 		Node next;
@@ -31,33 +30,34 @@ class Solution {
 	private static void swapKthNode(int kthNode) {
 		if (kthNode == 0)
 			return;
-		int countNodes = countNumberOfNodesInList();
+//		int countNodes = countNumberOfNodesInList();
 		// Number of nodes are not present
-		if (countNodes < kthNode) {
-			return;
-		}
-
-		// True for Odd number of nodes, middle node or single node
-		if ((kthNode << 1) - 1 == countNodes) {
-			return;
-		}
 
 		Node kthNodeFromLeft = head;
 		Node previousOfKthLeft = null;
 		int count = 1;
-		while (count < kthNode) {
+		while (count < kthNode && kthNodeFromLeft.next != null) {
 			previousOfKthLeft = kthNodeFromLeft;
 			kthNodeFromLeft = kthNodeFromLeft.next;
 			count++;
 		}
 
+		if (count < kthNode) {
+			return;
+		}
+
 		Node kthNodeFromRight = head;
 		Node previousOfKthRight = null;
-
-		while (count < countNodes) {
+		Node current = kthNodeFromLeft.next;
+		while (current != null) {
 			previousOfKthRight = kthNodeFromRight;
 			kthNodeFromRight = kthNodeFromRight.next;
+			current = current.next;
 			count++;
+		}
+
+		if (kthNodeFromLeft == kthNodeFromRight) {
+			return;
 		}
 
 		if (previousOfKthLeft != null) {
@@ -74,27 +74,27 @@ class Solution {
 
 		if (kthNode == 1) {
 			head = kthNodeFromRight;
-		} else if (kthNode == countNodes) {
+		} else if (kthNodeFromRight.next == null) {
 			head = kthNodeFromLeft;
 		}
 
 		System.out.println();
 	}
 
-	private static int countNumberOfNodesInList() {
-		Node node = head;
-		int count = 0;
-		while (node != null) {
-			node = node.next;
-			count++;
-		}
-		return count;
-	}
+//	private static int countNumberOfNodesInList() {
+//		Node node = head;
+//		int count = 0;
+//		while (node != null) {
+//			node = node.next;
+//			count++;
+//		}
+//		return count;
+//	}
 
 	// Driver code to test above
 	public static void main(String[] args) {
 
-		for (int i = 8; i >= 1; i--) {
+		for (int i = 1; i >= 1; i--) {
 			push(i);
 		}
 
@@ -109,3 +109,4 @@ class Solution {
 			System.out.println("");
 		}
 	}
+}
