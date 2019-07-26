@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to make a BUTTON element with text.</p>
+
+<button onclick="myFunction()">Try it</button>
+<input type="text" id="filter"/>
+<ul id="list">
+</ul>
+
+<script>
+
+var ids = [1,2,3,4,5,6,7];
+
+var element = document.getElementById("list");
+var documentFragment = document.createDocumentFragment();
+//var func = 
+
+function myFunction() {
+  
+  let filter = document.getElementById("filter").value;
+  alert(filter);
+  ids.forEach(function(value) {
+  
+  if(filter < value) {
+    let item = document.createElement("LI");
+    item.innerHTML = value;
+    documentFragment.appendChild(item);
+   }
+  });
+  
+  element.appendChild(documentFragment);
+}
+//alert("hello");
+</script>
+
+</body>
+</html>
