@@ -24,5 +24,10 @@ public class Solution {
     .sorted(Comparator.comparing(Map.Entry<String, Integer>::getValue)
             .thenComparing(Map.Entry<String, Integer>::getKey)).reversed()
     .collect(Collectors.toList()));
+    
+    // In this Map.Entry.<K,V> is important to compile the code
+    System.out.println(players.entrySet().stream()
+        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed().thenComparing(Entry.comparingByKey()))
+        .collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new)));
   }
 }
