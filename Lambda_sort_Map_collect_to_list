@@ -14,5 +14,15 @@ public class Solution {
             .thenComparing(Map.Entry<String, Integer>::getKey))
     .map(Map.Entry::getKey)
     .collect(Collectors.toList()));
+    
+        System.out.println(players.entrySet().stream()
+    .sorted(Comparator.comparing(Map.Entry<String, Integer>::getValue).reversed()
+            .thenComparing(Map.Entry<String, Integer>::getKey))
+    .collect(Collectors.toList()));
+    
+        System.out.println(players.entrySet().stream()
+    .sorted(Comparator.comparing(Map.Entry<String, Integer>::getValue)
+            .thenComparing(Map.Entry<String, Integer>::getKey)).reversed()
+    .collect(Collectors.toList()));
   }
 }
