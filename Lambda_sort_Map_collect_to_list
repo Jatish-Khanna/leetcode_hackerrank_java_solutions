@@ -1,0 +1,18 @@
+
+public class Solution {
+
+  public static void main(String[] args) {
+    
+    Map<String, Integer> players= new HashMap<>();
+    players.put("Christiano Ronaldo",10);
+    players.put("Messi",50);
+    players.put("Kaka",10);
+    players.put("Ronaldinho",100);
+    
+    System.out.println(players.entrySet().stream()
+    .sorted(Comparator.comparing(Map.Entry<String, Integer>::getValue)
+            .thenComparing(Map.Entry<String, Integer>::getKey))
+    .map(Map.Entry::getKey)
+    .collect(Collectors.toList()));
+  }
+}
