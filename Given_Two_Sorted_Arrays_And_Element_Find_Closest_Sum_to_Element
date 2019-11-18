@@ -1,0 +1,27 @@
+import java.util.Arrays;
+
+
+public class Solution {
+  public static void main(String[] args) {
+    int[] arr = {4, 2, 1, 6, 7, 8, 1, 2};
+    int[] arr2 = {4, 2, 1, 6, 7, 8, 1, 2};
+    int element = 17;
+    int closest = Integer.MAX_VALUE;
+    int diff = -1;
+
+    Arrays.sort(arr);
+    Arrays.sort(arr2);
+
+    for (int first = 0, second = arr2.length - 1; first < arr.length && second >= 0;) {
+      diff = element - arr[first] - arr[second];
+      if (diff > 0) {
+        closest = Math.min(diff, closest);
+        first++;
+      } else {
+        closest = Math.min(Math.abs(diff), closest);
+        second--;
+      }
+    }
+    System.out.println(closest);
+  }
+}
