@@ -1,5 +1,5 @@
 public class Solution {
-
+   // Performs better
     public int[] sortArrayByParityIIDoublePointer(int[] A) {
         int oddIndex = 1;
         int evenIndex = 0;
