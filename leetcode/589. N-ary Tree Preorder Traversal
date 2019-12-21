@@ -1,0 +1,52 @@
+
+
+public class Solution {
+  static class Node {
+    int val;
+    List<Node> children;
+    
+    Node() {}
+    Node(int val) { this.val = val; }
+    Node(int val, List<Node> children) {
+      this.val = val;
+      this.children = children;
+    }
+    
+    // Recurrive is faster than Iteravtive method and takes same amount of memory as per Leetcode.com
+   
+    List<Integer> list = new ArrayList<>();
+    public List<Integer> preorder(Node root) {
+        if(root == null) {
+            return list;
+        }
+        preOrderUtil(root);
+        return list;
+    }
+    
+    public void preOrderUtil(Node node) {
+        list.add(node.val);
+        for(Node child : node.children) {
+            preOrderUtil(child);
+        }
+    }
+    
+    // Iterative is slower is term of CPU cycles as per leetcode.com results
+    
+    public List<Integer> preorderIterative(Node root) {
+        List<Integer> list = new ArrayList<>();
+        ArrayDeque<Node> nodes = new ArrayDeque<>();
+        if(root == null) { return list;}
+        nodes.push(root);
+        
+        while(!nodes.isEmpty()) {
+            Node current = nodes.pop();
+            list.add(current.val);
+            for(int index = current.children.size() - 1; index >= 0; index--) {
+                nodes.push(current.children.get(index));
+            }
+        }
+        return list;
+    }
+} 
+   
+    
