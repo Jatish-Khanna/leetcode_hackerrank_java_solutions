@@ -1,6 +1,21 @@
 
 public class Solution {
 
+    // Faster solution with single pointer
+        public int removeDuplicates(int[] nums) {
+        if(nums.length == 0) { return 0;}
+
+        int index = 0;
+        for(int element : nums) {
+            if(index < 2 || nums[index - 2] < element) {
+                nums[index++] = element;
+            }
+        }
+        return index;
+    }
+
+    
+    
     public int removeDuplicates(int[] nums) {
         if(nums.length == 0) { return 0;}
        int prev = nums[0];
