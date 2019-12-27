@@ -14,7 +14,17 @@ public class Solution {
         return index;
     }
 
-    
+    public int findDuplicate(int[] nums) {
+        
+        for(int num : nums) {
+            int n = Math.abs(num);
+            if(nums[n - 1] < 0) {
+                return n;
+            }
+            nums[n - 1] = -nums[n - 1];
+        }
+        return 0;
+    }
     
     public int removeDuplicates(int[] nums) {
         if(nums.length == 0) { return 0;}
