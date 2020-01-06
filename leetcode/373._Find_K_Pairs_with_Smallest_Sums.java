@@ -13,6 +13,31 @@ public class Solution {
         }
     }
     
+  // With optimized version - Add the next element pair of currently encountered
+     
+    public List<List<Integer>> kSmallestPairs(int[] num1, int[] num2, int k) {
+        LinkedList<List<Integer>> result = new LinkedList<>();
+        if(num1 == null || num2 == null || num1.length == 0 || num2.length == 0 || k == 0) { return result; }
+        
+        PriorityQueue<Node> queue = new PriorityQueue<Node>((e1, e2) ->  e1.sum - e2.sum);
+        for(int id = 0; id < num1.length; id++) {
+            queue.offer(new Node(num1[id], num2[0], 0));
+        }
+        
+        
+        while(k-- > 0 && !queue.isEmpty()) {
+            Node tmp = queue.poll();
+            result.add(Arrays.asList(tmp.f1, tmp.f2));
+            if(tmp.index == num2.length - 1) { continue; }
+            queue.offer(new Node(tmp.f1, num2[tmp.index + 1], tmp.index + 1));
+        }
+    
+        return result;
+    }
+
+  
+  
+  // With Max queue
     public List<List<Integer>> kSmallestPairs(int[] num1, int[] num2, int k) {
         LinkedList<List<Integer>> result = new LinkedList<>();
         if(num1 == null || num2 == null || num1.length == 0 || num2.length == 0) { return result; }
