@@ -2,6 +2,9 @@
 
 public class Solution {
 
+// Quick select - Left, right two pointers - Fastest
+
+
 // Quick Select - approach linear sort
     public int findKthLargest(int[] nums, int k) {
         return quickSelect(0, nums.length - 1, nums, k - 1);
