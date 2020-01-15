@@ -2,6 +2,33 @@
 
 public class Solution {
 
+  // Faster and better space utilization
+  
+      public List<String> topKFrequent(String[] words, int k) {
+        
+        HashMap<String,Integer> map = new HashMap<>();
+        List<String> result = new ArrayList<>();
+
+        for(String word : words) {
+        if(!map.containsKey(word)) {
+            result.add(word);
+        }
+           map.put(word, map.getOrDefault(word, 0) + 1);
+        
+        }
+
+        Collections.sort(result, (w1, w2) -> {
+            if(map.get(w1).compareTo(map.get(w2)) == 0) {
+                return w1.compareTo(w2);
+            }
+            return map.get(w2) - map.get(w1);
+        });
+
+        return result.subList(0,k);
+    }
+  
+  
+  // Slow than normal
   static class WordFreq {
   
   
