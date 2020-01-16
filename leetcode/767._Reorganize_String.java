@@ -1,6 +1,40 @@
 
 
 public class Solution {
+  
+  // Fastest solution - In which we first fill even position and then odd positions
+  
+  public String reorganizeString(String S) {
+        
+      int []map = new int[26];
+        int maxFreq = -1;
+        int maxIndex = -1;
+        int index;
+        for(char ch : S.toCharArray()) {
+            index = ch - 'a';
+            map[index]++;
+            if(maxFreq < map[index]) {
+                maxFreq = map[index];
+                maxIndex = index;
+            }
+        }
+
+      if(maxFreq > S.length() - maxFreq + 1) { return ""; }
+      char []result = new char[S.length()];
+        
+      for(int id = 0; id < result.length; id += 2) {
+          while(map[maxIndex] == 0) maxIndex = (maxIndex + 1) % map.length;
+          result[id] = (char)(maxIndex + 'a');
+          map[maxIndex]--;
+      }
+     
+      for(int id = 1; id < result.length; id += 2) {
+          while(map[maxIndex] == 0) maxIndex = (maxIndex + 1) % map.length;
+          result[id] = (char)(maxIndex + 'a');
+          map[maxIndex]--;     
+      }
+        return new String(result);
+    }
 
   static class  CFreq {
         int freq;
