@@ -1,7 +1,29 @@
 
 
 public class Solution {
-
+  // Dynamic programming solution
+  public int[] dailyTemperatures(int[] T) {
+        int []result = new int[T.length];
+        //result[T.length - 1] = 0;
+        int next;
+        
+        for(int index = T.length - 1; index >= 0; index--) {
+            next = index + 1;
+            while(next < T.length) {
+                if(T[index] < T[next]) {
+                    result[index] = next - index;
+                    break;
+                } else if(result[next] == 0) {
+                    break;
+                } else {
+                    next += result[next];
+                }
+            }
+        }
+        
+        return result;
+    }
+  
   // Stack solution with O(n) memory
 
     public int[] dailyTemperatures(int[] T) {
