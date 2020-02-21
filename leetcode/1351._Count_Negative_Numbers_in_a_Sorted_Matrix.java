@@ -3,7 +3,41 @@
 public class Solution {
     
     // clear optimization should be Binary search algo.
-    
+        public int countNegatives(int[][] grid) {
+        int count = 0;
+        //int row = 0;
+        int cols = grid[0].length - 1;
+        int mid;
+        int left = 0;
+        int right;
+        
+        for(int row = grid.length - 1; row >= 0; row--) {
+            if(grid[row][0] < 0) {
+                count += cols + 1;
+            } else if(grid[row][cols] >= 0) {
+                continue;
+            } else {
+                // left = 0;
+                right = cols;
+                
+                while(left <= right) {
+                  mid = left + (right - left) / 2;    
+                  if(grid[row][mid] < 0) {
+                      right = mid - 1;
+                  } else {
+                      left = mid + 1;
+                  }
+                }
+                //System.out.println(count);
+                count += cols - left + 1;
+                //System.out.println(count);
+                //left = left - 1;
+            }
+        }
+        
+        return count;
+    }
+
     
     
     // slight better solution - search learnly from backwards
@@ -21,7 +55,7 @@ public class Solution {
         }
         return count;
     }
-}
+
     
     // Non optimized solution - as the numbers are sorted should use binary search
     public int countNegatives(int[][] grid) {
