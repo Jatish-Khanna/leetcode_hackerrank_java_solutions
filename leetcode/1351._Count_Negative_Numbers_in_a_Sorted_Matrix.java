@@ -1,6 +1,37 @@
 
 
 public class Solution {
+    // Optimized solution - better than last implementation
+        public int countNegatives(int[][] grid) {
+        int count = 0;
+        //int row = 0;
+        int cols = grid[0].length - 1;
+        int mid;
+        int left = 0;
+        int right;
+        int row = grid.length - 1;
+        
+        while(row >= 0 && left <= cols) {
+            if(grid[row][left] >= 0) {
+                right = cols;
+                
+                while(left <= right) {
+                  mid = left + (right - left) / 2;    
+                  if(grid[row][mid] >= 0) {
+                      left = mid + 1;  
+                  } else {
+                      right = mid - 1;
+                  }
+                }
+            }
+            count += cols - left + 1;
+            --row;
+        }
+        
+        return count;
+    }
+
+    
     
     // clear optimization should be Binary search algo.
         public int countNegatives(int[][] grid) {
