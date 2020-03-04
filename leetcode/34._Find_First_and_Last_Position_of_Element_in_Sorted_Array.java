@@ -25,7 +25,7 @@ public class Solution {
             }
         }
         
-        if(result[0] == -1) { return result; };
+        if(result[0] == -1) { return result; }
         start = result[0];
         end = nums.length - 1;
         
