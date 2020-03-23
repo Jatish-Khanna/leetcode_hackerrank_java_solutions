@@ -1,7 +1,7 @@
 
 
 public class Solution {
-
+    // Catalan number is the time complexity
     
     HashMap<String, List<Integer>> map = new HashMap<>();
     public List<Integer> diffWaysToCompute(String input) {
