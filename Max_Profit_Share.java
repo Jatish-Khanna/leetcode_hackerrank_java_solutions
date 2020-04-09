@@ -1,10 +1,11 @@
 
 
 public class Solution {
+
 	// Max profit?
 	// Give a list of Stocks
 	public static void main(String[] args) {
-		int[] ar = new int[] { 1, 2, 3, 4, 5, 3, 2, 1, 2 };
+		int[] ar = new int[] { 5,4 };
 		// 120 + 40 = 160
 		System.out.println(findMaxProfit(ar));
 	}
@@ -22,9 +23,7 @@ public class Solution {
 			}
 			index++;
 		}
-		if (min < index) {
-			profit += Math.max(ar[index], ar[index - 1]) - ar[min];
-		}
+		profit += Math.max(ar[index], ar[index - 1]) - ar[min];
 		return profit;
 	}
 }
