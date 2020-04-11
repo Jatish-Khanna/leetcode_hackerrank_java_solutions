@@ -1,7 +1,6 @@
 
 
 public class Solution {
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter wr = new PrintWriter(System.out);
@@ -78,6 +77,7 @@ public class Solution {
 	private static long calculate(long count, long modulo, int start, int end, char[] ar) {
 		long last = 1;
 		long total = 1;
+		long lastTotal;
 
 		if (count == 0) {
 			return 1;
@@ -100,8 +100,9 @@ public class Solution {
 
 		// System.out.println(count);
 		while (count > 0) {
+			lastTotal = total;
 			total = (total * 25) % modulo;
-			last = (total - last) % modulo;
+			last = ((lastTotal * 25) - last) % modulo;
 			count--;
 		}
 		return last;
