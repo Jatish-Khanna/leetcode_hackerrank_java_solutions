@@ -19,10 +19,10 @@ public class Solution {
                 value = customfunction.f(index, mid);
                 
                 if(value == z) {
-                    List<Integer> list = new ArrayList<>();
-                    list.add(index);
-                    list.add(mid);
-                    result.add(list);
+//                     List<Integer> list = new ArrayList<>();
+//                     list.add(index);
+//                     list.add(mid);
+                    result.add(result.add(Arrays.asList(index, mid)););
                     lasthigh = high - 1;
                     break;
                 } else if(value < z) {
