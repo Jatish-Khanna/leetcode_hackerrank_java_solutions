@@ -1,17 +1,17 @@
 class Solution {
     public boolean hasGroupsSizeX(int[] deck) {
         int []suit = new int[10000];
-        int last = Integer.MAX_VALUE;
+        int last = 0;
         for(int card : deck) {
             suit[card]++;
-            last = suit[card];
+            //last = suit[card];
         }
 
         for(int count : suit) {
-            if(count == 1) {
-                return false;
-            } else if(count > 1) {
+            if(count > 1) {
                 last = gcd(last, count);        
+            } else if(count == 1) {
+                return false;
             }
         }
         return last > 1;
