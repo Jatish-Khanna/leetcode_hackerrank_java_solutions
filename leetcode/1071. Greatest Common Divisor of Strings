@@ -1,0 +1,34 @@
+class Solution {
+    public String gcdOfStrings(String str1, String str2) {
+        char []s1 = str1.toCharArray();
+        char []s2 = str2.toCharArray();
+        
+        char []min;
+        if(s1.length > s2.length) {
+            min = s2;
+            s2 = s1;
+            s1 = min;
+        } 
+        min = s1;
+        for(int index = s1.length; index >= 1; index--) {
+            if((s1.length % index == 0 )&& s2.length % index == 0) {
+                if(replicate(s1, min, index) && replicate(s2, min, index)) {
+                    return new String(Arrays.copyOf(s1, index));
+                }
+            }
+        }
+        return "";
+    }
+    
+    private boolean replicate(char []s, char []min, int length) {
+        if(s.length == length && s == min) {
+            return true;
+        }
+        for(int index = 0; index < s.length; index++) {
+            if(s[index] != min[index % length]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
