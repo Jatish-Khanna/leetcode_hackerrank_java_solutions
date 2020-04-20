@@ -1,4 +1,46 @@
 class Solution {
+
+// Same speed
+
+    public String gcdOfStrings(String str1, String str2) {
+        char []s1 = str1.toCharArray();
+        char []s2 = str2.toCharArray();
+        
+        char []min;
+        String tmp = str1;
+        if(s1.length > s2.length) {
+            min = s2;
+            s2 = s1;
+            s1 = min;
+            tmp = str2;
+        } 
+        min = s1;
+        for(int index = s1.length; index >= 1; index--) {
+            if((s1.length % index == 0 )&& s2.length % index == 0) {
+                if(replicate(s1, min, index) && replicate(s2, min, index)) {
+                    return tmp.substring(0, index);
+                }
+            }
+        }
+        return "";
+    }
+    
+    private boolean replicate(char []s, char []min, int length) {
+
+        int index = 0;
+        if(s == min) {
+            index = length;
+        }
+        for(; index < s.length; index++) {
+            if(s[index] != min[index % length]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+  // Same speed
+
     public String gcdOfStrings(String str1, String str2) {
         char []s1 = str1.toCharArray();
         char []s2 = str2.toCharArray();
