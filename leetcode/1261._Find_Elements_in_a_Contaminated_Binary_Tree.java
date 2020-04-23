@@ -9,6 +9,25 @@
  */
 class FindElements {
     HashSet<Integer> values;
+    
+    // Same speed
+        HashSet<Integer> values;
+    public FindElements(TreeNode root) {
+        values = new HashSet<>();
+        rebuild(root, 0);
+        
+    }
+    
+    private void rebuild(TreeNode node, int value) {
+        if(node == null) { return; }
+        node.val = value;
+        values.add(value);
+        rebuild(node.left, (value << 1) + 1);
+        rebuild(node.right, (value << 1) + 2);
+        
+    }
+    
+    // Same speed
     public FindElements(TreeNode root) {
         root.val = 0;
         values = new HashSet<>();
