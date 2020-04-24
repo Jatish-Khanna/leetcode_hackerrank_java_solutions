@@ -15,6 +15,25 @@ class Solution {
         return maxDiff;
     }
     
+    // Minor upgrades
+    private void maxdiff(TreeNode node, int min, int max) {
+        if(node == null) { return; }
+        
+        
+        
+        if(min > node.val) {
+            min = node.val;
+        } else if(max < node.val) {
+            max = node.val;
+        }
+        
+        maxDiff = Math.max(maxDiff, Math.abs(max - min));
+        
+        maxdiff(node.left, min, max);
+        maxdiff(node.right, min, max);
+    }
+    
+    // Same speed
     private void maxdiff(TreeNode node, int min, int max) {
         if(node == null) { return; }
         
