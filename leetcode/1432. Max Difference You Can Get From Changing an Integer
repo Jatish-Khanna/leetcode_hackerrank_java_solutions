@@ -1,4 +1,55 @@
 class Solution {
+public int maxDiff(int num) {
+        if(num <= 9) {
+            return 8;
+        }
+        char []ar = String.valueOf(num).toCharArray();
+        char []min = ar.clone();
+        
+        char f ='9';
+        int idf = 0;
+        // char s = min[0] == '1' ? '0';
+        char l;
+        while(idf < ar.length ) {
+            if(ar[idf] != '9') {
+                f = ar[idf];
+                break;
+            }
+            idf++;
+        }
+        while(idf < ar.length) {
+            if(ar[idf] == f) {
+                ar[idf] = '9';
+            }
+            idf++;
+        }
+        
+        idf = 0;
+        char r = '1';
+        f = min[idf];
+        if(f == '1') {
+            while(idf < min.length ) {
+                if(min[idf] > '1') {
+                    f = min[idf];
+                    break;
+                }
+                idf++;
+                
+            }
+            r = '0';
+        }
+        
+        while(idf < min.length) {
+            if(min[idf] == f) {
+                min[idf] = r;
+            }
+            idf++;
+        }
+        // System.out.println(Integer.parseInt(new String(ar)) + " "+ Integer.parseInt(new String(min)));
+        return Integer.parseInt(new String(ar)) - Integer.parseInt(new String(min));
+    }
+
+
     public int maxDiff(int num) {
         String n1 = String.valueOf(num);
         int min = num;
