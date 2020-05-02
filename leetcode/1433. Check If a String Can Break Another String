@@ -1,0 +1,53 @@
+class Solution {
+    public boolean checkIfCanBreak(String s1, String s2) {
+        int []a1 = new int[26];
+        int []a2 = new int[26];
+        
+        for(char ch : s1.toCharArray()) {
+            a1[ch - 'a']++;
+        }
+        
+        for(char ch : s2.toCharArray()) {
+            a2[ch - 'a']++;
+        }
+        // boolean flag = true;
+        // int carry = 0;
+        for(int id = 1; id < a1.length; id++) {
+            a1[id] += a1[id - 1];
+        }
+        
+        for(int id = 1; id < a2.length; id++) {
+            a2[id] += a2[id - 1];
+        }
+        boolean flag = true;
+        for(int id = 0; id < a1.length; id++) {
+            
+            if(a1[id] < a2[id]) {
+                flag = false;
+                break;
+            }
+            if(a1[id] == s1.length()) {
+                flag = true;
+                break;
+            }
+        }
+        
+        // Arrays.stream(a1).forEach(System.out::println);
+        if(!flag) {
+            
+        for(int id = 0; id < a1.length; id++) {
+            // System.out.println(a1[id] + " " + a2[id]);
+            if(a2[id] < a1[id]) {
+                flag = false;
+                break;
+            }
+            if(a2[id] == s2.length()) {
+                flag = true;
+                break;
+            }
+        }
+           
+        }
+         return flag;
+    }
+}
