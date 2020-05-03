@@ -1,0 +1,14 @@
+class Solution {
+    public String destCity(List<List<String>> paths) {
+        HashMap<String, String> map = new HashMap<>();
+        for(List<String> city : paths) {
+            map.put(city.get(0), city.get(1));
+        }
+        for(Map.Entry<String, String> entry : map.entrySet()) {
+            if(!map.containsKey(entry.getValue())) {
+                return entry.getValue();
+            }
+        }
+        return "";
+    }
+}
