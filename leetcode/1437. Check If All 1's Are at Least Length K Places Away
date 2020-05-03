@@ -1,0 +1,20 @@
+class Solution {
+    public boolean kLengthApart(int[] nums, int k) {
+        if(nums.length == 0) {
+            return true;
+        }
+        int zc = 0;
+        int count = nums[0] == 1 ? -1 : 0;
+        for(int num : nums) {
+            // System.out.println(count + " " + num);
+            if(num == 0) {
+                count++;
+            } else if(count != -1 && count < k) {
+                return false;
+            } else {
+                count = 0;
+            }
+        }
+        return true;
+    }
+}
