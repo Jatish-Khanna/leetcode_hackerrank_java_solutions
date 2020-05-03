@@ -7,29 +7,28 @@ public class Solution {
         if(nums == null || nums.length == 0) {
             return new int[0];
         }
-        Deque<Integer> queue = new LinkedList<>();
+        
+        int size = nums.length;
+        int []result = new int[size - k + 1];
+        
+        Deque<Integer> max = new ArrayDeque<>();
+        int i = 0;
+        int j;
+        for(j = 0; j < k; j++) {
+            while(!max.isEmpty() && nums[max.peekLast()] < nums[j]) max.removeLast();
+            max.add(j);
+        }
         int index = 0;
-        int []result = new int[nums.length - k + 1];
-        int rIndex = 0;
-        for(; index < k; index++) {
-            while(!queue.isEmpty() && nums[queue.peekLast()] <= nums[index]) {
-                queue.removeLast();
+        for(; j < size; j++) {
+            result[index++] = nums[max.peek()];
+            while(!max.isEmpty() && nums[max.peekLast()] < nums[j]) max.removeLast();
+            max.add(j);
+            if(i == max.peek()) {
+                max.poll();
             }
-            queue.add(index);
+            i++;
         }
-        //System.out.println(queue);
-        for(; index < nums.length; index++) {
-            result[rIndex++] = nums[queue.peek()];
-            
-            while(!queue.isEmpty() && queue.peek() <= index - k) {
-                queue.remove();
-            } 
-            while(!queue.isEmpty() && nums[queue.peekLast()] <= nums[index]) {
-                queue.removeLast();
-            }
-            queue.add(index);
-        }
-        result[rIndex] = nums[queue.peek()];
+        result[index] = nums[max.peek()];
         return result;
     }
     
