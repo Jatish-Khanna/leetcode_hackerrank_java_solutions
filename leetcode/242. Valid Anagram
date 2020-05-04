@@ -1,0 +1,22 @@
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        int[] ch = new int[26];
+        
+        for(char current : s.toCharArray()) {
+            ch[current - 'a']++;
+        }
+        
+        for(char current : t.toCharArray()) {
+            if(ch[current - 'a']-- == 0) {
+                return false;
+            }
+        }
+        
+        for(int id = 0; id < ch.length; id++) {
+            if(ch[id] > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
