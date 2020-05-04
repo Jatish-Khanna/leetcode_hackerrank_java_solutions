@@ -1,0 +1,149 @@
+class MyHashMap {
+    static class Entry {
+        Node root;
+        
+        static class Node {
+            Node left;
+            Node right;
+            int key;
+            int val;
+            
+            Node(int key, int val) {
+                this.key = key;
+                this.val = val;
+            }
+        }
+        
+        public Node getNode(int key) {
+            Node current = root;
+            while(current != null) {
+                
+                if(current.key > key) {
+                    current = current.left;
+                } else if(current.key < key) {
+                    current = current.right;
+                } else {
+                    break;
+                }
+            }
+            return current;
+        }
+        
+        public int getValue(int key) {
+            Node current  = getNode(key);
+            return current == null ? -1 : current.val;
+        }
+        
+        public void insertPair(int key, int value) {
+            Node insert = new Node(key, value);
+            Node current = root;
+            Node parent = root;
+            // System.out.println(root);
+            if(root == null) {
+                root = insert;
+                
+                return;
+            }
+            while(current != null) {
+                parent = current;
+                if(current.key == key) {
+                    current.val = value;
+                    return;
+                } else if(current.key > key) {
+                    current = current.left;
+                } else {
+                    current = current.right;
+                }
+            }
+            if(parent.key > key) {
+                parent.left = insert;
+            } else {
+                parent.right = insert;
+            }
+        }
+        
+        public Node removeNode(Node node, int key) {
+            if(node == null) {
+                return null;
+            }
+            // Node found;
+            if(node.key > key) {
+                node.left = removeNode(node.left, key);
+            } else if(node.key < key) {
+                node.right = removeNode(node.right, key);
+            } else {
+                if(node.right != null) {
+                    Node found = findSuccessor(node.right);
+                    node.val = found.val;
+                    node.key = found.key;
+                    node.right = removeNode(node.right, found.key);
+                } else {
+                    node = node.left;
+                }
+            }
+            return node;
+        }
+        
+        private Node findSuccessor(Node node) {
+            while(node.left != null) {
+                node = node.left;
+            }
+            return node;
+        }
+        
+        public void remove(int key) {
+            if(root == null) {
+                return;
+            } else {
+                root = removeNode(root, key);
+            }
+        }
+    }
+    
+    
+    
+    Entry[] ar;
+    int size;
+    /** Initialize your data structure here. */
+    public MyHashMap() {
+        size = 1000;
+        ar = new Entry[size];
+        // Arrays.fill(ar,-1);
+    }
+    
+    /** value will always be non-negative. */
+    public void put(int key, int value) {
+        Entry entry = ar[key % size];
+        if(entry == null) {
+            entry = new Entry();
+            ar[key%size] = entry;
+        }
+        entry.insertPair(key, value);
+    }
+    
+    /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
+    public int get(int key) {
+        Entry entry = ar[key % size];
+        if(entry == null) {
+            return -1;
+        }
+        return entry.getValue(key);
+    }
+    
+    /** Removes the mapping of the specified value key if this map contains a mapping for the key */
+    public void remove(int key) {
+        Entry entry = ar[key % size];
+        if(entry == null) {
+            return;
+        }
+        entry.remove(key);
+    }
+}
+
+/**
+ * Your MyHashMap object wi ll be instantiated and called as such:
+ * MyHashMap obj = new MyHashMap();
+ * obj.put(key,value);
+ * int param_2 = obj.get(key);
+ * obj.remove(key);
+ */
