@@ -1,0 +1,44 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s.isEmpty()) {
+            return "";
+        }
+        char []ar = s.toCharArray();
+        int size = ar.length;
+        int maxLength = 1;
+        int startIndex = 0;
+        
+        int high;
+        int low;
+        
+        for(int id = 0; id < size - 1; id++) {
+            // Odd
+            low = id - 1;
+            high = id + 1;
+            while(low >= 0 && high < size && ar[low] == ar[high]) {
+                
+                if(maxLength < high - low + 1) {
+                    maxLength = high - low + 1;
+                    startIndex = low;
+                }
+                
+                --low;
+                ++high;
+            }
+            // Even
+            low = id;
+            high = id + 1;
+            while(low >= 0 && high < size && ar[low] == ar[high]) {
+                
+                if(maxLength < high - low + 1) {
+                    maxLength = high - low + 1;
+                    startIndex = low;
+                }
+                
+                --low;
+                ++high;
+            }
+        }
+        return s.substring(startIndex, startIndex + maxLength);
+    }
+}
