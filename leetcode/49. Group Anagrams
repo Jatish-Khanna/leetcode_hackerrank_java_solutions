@@ -1,0 +1,28 @@
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        
+        for(String str : strs) {
+            String sorted = hash(str);
+            map.computeIfAbsent(sorted, k -> new ArrayList<>());
+            map.get(sorted).add(str);
+        }
+        
+        return new ArrayList<>(map.values());
+    }
+    
+    private String hash(String str) {
+        int[] ch = new int[26];
+        StringBuilder h = new StringBuilder();
+        for(int i=0;i<str.length();i++){
+            ch[str.charAt(i)-'a']+=1;
+        }
+        for(int i=0;i<ch.length;i++){
+            if(ch[i]!=0){
+                h.append(ch[i]);
+                h.append((char)'a'+i);
+            }
+        }
+        return h.toString();
+    }
+}
