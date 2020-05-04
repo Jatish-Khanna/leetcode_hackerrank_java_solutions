@@ -1,0 +1,23 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices.length <= 1) {
+            return 0;
+        }
+        
+        int start = 0;
+        int current = 1;
+        int total = 0;
+        
+        while(current < prices.length) {
+            if(prices[current - 1] > prices[current]) {
+                total += prices[current - 1] - prices[start];
+                start = current;
+                // 
+            }
+            current++;
+        }
+        // System.out.println(start + " " + current + " " + total);
+        total += prices[current - 1] - prices[start];
+        return total;
+    }
+}
