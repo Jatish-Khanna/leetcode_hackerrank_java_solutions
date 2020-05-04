@@ -1,0 +1,19 @@
+class Solution {
+    public int longestPalindrome(String s) {
+        int []ar = new int[256];
+        int length = 0;
+        boolean isOdd = false;
+        for(char ch : s.toCharArray()) {
+            ar[ch]++;
+        }
+        
+        
+        for(int id = 0; id < ar.length; id++) {
+            length += (ar[id] / 2);
+            if(ar[id] % 2 == 1) {
+                isOdd = true;
+            }
+        }
+        return length * 2 + (isOdd ? 1 : 0);
+    }
+}
