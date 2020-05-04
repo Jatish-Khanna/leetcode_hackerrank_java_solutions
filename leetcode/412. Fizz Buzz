@@ -1,0 +1,22 @@
+class Solution {
+    public List<String> fizzBuzz(int n) {
+        List<String> list = new LinkedList<>();
+        boolean isFive;
+        boolean isThree;
+        for(int id = 1; id <= n; id++) {
+            isFive = id%5 == 0;
+            isThree = id%3 == 0;
+            if(isFive && isThree) {
+                list.add("FizzBuzz");
+            } else if(isFive) {
+                list.add("Buzz");
+            } else if(isThree) {
+                list.add("Fizz");
+            } else {
+                list.add(String.valueOf(id));
+            }
+            // list.add()
+        }
+        return list;
+    }
+}
