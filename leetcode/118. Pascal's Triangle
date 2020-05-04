@@ -1,0 +1,24 @@
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        if(numRows == 0) { return new ArrayList<>(); }
+        
+        List<List<Integer>> list = new ArrayList<>();
+        List<Integer> internal = new ArrayList<>();
+        List<Integer> previous = internal;
+        
+        internal.add(1);
+        list.add(internal);
+        
+        for(int id = 1; id < numRows; id++) {
+            internal = new ArrayList<>();
+            internal.add(1);
+            for(int i = 0; i < previous.size() - 1; i++) {
+                internal.add(previous.get(i) + previous.get(i + 1));
+            }
+            internal.add(1);
+            list.add(internal);
+            previous = internal;
+        }
+        return list;
+    }
+}
