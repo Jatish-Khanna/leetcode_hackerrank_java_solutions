@@ -1,0 +1,30 @@
+class Solution {
+    public int[] plusOne(int[] digits) {
+        
+        if(digits[0] == 0) {
+            digits[0] = 1;
+            return digits;
+        }
+        
+        // int add = 1;
+        int id = digits.length - 1;
+        while(id >= 0) {
+            if(digits[id] == 9) {
+                digits[id] = 0;
+            } else {
+                digits[id] += 1;
+                break;
+            }
+            id--;
+        }
+        // Arrays.stream(digits).forEach(System.out::println);
+        if(digits[0] == 0) {
+            int[] dCopy = new int[digits.length + 1];
+            dCopy[0] = 1;
+            System.arraycopy(digits, 0, dCopy, 1, digits.length);
+            return dCopy;
+        }
+        return digits;
+        
+    }
+}
