@@ -1,0 +1,30 @@
+class Solution {
+    public String getHint(String secret, String guess) {
+        char []f = secret.toCharArray();
+        char []s = guess.toCharArray();
+        int bulls = 0;
+        int cows = 0;
+        
+        int[] found = new int[10];
+        for(int id = 0; id < f.length; id++) {
+            if(f[id] != s[id]) {
+              found[f[id] - '0']++;
+            } else {
+                bulls++;
+            }
+        }
+        for(int id = 0; id < f.length; id++) {
+            if(f[id] != s[id] && found[s[id] - '0']-- > 0) {
+                // found[f[id] - '0']--;
+                cows++;
+            } 
+        }
+        
+        // if(found[s[id] - '0'] > 0) {
+        //         cows++;
+        //     }
+        
+        return bulls+"A"+cows+"B";
+        
+    }
+}
