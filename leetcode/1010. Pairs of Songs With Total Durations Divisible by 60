@@ -1,0 +1,19 @@
+class Solution {
+    public int numPairsDivisibleBy60(int[] time) {
+        int[] ar = new int[60];
+        
+        int count = 0;
+        // int current;
+        for(int num : time) {
+            ar[num % 60]++;
+        }
+        count += ar[0] * (ar[0] - 1) / 2;
+        count += ar[30] * (ar[30] - 1) / 2;
+        
+        for(int id = 1; id < 30; id++) {
+            count += ar[id] * ar[60-id];    
+        }
+        
+        return count;
+    }
+}
