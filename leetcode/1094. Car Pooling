@@ -1,4 +1,31 @@
 class Solution {
+
+// Faster with O(N)
+
+public boolean carPooling(int[][] trips, int capacity) {
+        // Arrays.sort()
+        int maxDestination = 0;
+        for(int[] trip  : trips) {
+            maxDestination = Math.max(maxDestination, trip[2]);
+        }
+        
+        int[] place = new int[maxDestination + 1];
+        for(int[] trip : trips) {
+            place[trip[1]] += trip[0];
+            place[trip[2]] -= trip[0];
+        }
+
+        int current = capacity;
+        for(int value  : place) {
+            current -= value;
+            if(current < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+// N log N solution slower
     public boolean carPooling(int[][] trips, int capacity) {
         // Arrays.sort()
         PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> {
