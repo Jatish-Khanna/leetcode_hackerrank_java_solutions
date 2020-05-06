@@ -1,4 +1,41 @@
 class Solution {
+    // Clean and modularization of the code
+    public int countSubstrings(String s) {
+        char[] ar = s.toCharArray();
+        int count = ar.length;
+        
+        // int left;
+        // int right;
+        for(int i = 0; i < ar.length; i++) {
+            
+            // Odd sized
+            // left = i - 1;
+            // right = i + 1;
+            count += count(i - 1, i + 1, ar);
+            
+            // System.out.println(count);
+            // // Even sized
+            // left = i;
+            // right = i + 1;
+            count += count(i, i + 1, ar);
+            
+            // System.out.println(count + " e");
+        }
+        return count;
+    }
+    
+    public int count(int left, int right, char[] ar) {
+        int count  = 0;
+        while(left >= 0 && right < ar.length && ar[left] == ar[right]) {
+                count++;
+                --left;
+                ++right;
+        }
+        return count;
+    }
+
+
+// Same speed and logic
     public int countSubstrings(String s) {
         char[] ar = s.toCharArray();
         int count = ar.length;
