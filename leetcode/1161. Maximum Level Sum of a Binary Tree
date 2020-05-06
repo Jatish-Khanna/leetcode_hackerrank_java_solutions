@@ -15,6 +15,31 @@
  */
 class Solution {
     
+    // DFS - Better space and memory usage compared to BFS
+    int maxSum = Integer.MIN_VALUE;
+    int maxLevel = 1;
+    public int maxLevelSum(TreeNode root) {
+        int[] level = new int[(int)1e4 + 1];
+        dfs(root, 1, level);
+        for(int id = 1; id < level.length; id++) {
+            if(level[id] > maxSum) {
+                maxSum = level[id];
+                maxLevel = id;
+            }
+        }
+        return maxLevel;
+    }
+    
+    private void dfs(TreeNode node, int current, int[] level) {
+        if(node == null) { return; }
+        level[current] += node.val;
+        
+        dfs(node.left, current + 1, level);
+        dfs(node.right, current + 1, level);
+    }
+    
+    
+    // BFS - 100% space usage
     public int maxLevelSum(TreeNode root) {
         int maxSum = Integer.MIN_VALUE;
         int maxLevel = 1;
