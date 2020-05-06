@@ -1,0 +1,42 @@
+class Solution {
+    // char[][] ar;
+    public List<String> letterCombinations(String digits) {
+        
+        List<String> list = new ArrayList<>();
+        if(digits.isEmpty()) {
+            return list;
+        }
+        
+        char[][] ar = { {}, {},
+        {'a', 'b', 'c'},
+        {'d', 'e', 'f'},
+        {'g', 'h', 'i'},
+        {'j', 'k', 'l'},
+        {'m', 'n', 'o'},
+        {'p', 'q', 'r', 's'},
+        {'t', 'u', 'v'},
+        {'w', 'x', 'y', 'z'}};
+        
+        // int index = 0;
+        
+        char[] d = digits.toCharArray();
+        char[] buffer = new char[d.length];
+        calculate(0, buffer, d, list, ar);
+        
+        return list;
+    }
+    
+    private void calculate(int index, char[] buffer, char[] d, List<String> list, char[][] ar) {
+        
+        if(index == buffer.length) {
+            list.add(new String(buffer));
+            return;
+        }
+        
+        for(char ch : ar[d[index] - '0']) {
+            buffer[index] = ch;
+            calculate(index + 1, buffer, d, list, ar);
+        }
+    }
+    
+}
