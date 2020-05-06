@@ -1,0 +1,33 @@
+class Solution {
+    public boolean carPooling(int[][] trips, int capacity) {
+        // Arrays.sort()
+        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> {
+            if(o1[0] == o2[0]) {
+                return o2[1] - o1[1];
+            }
+            return o1[0] - o2[0];
+        });
+        
+        for(int[] trip : trips) {
+            // Source
+            queue.offer(new int[]{trip[1], 0, trip[0]});
+            // destination
+            queue.offer(new int[]{trip[2], 1, trip[0]});
+        }
+        
+        int[] trip;
+        int currentCapacity = 0;
+        while(!queue.isEmpty()) {
+            trip = queue.poll();
+            if(trip[1] == 0) {
+                currentCapacity += trip[2];
+            } else {
+                currentCapacity -= trip[2];
+            }
+            if(currentCapacity > capacity) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
