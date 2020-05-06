@@ -1,0 +1,32 @@
+class Solution {
+    public int strStr(String haystack, String needle) {
+        if(needle.isEmpty()) {
+            return 0;
+        }
+        char []f = haystack.toCharArray();
+        char []s = needle.toCharArray();
+        
+        if(s.length > f.length) {
+            return -1;
+        }
+        
+        int current = 0;
+        int id = 1;
+        int next;
+        while(current < f.length - s.length + 1) {
+            if(f[current] == s[0]) {
+                id = 1;
+                next = current + 1;
+                while(id < s.length && f[next] == s[id]) {
+                    next++;
+                    id++;
+                }
+                if(id == s.length) {
+                    return next - id;
+                }
+            }
+            current++;
+        }
+        return -1;
+    }
+}
