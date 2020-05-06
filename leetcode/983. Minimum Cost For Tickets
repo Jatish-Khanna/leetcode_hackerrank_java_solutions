@@ -1,0 +1,21 @@
+class Solution {
+    public int mincostTickets(int[] days, int[] costs) {
+        int max = days[days.length - 1];
+        int min = days[0];
+        int[] cost = new int[max + 31];
+        // int total = 0;
+        // System.out.println(max + " " + min);
+        
+        for(int i = max, id = days.length - 1; i >= min; i--) {
+            if(i == days[id]) {
+                cost[i] = Math.min(cost[i + 1] + costs[0], Math.min(cost[i + 7] + costs[1], cost[i + 30] + costs[2]));
+                id--;
+            } else {
+                cost[i] = cost[i + 1];
+            }
+        }
+        // Arrays.stream(cost).forEach(e -> System.out.print(e + " "));
+        // System.out.println(cost[max]);
+        return cost[min];
+    }
+}
