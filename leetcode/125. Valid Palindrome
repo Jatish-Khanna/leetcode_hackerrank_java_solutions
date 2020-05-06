@@ -1,0 +1,27 @@
+class Solution {
+    public boolean isPalindrome(String s) {
+        char[] ar = s.toCharArray();
+        int start = 0;
+        int end = ar.length - 1;
+        
+        while(start < end) {
+            while(start < end && isinvalid(ar[start])) {            
+                start++;
+            }
+            while(start < end && isinvalid(ar[end])) {
+                --end;
+            }
+            
+            if(Character.toLowerCase(ar[start]) != Character.toLowerCase(ar[end])) {
+                return false;
+            }
+            start++;
+            --end;
+        }
+        return true;
+    }
+    
+    private boolean isinvalid(char ch) {
+        return !((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9'));
+    }
+}
