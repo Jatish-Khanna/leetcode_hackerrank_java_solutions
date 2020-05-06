@@ -1,0 +1,21 @@
+class Solution {
+    public String customSortString(String S, String T) {
+        int[] ar = new int[26];
+        for(char ch : T.toCharArray()) {
+            ar[ch - 'a']++;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        for(char ch : S.toCharArray()) {
+            while(ar[ch - 'a']-- > 0) {
+                sb.append(ch);
+            }
+        }
+        for(int id = 0; id < ar.length; id++) {
+            while(ar[id]-- > 0) {
+                sb.append((char)(id + 'a'));
+            }
+        }
+        return sb.toString();
+    }
+}
