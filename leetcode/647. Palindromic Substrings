@@ -1,0 +1,32 @@
+class Solution {
+    public int countSubstrings(String s) {
+        char[] ar = s.toCharArray();
+        int count = ar.length;
+        
+        int left;
+        int right;
+        for(int i = 0; i < ar.length; i++) {
+            
+            // Odd sized
+            left = i - 1;
+            right = i + 1;
+            while(left >= 0 && right < ar.length && ar[left] == ar[right]) {
+                count++;
+                --left;
+                ++right;
+            }
+            
+            // System.out.println(count);
+            // Even sized
+            left = i;
+            right = i + 1;
+            while(left >= 0 && right < ar.length && ar[left] == ar[right]) {
+                count++;
+                --left;
+                ++right;
+            }
+            // System.out.println(count + " e");
+        }
+        return count;
+    }
+}
