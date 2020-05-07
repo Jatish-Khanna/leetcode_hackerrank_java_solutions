@@ -1,0 +1,67 @@
+class TimeMap {
+    
+    static class Log{
+        String value;
+        int time;
+        
+        Log(String value, int time) {
+            this.value = value;
+            this.time = time;
+        }
+    }
+    
+    Map<String, List<Log>> map;
+
+    /** Initialize your data structure here. */
+    public TimeMap() {
+        map = new HashMap<>();
+    }
+    
+    public void set(String key, String value, int timestamp) {
+        map.computeIfAbsent(key, k -> new ArrayList<>());
+        map.get(key).add(new Log(value, timestamp));
+    }
+    
+    public String get(String key, int timestamp) {
+        List<Log> list;
+        if(map.containsKey(key)) {
+            list = map.get(key);
+            return search(timestamp, list);
+        }
+        return "";
+    }
+    
+    private String search(int timestamp, List<Log> log) {
+        if(log.isEmpty()) {
+            return "";
+        }
+        return binarySearch(0, log.size() - 1, log, timestamp);
+    }
+    
+    private String binarySearch(int start, int end, List<Log> log, int timestamp) {
+        int mid;
+        int prev = -1;
+        int time;
+        while(start <= end) {
+            mid = start + (end - start) / 2;
+            time = log.get(mid).time;
+            if(time == timestamp) {
+                prev = mid;
+                break;
+            } else if(time > timestamp) {
+                end = mid - 1;
+            } else {
+                prev = mid;
+                start = mid + 1;
+            }
+        }
+        return prev == -1 ? ""  : log.get(prev).value;
+    }
+}
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap obj = new TimeMap();
+ * obj.set(key,value,timestamp);
+ * String param_2 = obj.get(key,timestamp);
+ */
