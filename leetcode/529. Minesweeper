@@ -1,0 +1,53 @@
+class Solution {
+    int [][]dir = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+    public char[][] updateBoard(char[][] board, int[] click) {
+        int row = click[0];
+        int col = click[1];
+        if(board[row][col] == 'M') {
+            board[row][col] = 'X';
+            // return board;
+        } else {
+            dfs(row, col, board);
+        }
+        return board;
+    }
+    
+    private void dfs(int row, int col, char[][] board) {
+        
+        int count = adjacentMines(row, col, board);
+        if(count > 0) {
+            board[row][col] = (char)(count + '0');
+        } else {
+            board[row][col] = 'B';
+        
+        int nrow;
+        int ncol;
+        for(int[] d : dir) {
+            nrow = row + d[0];
+            ncol = col + d[1];
+            if(isValid(nrow, ncol, board) && board[nrow][ncol] == 'E') {
+                dfs(nrow, ncol, board);
+            }
+        }
+        }
+    }
+    
+    private boolean isValid(int row, int col, char[][] board) {
+        return row >= 0 && row < board.length && col >= 0 && col < board[0].length;
+    }
+    
+    private int adjacentMines(int row, int col, char[][] board) {
+        int nrow;
+        int ncol;
+        int count = 0;
+        for(int[] d : dir) {
+            nrow = row + d[0];
+            ncol = col + d[1];
+            if(isValid(nrow, ncol, board) && board[nrow][ncol] == 'M') {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+}
