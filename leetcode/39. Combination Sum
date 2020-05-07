@@ -1,0 +1,33 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(candidates.length == 0) {
+            return result;
+        }
+        LinkedList<Integer> list = new LinkedList<>();
+        Arrays.sort(candidates);
+        calculate(0, list, target, candidates, result);
+        return result;
+    }
+    
+    private void calculate(int index, LinkedList<Integer> list, int target, int[] candidates, List<List<Integer>> result) {
+        
+      
+        if(target == 0) {
+            result.add(new ArrayList<>(list));
+            return;
+        }
+        // Not include
+        // calculate(index + 1, list, target, candidates, result);
+        // include
+        for(int id = index; id < candidates.length; id++) {
+            if(candidates[id] > target) {
+                return;
+            }
+            list.addLast(candidates[id]);
+            calculate(id, list, target - candidates[id], candidates, result);
+            list.removeLast();
+    
+        }
+      }
+}
