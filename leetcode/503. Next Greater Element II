@@ -1,0 +1,32 @@
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        // int max = Integer.MIN_VALUE;
+        int[] result = new int[nums.length];
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        Arrays.fill(result, -1);
+        for(int i = 0; i < nums.length; i++) {
+            while(!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
+                result[stack.pop()] = nums[i];
+            }
+            // if(!stack.isEmpty()) {
+            //     result[stack.peek()] = nums[i];
+            // }
+            stack.push(i);
+        }
+        
+        // System.out.println(stack);
+        for(int i = 0; i < nums.length; i++) {
+            while(!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
+                result[stack.pop()] = nums[i];
+            }
+            // result[stack.peek()] = nums[i];
+            if(stack.isEmpty()) {
+                break;
+            } 
+            // stack.push(nums[i]);
+        }
+        
+        return result;
+        
+    }
+}
