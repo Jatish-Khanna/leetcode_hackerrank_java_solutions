@@ -1,0 +1,74 @@
+class Solution {
+    
+    static class UnionFind {
+        int[] parent;
+        int[] rank;
+        int count;
+        
+        UnionFind(int size) {
+            
+            parent = new int[size];
+            rank = new int[size];
+            count = size - 1;
+            // Arrays.fill(rank, 1);
+            for(int i = 1; i < parent.length; i++) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+        
+        public int find(int friend) {
+            
+            while(parent[friend] != friend) {
+                friend = parent[friend];
+            }
+            return parent[friend];
+        }
+        
+        public void union(int f1, int f2) {
+            int p1 = find(f1);
+            int p2 = find(f2);
+            
+            if(p1 == p2) {
+                return;
+            }
+            
+            // System.out.println(p1 + " " + p2);
+            
+            if(rank[p1] >= rank[p2]) {
+                parent[p2] = p1;
+                rank[p1] += rank[p2];
+            } else {
+                parent[p1] = p2;
+                rank[p2] += rank[p1];
+            }
+            count--;
+            // System.out.println(parent[p1] + " r " + parent[p2]);
+        }
+        
+    }
+    
+    public int findCircleNum(int[][] M) {
+        UnionFind uf = new UnionFind(M.length + 1);
+        
+        for(int i = 0; i < M.length; i++) {
+            for(int j = 0; j < M.length; j++) {
+                if(M[i][j] == 1 && i != j) {
+                    uf.union(i + 1, j + 1);
+                }
+            }
+        }
+//         HashSet<Integer> seen = new HashSet<>();
+//         int count = 0;
+        
+//         for(int id = 1; id < uf.parent.length; id++) {
+//             System.out.println(id + " p " + uf.parent[id]);
+//             if(!seen.contains(uf.parent[id])) {
+//                 count++;
+//                 seen.add(uf.parent[id]);
+//             }
+//         }
+        // System.out.println(seen);
+        return uf.count;
+    }
+}
