@@ -1,0 +1,18 @@
+class Solution {
+    public String intToRoman(int num) {
+        StringBuilder sb = new StringBuilder();
+        int[] ar = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
+        String[] replace = {"I", "IV", "V", "IX", "X", "XL", "L", 
+                           "XC", "C", "CD", "D", "CM", "M"};
+        int id = ar.length - 1;
+        while(num > 0) {
+            if(ar[id] <= num) {
+                sb.append(replace[id]);
+                num -= ar[id];
+            } else {
+                id--;
+            }
+        }
+        return sb.toString();
+    }
+}
