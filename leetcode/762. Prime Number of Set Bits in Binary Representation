@@ -1,0 +1,31 @@
+class Solution {
+    public int countPrimeSetBits(int L, int R) {
+        int count = 0;
+
+        for(int i = L; i <= R; i++) {
+            if(isPrime(count(i))) {
+                count++;
+            }            
+        }
+        return count;
+    }
+    
+    private boolean isPrime(int num) {
+        boolean[] preprimes = {
+            false, false, true, true, false, true,
+            false, true, false, false, false,
+            true, false, true, false, false,
+            false, true, false, true, false, false
+        };
+        return preprimes[num];
+    }
+    
+    private int count(int num) {
+        int count = 0;
+        while(num > 0) {
+            num = num & (num - 1);
+            count++;
+        }
+        return count;
+    }
+}
