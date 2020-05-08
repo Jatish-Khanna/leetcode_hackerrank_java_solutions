@@ -1,0 +1,65 @@
+class Solution {
+    public int numMagicSquaresInside(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        
+        int count = 0;
+        for(int row = 2; row < m; row++) {
+            for(int col = 2; col < n; col++) {
+                // rowSum
+                if(isMagicalGrid(row, col, grid, m, n)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    
+    private boolean isMagicalGrid(int row, int col, int[][] grid, int m, int n) {
+        
+        int[] rowSum = new int[3];
+        int[] colSum = new int[3];
+        int[] diagonal = new int[2];
+        int[] nums = new int[10];
+//         int rIndex = 0;
+//         int colIndex  = 0;
+        int current;
+        
+        for(int i = row - 2, rowIndex = 0; i <= row; i++, rowIndex++) {
+            for(int j = col - 2, colIndex = 0; j <= col; j++, colIndex++) {
+                current = grid[i][j];
+                // Number should be within the limits
+                if(current > 9 || current == 0) {
+                    return false;
+                }
+                // rowSum
+                rowSum[rowIndex] += current;
+                // col sum
+                colSum[colIndex] += current;
+                // \ diagonal
+                if(rowIndex == colIndex) {
+                    diagonal[0] += current;
+                }
+                // / diagonal
+                if(rowIndex + colIndex == 2) {
+                    diagonal[1] += current;
+                }
+                // Number already seen or not
+                if(nums[current] != 0) {
+                    return false;
+                } else {
+                    nums[current] = current;
+                }
+            }
+        }
+        // Arrays.stream(rowSum).forEach(e->System.out.print( e + " "));
+        // System.out.println();
+        // Arrays.stream(colSum).forEach(e->System.out.print( e + " "));
+        // System.out.println();
+        // Arrays.stream(diagonal).forEach(e->System.out.print( e + " "));
+        // System.out.println();
+        
+        // Last equality checks
+        return rowSum[0] == rowSum[1] && rowSum[1] == rowSum[2] && colSum[0] == colSum[1] && colSum[1] == colSum[2] && diagonal[0] == diagonal[1] && rowSum[0] == colSum[0];
+    }
+}
