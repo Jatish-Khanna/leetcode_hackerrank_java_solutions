@@ -1,0 +1,58 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
+        List<Integer> list = new ArrayList<>();
+        calculate(root, target, K, list);
+        return list;
+    }
+    
+    private int calculate(TreeNode node, TreeNode target, int K, List<Integer> list) {
+        if(node == null) { return -1; }
+        
+        if(node.val == target.val) {
+            // list.add(target.val);
+            children(node, K, list);
+            return 0;
+        }
+        
+        int left = calculate(node.left, target, K, list);
+        // System.out.println(left+ " left");
+        if(left != -1) {
+            if(left + 1 == K) {
+                list.add(node.val);
+            } else {
+                children(node.right, K - left - 2, list);
+                return left + 1;
+            }
+        }
+        int right = calculate(node.right, target, K, list);
+        if(right != -1) {
+            if(right + 1 == K) {
+               list.add(node.val);
+            } else {
+               children(node.left, K - right - 2, list);
+                return right + 1;
+            }
+        }
+        return -1;
+    }
+    
+    private void children(TreeNode node, int K, List<Integer> list) {
+        if(node == null || K < 0) { return; }
+        // System.out.println(node.val + " " + K);
+        if(K == 0) {
+            list.add(node.val);
+            return;
+        }
+        children(node.left, K - 1, list);
+        children(node.right, K - 1, list);
+    }
+}
