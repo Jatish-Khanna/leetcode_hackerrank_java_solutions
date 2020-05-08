@@ -1,4 +1,50 @@
 class Solution {
+
+   // Quicker solution with the binary search
+    public int kthSmallest(int[][] matrix, int k) {
+        
+        int m = matrix.length;
+        int n = matrix[0].length;
+        
+        int start = matrix[0][0];
+        int end  = matrix[m - 1][n - 1];
+        int mid;
+        int count;
+        while(start < end) {
+            mid = start + (end - start) / 2;
+            count = getLessCount(matrix, mid, k);
+            if(count >= k) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        
+        return start;
+    }
+    
+    private int getLessCount(int[][] matrix, int mid, int k) {
+        int row = 0;
+        int col = matrix[0].length - 1;
+        int count = 0;
+        
+        while(row < matrix.length && col >= 0) {
+            if(matrix[row][col] > mid) {
+                --col;
+            } else {
+                count += col + 1;
+                ++row;
+                if(count > k) {
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+
+
+   // O(K log K) - slower solution
+
     public int kthSmallest(int[][] matrix, int k) {
         
         int m = matrix.length;
