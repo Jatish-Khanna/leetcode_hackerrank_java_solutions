@@ -1,0 +1,24 @@
+class Solution {
+    public int minDominoRotations(int[] A, int[] B) {
+        int[] ac = new int[7];
+        int[] bc = new int[7];
+        int[] commons = new int[7];
+        
+        for(int id = 0; id < A.length; id++) {
+            // if(A[id] != B[id]) {
+            bc[B[id]]++;
+            ac[A[id]]++;
+            if(B[id] == A[id]) {
+                commons[A[id]]++;
+            }
+        }
+        int min = A.length;
+        // Arrays.stream(A).forEach(System.out::println);
+        for(int id = 1; id < ac.length; id++) {
+            if(ac[id] + bc[id] - commons[id] == A.length) {
+                min = Math.min(min, Math.min(ac[id], bc[id]) - commons[id]);
+            }
+        }
+        return min == A.length ? -1 : min;
+    }
+}
