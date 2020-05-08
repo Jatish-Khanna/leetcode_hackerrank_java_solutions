@@ -1,0 +1,27 @@
+class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+        
+        int m = matrix.length;
+        int n = matrix[0].length;
+        
+        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> {
+            if(matrix[o1[0]][o1[1]] == matrix[o2[0]][o2[1]]) {
+                return o1[0] - o2[0];
+            }
+            return matrix[o1[0]][o1[1]] - matrix[o2[0]][o2[1]];
+        });
+        
+        for(int row = 0; row < m; row++) {
+            queue.offer(new int[]{row, 0});
+        }
+        
+        int[] point = {0,0};
+        while(k-- > 0) {
+            point = queue.poll();
+            if(point[1] < n - 1) {
+                queue.offer(new int[]{point[0], point[1] + 1});
+            }
+        }
+        return matrix[point[0]][point[1]];
+    }
+}
