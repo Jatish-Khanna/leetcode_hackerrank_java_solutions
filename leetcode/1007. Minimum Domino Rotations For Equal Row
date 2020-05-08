@@ -1,5 +1,38 @@
 class Solution {
 
+// Optimized and same speed
+    public int minDominoRotations(int[] A, int[] B) {
+        int min = A.length;
+        
+        // for(int i = 1; i <= 6; i++) {
+        min = Math.min(min, count(A, B, A[0]));
+        if(A[0] != B[0]) {
+            min = Math.min(min, count(A, B, B[0]));
+        }
+        // }
+        
+        return min == A.length ? -1 : min;
+    }
+    
+    private int count(int[] A, int[] B, int number) {
+        int commons = 0;
+        int a = 0;
+        int b = 0;
+        for(int i = 0; i < A.length; i++) {
+            if(A[i] != number && B[i] != number) {
+                return A.length;
+            } else if(A[i] != B[i]) {
+                // commons++;
+                if(A[i] == number) {
+                    a++;
+                } else {
+                    b++;
+                }
+            }
+        }
+        return Math.min(a, b);
+    }
+
  // High speed - as uses the limits to process and count
 
     public int minDominoRotations(int[] A, int[] B) {
