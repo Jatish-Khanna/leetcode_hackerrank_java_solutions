@@ -1,4 +1,29 @@
 class Solution {
+
+// Faster
+public int[] fairCandySwap(int[] A, int[] B) {
+        int sum1 = 0;
+        boolean[] set = new boolean[100001];
+        // HashSet<Integer> set = new HashSet<>();
+        for(int num : A) {
+            sum1 += num;
+            set[num] = true;
+        }
+        int sum2 = 0;
+        for(int num : B) {
+            sum2 += num;
+        }
+        int diff = (sum1 - sum2)/2;
+        // System.out.println(sum1 + " " + sum2);
+        for(int num : B) {
+            if(num + diff >= 0 && num + diff < set.length &&  set[num + diff]) {
+                return new int[]{num + diff, num};
+            }
+        }
+        return new int[]{};
+    }
+
+ // Slow when compared to limits specified not HashSet
     public int[] fairCandySwap(int[] A, int[] B) {
         int sum1 = 0;
         HashSet<Integer> set = new HashSet<>();
