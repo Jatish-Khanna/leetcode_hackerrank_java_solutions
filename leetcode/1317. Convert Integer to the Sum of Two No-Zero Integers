@@ -1,0 +1,24 @@
+class Solution {
+    int i = 1;
+    public int[] getNoZeroIntegers(int n) {
+        while(i <= n / 2) {
+        if(isNon(n - i) && isNon(i)) {
+            return new int[]{i, n - i};
+        }
+            i++;
+        }
+        return new int[]{};
+    }
+    
+    private boolean isNon(int i) {
+        int num;
+        while(i > 0) {
+            num = i % 10;
+            if(num == 0) {
+                return false;
+            }
+            i /= 10;
+        }
+        return true;
+    }
+}
