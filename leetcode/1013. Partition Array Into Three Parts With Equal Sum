@@ -1,0 +1,27 @@
+class Solution {
+    public boolean canThreePartsEqualSum(int[] A) {
+        int  i = 0;
+        int sum = 0;
+        
+        while(i < A.length) {
+            sum += A[i];
+            i++;
+        }
+        
+        if(sum % 3 != 0) { return false; }
+        
+        int partSum = sum / 3;
+        i = 0;
+        int count = 0;
+        sum = 0;
+        while(i < A.length) {
+            sum += A[i];
+            if(sum == partSum) {
+                sum = 0;
+                count++;
+            }
+            i++;
+        }
+        return count == 3 || count > 3 && sum == 0;
+    }
+}
