@@ -1,0 +1,22 @@
+class Solution {
+    public boolean isPerfectSquare(int num) {
+        int start  = 1;
+        int end = num;
+        int div;
+        int rem;
+        int mid;
+        while(start <= end) {
+            mid = start + (end - start) / 2;
+            div = num / mid;
+            rem = num % mid;
+            if(div == mid && rem == 0) {
+                return true;
+            } else if(div > mid){
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return false;
+    }
+}
