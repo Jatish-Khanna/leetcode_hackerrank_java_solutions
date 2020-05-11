@@ -1,0 +1,34 @@
+class Solution {
+    public String shortestCompletingWord(String licensePlate, String[] words) {
+        int[] ar = new int[26];
+        
+        for(char ch : licensePlate.toCharArray()) {
+            if(Character.isAlphabetic(ch)) {
+                ar[Character.toLowerCase(ch) - 'a']++;
+            }
+        }
+        
+        int[] clone = Arrays.copyOf(ar, ar.length);
+        String result = null;
+        // Arrays.stream(clone).forEach(e -> System.out.print(e + " "));
+        for(String word : words) {
+            
+            for(char ch : word.toCharArray()) {
+                if(clone[ch - 'a'] > 0) {
+                    clone[ch - 'a']--;
+                }
+            }
+            boolean flag = true;
+            for(int i = 0; i < clone.length; i++) {
+                if(clone[i] != 0) {
+                    flag = false;
+                }
+                clone[i] = ar[i];
+            }
+            if(flag && (result == null || result.length() > word.length())) {
+                result = word;
+            }
+        }
+        return result;
+    }
+}
