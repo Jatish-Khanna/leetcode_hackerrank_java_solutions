@@ -1,0 +1,69 @@
+class Solution {
+    public String reformat(String s) {
+        int[] ch = new int[26];
+        int[] digit = new int[10];
+        int chCount = 0;
+        int digitCount = 0;
+        for(char c : s.toCharArray()) {
+            if(isLower(c)) {
+                ch[c - 'a']++;
+                chCount++;
+            } else {
+                digit[c - '0']++;
+                digitCount++;
+            }
+        }
+        if(Math.abs(chCount - digitCount) > 1) {
+            return "";
+        }
+        
+        return build(ch, chCount, digit, digitCount);
+    }
+    
+    private String build(int[] ch, int i, int[] digit, int j) {
+        StringBuilder sb = new StringBuilder();
+        
+        int charId = 0;
+        int digitId = 0;
+        while(i > 0 && j > 0) {
+            while(charId < ch.length && ch[charId] == 0) { charId++; }
+            while(digitId < digit.length && digit[digitId] == 0) { digitId++; }
+            sb.append((char)(charId + 'a'));
+            sb.append((char)(digitId + '0'));
+            i--;
+            j--;
+            ch[charId]--;
+            digit[digitId]--;
+        }
+        
+        while(i > 0) {
+            while(charId < ch.length && ch[charId] == 0) { charId++; }
+            // while(digitId < digit.length && digit[digitId] == 0) { digitId++; }
+            sb.append((char)(charId + 'a'));
+            // sb.append((char)(digit[digitId] + '0'));
+            i--;
+            
+            ch[charId]--;
+            // digit[digitId]--;
+            // j--;
+        }
+        
+        while(j > 0) {
+            // while(charId < ch.length && ch[charId] == 0) { charId++; }
+            while(digitId < digit.length && digit[digitId] == 0) { digitId++; }
+            // sb.append((char)(ch[charId] + 'a'));
+            sb.insert(0, (char)(digitId + '0'));
+            // i--;
+            j--;
+            
+            // ch[charId]--;
+            digit[digitId]--;
+        }
+        
+        return sb.toString();
+    }
+    
+    private boolean isLower(char ch) {
+        return ch >= 'a' && ch <= 'z';
+    }
+}
