@@ -1,0 +1,53 @@
+    public int twoCitySchedCost(int[][] costs) {
+        
+        
+        int k = costs.length / 2;
+        int low = 0, high = costs.length - 1;
+        int pivot;
+        while (true) {
+            pivot = quickSelect(low, high, costs);
+            if(pivot == k) {
+                break;
+            } else if(pivot < k) {
+                low = pivot + 1;
+            } else {
+                high = pivot - 1;
+            }
+        }
+        
+        
+        int i = 0;
+        int result = 0;
+        while(i < costs.length / 2) {
+            result += costs[i][0];   
+            i++;
+        }
+        while(i < costs.length) {
+            result += costs[i][1];
+            i++;
+        }
+        return result;
+    }
+    
+    private int quickSelect(int low, int high, int[][]  costs) {
+        int current = low;
+        int[] point = costs[high];
+        int diff;
+        
+        while(current < high) {
+            diff = costs[current][0] - costs[current][1] - (point[0] - point[1]);
+            if(diff < 0) {
+                swap(low, current, costs);
+                low++;
+            }
+            current++;
+        }
+        swap(low, high, costs);
+        return low;
+    }
+    
+    private void swap(int first, int second, int[][] costs) {
+        int[] temp = costs[first];
+        costs[first] = costs[second];
+        costs[second] = temp;
+    }
