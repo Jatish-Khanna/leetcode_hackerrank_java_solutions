@@ -1,4 +1,37 @@
 class Solution {
+
+// O(N) keeping track of each element
+    public int[] arrayRankTransform(int[] arr) {
+        if(arr.length == 0) {
+            return new int[]{};
+        }
+        
+        int min = arr[0];
+        int max = arr[0];
+        for(int num : arr) {
+            if(min > num) {
+                min = num;
+            } else if(max < num) {
+                max = num;
+            }
+        }
+        
+        int[] ranks = new int[max - min + 1];
+        for(int num : arr) {
+            ranks[num - min] = 1;
+        }
+        for(int id = 1; id < ranks.length; id++) {
+            ranks[id] += ranks[id - 1];
+        }
+        int []result = new int[arr.length];
+        int id = 0;
+        for(int num : arr) {
+            result[id++] = ranks[num - min];
+        }
+        return result;
+    }
+
+// O(N log N) solution by sorting and then tracking the elements in the array
     public int[] arrayRankTransform(int[] arr) {
         int[] clone = arr.clone();
         Arrays.sort(clone);
