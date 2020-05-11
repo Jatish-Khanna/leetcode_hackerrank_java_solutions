@@ -1,0 +1,26 @@
+class Solution {
+    public int maxScore(String s) {
+        char[] ch = s.toCharArray();
+        int i = 1;
+        int right = 0;
+        int left = ch[0] == '0' ? 1 : 0;
+        while(i < ch.length) {
+            if(ch[i] == '1') {
+                right++;
+            }
+            i++;
+        }
+        i = 1;
+        int max = 0;
+        while(i < ch.length) {
+            max = Math.max(left + right, max);
+            if(ch[i] == '1') {
+                right--;
+            } else {
+                left++;
+            }
+            i++;
+        }
+        return max;
+    }
+}
