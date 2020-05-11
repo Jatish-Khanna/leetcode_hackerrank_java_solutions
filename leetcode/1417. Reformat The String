@@ -1,4 +1,49 @@
 class Solution {
+
+// Fast with quick optimizations 
+
+    public String reformat(String s) {
+
+        int chCount = 0;
+        int digitCount = 0;
+        char[] ch = s.toCharArray();
+        for(char c : ch) {
+            if(isDigit(c)) {                
+                digitCount++;
+            } else {
+                chCount++;
+            }
+        }
+        if(chCount - digitCount > 1 || chCount - digitCount < -1) {
+            return "";
+        }
+        
+        int cId = 0;
+        int dId = 1;
+        if(digitCount > chCount) {
+            dId = 0;
+            cId = 1;
+        }
+        
+        for(char c : s.toCharArray()) {
+            if(isDigit(c)) {
+                ch[dId] = c;
+                dId += 2;
+            } else {
+                ch[cId] = c;
+                cId += 2;
+            }
+        }
+        
+        return new String(ch);
+        // return build(chCount, digitCount, s);
+    }
+    
+    private boolean isDigit(char ch) {
+        return ch >= '0' && ch <= '9';
+    }
+
+// Slow - 
     public String reformat(String s) {
         int[] ch = new int[26];
         int[] digit = new int[10];
