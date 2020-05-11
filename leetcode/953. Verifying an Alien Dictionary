@@ -1,0 +1,33 @@
+class Solution {
+    public boolean isAlienSorted(String[] words, String order) {
+        int[] dict = new int[26];
+        int id = 1;
+        for(char ch : order.toCharArray()) {
+            dict[ch - 'a'] = id;
+            id++;
+        }
+        
+        // String prev = words[0];
+        int id1, id2;
+        char[] f, s;
+        f = words[0].toCharArray();
+        // Arrays.stream(dict).forEach(e -> System.out.print(e + " "));
+        for(int i = 1; i < words.length; i++) {
+            id1 = 0;
+            id2 = 0;
+            s = words[i].toCharArray();
+            while(id1 < f.length && id2 < s.length && f[id1] == s[id2]) {
+                id1++;
+                id2++;
+            } 
+            // System.out.println(id1 + " " + id2);
+            if(id1 < f.length && (id2 == s.length || dict[f[id1] - 'a'] > dict[s[id2] - 'a'])) {
+                return false;
+            }
+            
+            // prev = words[i];
+            f = s;
+        }
+        return true;
+    }
+}
