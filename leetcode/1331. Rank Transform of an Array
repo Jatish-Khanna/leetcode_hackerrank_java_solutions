@@ -1,0 +1,23 @@
+class Solution {
+    public int[] arrayRankTransform(int[] arr) {
+        int[] clone = arr.clone();
+        Arrays.sort(clone);
+        HashMap<Integer, Integer> rankMap = new HashMap<>();
+        int[] result = new int[arr.length];
+        int prev = Integer.MIN_VALUE;
+        int rank = 0;
+        int id = 0;
+        for(int num : clone) {
+            if(num != prev) {
+                rank++;
+                rankMap.put(num, rank);
+                prev = num;
+            } 
+        }
+        
+        for(int num : arr) {
+            result[id++] = rankMap.get(num);
+        }
+        return result;
+    }
+}
