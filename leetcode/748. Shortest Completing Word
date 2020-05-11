@@ -1,4 +1,49 @@
 class Solution {
+// Algorithm checks with the faster results and check 2ms
+    public String shortestCompletingWord(String licensePlate, String[] words) {
+        int[] ar = new int[26];
+        int size = 0;
+        for(char ch : licensePlate.toCharArray()) {
+            if(Character.isAlphabetic(ch)) {
+                ar[Character.toLowerCase(ch) - 'a']++;
+                size++;
+            }
+        }
+        
+        int[] clone ;//= Arrays.copyOf(ar, ar.length);
+        String result = null;
+        // Arrays.stream(clone).forEach(e -> System.out.print(e + " "));
+        for(String word : words) {
+            if(word.length() < size) { continue; }
+            if(result != null && word.length() >= result.length()) {
+                continue;
+            }
+            clone = Arrays.copyOf(ar, ar.length);
+            
+            int count = size;
+            for(char ch : word.toCharArray()) {
+                clone[ch - 'a']--;
+                if(clone[ch - 'a'] >= 0) {
+                   count--; 
+                }
+                
+                if(count == 0) {
+                    break;
+                }
+            }
+            // boolean flag = true;
+            // clone = Arrays.copyOf(ar, ar.length);
+            if(count == 0) {
+                result = word;
+                if(result.length() == size) {
+                    return result;
+                }
+            }
+        }
+        return result;
+    }
+    
+// Algorithm and optimization from 8ms
     public String shortestCompletingWord(String licensePlate, String[] words) {
         int[] ar = new int[26];
         
