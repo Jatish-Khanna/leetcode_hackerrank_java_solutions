@@ -1,5 +1,8 @@
 class Solution {
     public String[] findRestaurant(String[] list1, String[] list2) {
+    // Optimization to reduce less number of operation over Collection that slows down
+        if(list1.length > list2.length) return findRestaurant(list2, list1);
+    
         Map<String, Integer> map = new HashMap<>();
         int id = 0;
         for(String res : list1) {
