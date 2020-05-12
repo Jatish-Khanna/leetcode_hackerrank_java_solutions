@@ -1,4 +1,41 @@
 class Solution {
+// Using the space limits faster solution, additional space usage
+    public String[] findRelativeRanks(int[] nums) {
+        String[] result = new String[nums.length];
+        int maxValue = Integer.MIN_VALUE;
+        for(int num : nums) {
+            if(num > maxValue) {
+                maxValue = num;
+            }
+        }
+        int[] max = new int[maxValue + 1];
+        for(int i = 0; i <nums.length; i++) {
+            max[nums[i]] = i + 1;
+        }
+        
+        int place = 1;
+        for(int i = maxValue; i >= 0; i--) {
+            if(max[i] == 0) {
+                continue;
+            }
+            if(place > 3) {
+                result[max[i] - 1] = String.valueOf(place);
+            } else if(place == 1) {
+                result[max[i] - 1] = "Gold Medal";
+            } else if(place == 2) {
+                result[max[i] - 1] = "Silver Medal";
+            } else if(place == 3) {
+                result[max[i] - 1] = "Bronze Medal";
+            }
+            
+            place++;
+        }
+        
+        return result;
+    }
+
+
+// Slow solution with space optimization - O(N log N)
     public String[] findRelativeRanks(int[] nums) {
         String[] result = new String[nums.length];
         PriorityQueue<Integer> queue = new PriorityQueue<>((o1, o2) -> {
