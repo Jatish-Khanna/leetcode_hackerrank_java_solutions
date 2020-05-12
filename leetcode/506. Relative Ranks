@@ -1,0 +1,34 @@
+class Solution {
+    public String[] findRelativeRanks(int[] nums) {
+        String[] result = new String[nums.length];
+        PriorityQueue<Integer> queue = new PriorityQueue<>((o1, o2) -> {
+           return nums[o2] - nums[o1]; 
+        });
+        int id = 0;
+        for(; id < nums.length; id++) {
+            queue.offer(id);
+        }
+        
+        int value;
+        if(!queue.isEmpty()) {
+            value = queue.poll();
+            result[value] = "Gold Medal";
+        }
+        
+        if(!queue.isEmpty()) {
+            value = queue.poll();
+            result[value] = "Silver Medal";
+        }
+        
+        if(!queue.isEmpty()) {
+            value = queue.poll();
+            result[value] = "Bronze Medal";
+        }
+        id = 4;
+        while(!queue.isEmpty()) {
+            value = queue.poll();
+            result[value] = String.valueOf(id++);
+        }
+        return result;
+    }
+}
