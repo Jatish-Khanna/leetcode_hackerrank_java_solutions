@@ -1,0 +1,28 @@
+class Solution {
+    public boolean lemonadeChange(int[] bills) {
+        int fs = 0;
+        int tn = 0;
+        // int ws = 0;
+        for(int bill : bills) {
+            if(bill == 5) {
+                fs++;
+            } else if(bill == 10) {
+                if(fs-- == 0) {
+                    return false;
+                }
+                tn++;
+            } else {
+                
+                if(tn > 0 && fs > 0) {
+                    tn--;
+                    fs--;
+                } else if(fs > 2) {
+                    fs -= 3;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
