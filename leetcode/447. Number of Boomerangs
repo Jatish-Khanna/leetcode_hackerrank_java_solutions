@@ -1,4 +1,29 @@
 class Solution {
+// Optimization to the Map
+    public int numberOfBoomerangs(int[][] points) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int distance;
+        int count = 0;
+        for(int[] p1 : points) {
+            
+            for(int[] p2 : points) {
+                // distance = ;
+                distance = map.merge(calculate(p1, p2), 1, Integer::sum);
+                count += distance - 1;
+            }
+            map.clear();
+        }
+        return count * 2;
+    }
+    
+    private int calculate(int[] p1, int[] p2) {
+        int one =  p1[0] - p2[0];
+        int two = p1[1] - p2[1];
+        return one * one + two * two;
+    }
+
+
+// Slow solution
     public int numberOfBoomerangs(int[][] points) {
         HashMap<Integer, Integer> map = new HashMap<>();
         int distance;
