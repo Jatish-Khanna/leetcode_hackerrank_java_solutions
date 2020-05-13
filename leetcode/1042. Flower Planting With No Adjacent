@@ -1,0 +1,43 @@
+class Solution {
+    public int[] gardenNoAdj(int N, int[][] paths) {
+        List<Integer>[] gardens = new ArrayList[N + 1];
+        int[] result = new int[N];
+        
+        for(int g = 1; g < gardens.length; g++) {
+            gardens[g] = new ArrayList<>();
+        }
+        
+        for(int[] path : paths) {
+            // if(gardens[path[0]] == null) 
+            gardens[path[0]].add(path[1]);
+            gardens[path[1]].add(path[0]);
+        }
+        // System.out.println(gardens[2]);
+        for(int i = 0; i < N; i++) {
+            boolean[] check = new boolean[5];
+            for(int g : gardens[i + 1]) {
+                
+                if(result[g - 1] > 0) {
+                    check[result[g - 1]] = true;
+                }
+            }
+            result[i] = getColor(check);
+        }
+        
+        return result;
+    }
+    
+    private int getColor(boolean[] check) {
+        // Colors
+        
+        int id = 1;
+        for(; id < check.length; id++) {
+            // System.out.println(check[id]);
+            if(!check[id]) {
+                break;
+            }
+        }
+        return id;
+    }
+    
+}
