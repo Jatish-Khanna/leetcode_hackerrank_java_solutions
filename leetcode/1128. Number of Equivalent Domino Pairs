@@ -1,0 +1,24 @@
+class Solution {
+    public int numEquivDominoPairs(int[][] dominoes) {
+        int[][] count = new int[10][10];
+        for(int[] domino : dominoes) {
+            count[domino[0]][domino[1]]++;
+        }
+        
+        int pairs = 0;
+        int num = 0;
+        
+        for(int i = 1; i < count.length; i++) {
+            for(int j = i; j < count.length; j++) {
+                if(i == j) {
+                    num = count[i][j];
+                } else {
+                    num = count[i][j] + count[j][i];
+                }
+                pairs += (num * (num - 1) /2);
+            }  
+            
+        }
+        return pairs;
+    }
+}
