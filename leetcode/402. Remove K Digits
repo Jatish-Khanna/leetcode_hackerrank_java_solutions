@@ -1,0 +1,33 @@
+class Solution {
+    public String removeKdigits(String num, int k) {
+        if(num.length() == k) {
+            return "0";
+        } else if(k == 0) {
+            return num;
+        }
+        
+        ArrayDeque<Character> stack = new ArrayDeque<>();
+        for(char ch : num.toCharArray()) {
+            while(k > 0 && !stack.isEmpty() && stack.peek() > ch) {
+                stack.pop();
+                k--;
+            }
+            stack.push(ch);
+        }
+        // K < num.length - so stack won't be empty
+        // char check = '0';
+        // System.out.println(stack);
+        while(k-- > 0) {
+            stack.pop();
+        }
+        StringBuilder sb = new StringBuilder();
+        while(!stack.isEmpty()) {
+            sb.insert(0, stack.pop());
+        }
+        int i = 0;
+        while(i < sb.length() - 1 && sb.charAt(i) == '0') {
+            i++;
+        }
+        return sb.substring(i).toString();
+    }
+}
