@@ -1,0 +1,28 @@
+class Solution {
+    public String licenseKeyFormatting(String S, int K) {
+        char[] sArr = S.toCharArray();
+        char[] tmp = new char[sArr.length];
+        int len = 0, flag = 0;
+        for (char c : sArr) {
+            if (c != '-') {
+                tmp[len++] = 'a' <= c && c <= 'z' ? (char) (c - 32) : c;
+            }
+        }
+        if(len == 0) { return ""; }
+        
+        int dashNum = (len - 1) / K;
+        char[] res = new char[len + dashNum];
+        int i = res.length - 1;
+        int j = len - 1;
+        while (i >= 0) {
+            if (flag % K == 0 && i < res.length - 1) {
+                res[i--] = '-';
+                flag = 0;
+            }
+            flag++;
+            res[i--] = tmp[j--];
+        }
+
+        return new String(res);
+    }
+}
