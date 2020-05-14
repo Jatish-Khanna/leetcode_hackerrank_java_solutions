@@ -1,0 +1,23 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if(nums.length == 0) { return 0; }
+        int start = 0;
+        int prev = 0;
+        int current = 1;
+        while(current < nums.length) {
+            // System.out.println(start + " " + current);
+            if(nums[prev] != nums[current]) {
+                nums[start] = nums[prev];
+                prev = current;
+                start++;
+            }
+            //
+            
+            current++;
+        }
+        // if(nums[prev] != nums[current - 1]) {
+        nums[start++] = nums[prev];
+        // }
+        return start;
+    }
+}
