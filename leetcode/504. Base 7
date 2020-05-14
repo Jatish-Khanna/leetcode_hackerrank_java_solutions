@@ -1,0 +1,22 @@
+class Solution {
+    public String convertToBase7(int num) {
+        StringBuilder sb = new StringBuilder();
+        if(num == 0) {
+            return "0";
+        }
+        boolean negative = false;
+        if(num < 0) {
+            negative = true;
+            num = -num;
+        }
+        
+        while(num > 0) {
+            sb.insert(0, num % 7);
+            num /= 7;
+        }
+        if(negative) {
+            sb.insert(0, '-');
+        }
+        return sb.toString();
+    }
+}
