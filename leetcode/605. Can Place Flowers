@@ -1,0 +1,17 @@
+class Solution {
+    public boolean canPlaceFlowers(int[] flowerbed, int n) {
+        int flowerPlant = 0;
+    
+    for(int i=0; i<flowerbed.length; i++){
+       
+        if(flowerbed[i]==0 
+                && (i == 0 || flowerbed[i-1]==0)
+                && (i == flowerbed.length-1 || flowerbed[i+1]==0)){
+
+            flowerPlant++;
+            i++;                               //jumping extra pllot as current one, we already considered to use
+        }
+    }
+    return (flowerPlant >= n);
+    }
+}
