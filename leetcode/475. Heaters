@@ -1,0 +1,51 @@
+class Solution {
+    public int findRadius(int[] houses, int[] heaters) {
+        if(heaters.length == 0) { return Integer.MAX_VALUE; }
+//         Arrays.sort(heaters);
+        
+//         int distance = Integer.MIN_VALUE;
+//         for(int house : houses) {
+//             int index = binarySearch(house, heaters);
+//             if(index == 0) {
+//                 distance = Math.max(distance, heaters[index] - house);
+//             } else if(index == heaters.length) {
+//                 distance = Math.max(distance, house - heaters[index - 1]);
+//             } else {
+//                 distance = Math.max(distance, Math.min(heaters[index] - house, house - heaters[index-1]));
+//             }
+//         }
+//         return distance;
+//     }
+    
+//     private int binarySearch(int target, int[] heaters) {
+//         int start = 0;
+//         int end = heaters.length - 1;
+//         int mid;
+//         while(start <= end) {
+//             mid = start + (end - start) / 2;
+//             if(heaters[mid] == target) {
+//                 return mid;
+//             } else if(heaters[mid] > target) {
+//                 end = mid - 1;
+//             } else {
+//                 start = mid + 1;
+//             }
+//         }
+//         return start;
+//     }
+        Arrays.sort(houses);
+        Arrays.sort(heaters);
+        
+        int i = 0;
+        int res = 0;
+        
+        for (int house: houses) {
+            while (i < heaters.length - 1 
+                   && Math.abs(heaters[i] - house) >= Math.abs(heaters[i + 1] - house)) {
+                i++;
+            }
+            res = Math.max(res, Math.abs(heaters[i] - house));
+        }
+        return res;
+    }
+}
