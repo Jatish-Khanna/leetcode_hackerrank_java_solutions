@@ -1,0 +1,20 @@
+class Solution {
+    public boolean checkPerfectNumber(int num) {
+        if(num <= 1) { return false; }
+        int limit = (int)Math.sqrt(num);
+        int curr = 2;
+        int sum = 0;
+        int div;
+        while(curr <= limit) {
+            if(num % curr == 0) {
+                div = num / curr;
+                if(curr != div) {
+                    sum += div;
+                }
+                sum += curr;
+            }
+            curr++;
+        }
+        return sum + 1 == num;
+    }
+}
