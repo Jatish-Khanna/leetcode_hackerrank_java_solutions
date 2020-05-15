@@ -1,0 +1,40 @@
+class Solution {
+    public String largestTimeFromDigits(int[] A) {
+       int[] ar = new int[10];
+        
+        for(int n : A) {
+            ar[n]++;
+        }
+        
+        int j;
+        
+        for(int i=2;i>=0;i--){
+            if(--ar[i] >= 0){
+        
+                j=9;
+                if(i==2)
+                    j=3;
+                for(;j>=0;j--) {
+                    if(--ar[j] >= 0){
+                        for(int k=5;k>=0;k--){
+                            if(--ar[k]>=0) {
+        
+                                for(int l=9;l>=0;l--){
+                                    if(ar[l]>0){
+                                          return new StringBuilder().append(i).append(j).append(":").append(k).append(l).toString();
+                                    }
+                                }
+    
+                                
+                            }
+                            ar[k]++;
+                        }
+                    }
+                    ar[j]++;
+                }
+            }
+            ar[i]++;
+        }
+        return "";    
+    }
+}
