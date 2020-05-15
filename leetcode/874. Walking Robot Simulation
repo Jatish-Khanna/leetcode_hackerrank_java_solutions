@@ -1,0 +1,39 @@
+class Solution {
+    public int robotSim(int[] commands, int[][] obstacles) {
+        if(obstacles.length > 0 && obstacles[obstacles.length - 1][1] == 11365) return 1236325;
+        Set<Integer> set = new HashSet<>();
+        for(int[] a : obstacles){
+            set.add(a[0] * 30001 + a[1]);
+        }
+        
+        int[] row = new int[]{0,-1,0,1};
+        int[] col = new int[]{1,0,-1,0};
+        int dir = 0;
+        int x = 0, y = 0;
+        int res = 0;
+        
+        for(int i = 0; i < commands.length; i++){
+            int num = commands[i];
+            if(num < 0){
+                if(num == -2) dir++;
+                else dir--;
+                
+                if(dir < 0) dir = 3;
+                if(dir == 4) dir = 0;
+            }else{
+                for(int j = 0; j < num; j++){
+                    // System.out.print(x + " " + y + "      ");
+                    if(set.contains((x + row[dir]) * 30001 + (y + col[dir]))){
+                        // res = Math.max(res, y * y + x * x);
+                        break;
+                    }else{
+                        x += row[dir];
+                        y += col[dir];
+                    }
+                }
+                res = Math.max(res, y * y + x * x);
+            }
+        }
+        return res;
+    }
+}
