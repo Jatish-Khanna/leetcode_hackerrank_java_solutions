@@ -1,0 +1,20 @@
+class Solution {
+    public List<String> buildArray(int[] target, int n) {
+        
+        int i = 1;
+        int current = 0;
+        int last = Math.min(n, target[target.length - 1]);
+        List<String> list = new ArrayList<>();
+        while(i <= last) {
+            list.add("Push");
+            if(i == target[current]) {
+                current++;
+            } else {
+                // list.add("Push");
+                list.add("Pop");
+            }
+            i++;
+        }
+        return list;
+    }
+}
