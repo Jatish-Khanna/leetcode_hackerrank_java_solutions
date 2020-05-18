@@ -1,0 +1,33 @@
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> occurences = new ArrayList<>();
+        char[] par = p.toCharArray();
+        char[] sar = s.toCharArray();
+        if (sar.length == 0 || par.length > sar.length) return occurences;
+        int n = sar.length, m = par.length;
+        
+        int[] textHash = new int[26];
+        int[] patternHash = new int[26];
+        
+        for (int i=0; i<m; i++) {
+            textHash[s.charAt(i) - 'a']++;
+            patternHash[p.charAt(i) - 'a']++;
+        }
+        for (int i=m; i<n; i++) {
+            if (check(textHash, patternHash)) occurences.add(i-m);
+            textHash[s.charAt(i-m) - 'a']--;
+            textHash[s.charAt(i) - 'a']++;
+        }
+        if (check(textHash, patternHash)) occurences.add(n-m);
+        return occurences;
+    }
+    
+    private boolean check(int[] ar1, int[] ar2) {
+        for (int j = 0; j < ar1.length; j++) {
+                if (ar1[j] != ar2[j]) {
+                    return false;
+                }
+            }
+        return true;
+    }
+}
