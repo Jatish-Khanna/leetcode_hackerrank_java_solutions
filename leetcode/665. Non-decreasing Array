@@ -1,0 +1,17 @@
+class Solution {
+    public boolean checkPossibility(int[] nums) {
+        int count = 0;
+        // int prev = -100001;
+        int index = 0;
+        int i = 0;
+        for(; i < nums.length - 1; i++) {
+            if(nums[i] > nums[i + 1]) {
+                count++;
+                if(count > 1) { return false;}
+                index = i;
+            }
+        }
+        // System.out.println(index);
+        return index == 0 || index == nums.length - 2 || nums[index - 1] <= nums[index + 1] || nums[index] <= nums[index + 2];
+    }
+}
