@@ -1,0 +1,33 @@
+class Solution {
+    public List<List<Integer>> groupThePeople(int[] groupSizes) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer>[] map = new List[groupSizes.length + 1];
+        
+        int key;
+        for(int i = 0; i < groupSizes.length; i++) {
+            key = groupSizes[i];
+            if(map[key] == null)
+                map[key] = new ArrayList<>();
+            
+            map[key].add(i);
+            if(key == map[key].size()) {
+                result.add(map[key]);
+                map[key] = new ArrayList<>();
+            }
+        }
+        
+//         int limit = 0;
+//         List<Integer> temp;
+//         for(Map.Entry<Integer, List<Integer>>  entry : map.entrySet()) {
+//             List<Integer> list = entry.getValue();
+//             int i = 0;
+//             // System.out.println(list);
+//             limit = entry.getKey();
+//             while(i < list.size()) {
+//                 result.add(list.subList(i, i + limit));
+//                 i += limit;
+//             }
+//         }
+        return result;
+    }
+}
