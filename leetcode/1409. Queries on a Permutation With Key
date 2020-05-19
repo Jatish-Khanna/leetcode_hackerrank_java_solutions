@@ -1,0 +1,55 @@
+class Solution {
+    public int[] processQueries(int[] queries, int m) {
+        int n = queries.length;
+        BIT bit = new BIT(n+m+1);
+        int[] map = new int[m + 1];
+        
+        int rank;
+        for (int i = 1; i <= m; i++) {
+            // current rank
+            rank = n + i;
+            map[i] = rank;
+            bit.add(rank, 1);
+        }
+        
+        int[] res = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            // Get current rank
+            int index = map[queries[i]];
+            res[i] = bit.prefixSum(index-1);
+            
+            int new_index = n - i;
+            bit.add(index, -1);
+            bit.add(new_index, 1);
+            map[queries[i]] =  new_index;
+        }
+        return res;
+    }
+	
+    class BIT {
+        int[] a;
+        
+        public BIT(int n) {
+            a = new int[n];
+        }
+        
+        public void add(int index, int delta) {
+            index++;
+            while (index < a.length) {
+                a[index] += delta;
+                index += index & (-index);
+            }
+        }
+        
+        public int prefixSum(int index) {
+            index++;
+            int res = 0;
+            while (index > 0) {
+                res += a[index];
+                index -= index & (-index);
+            }
+            return res;
+        }
+    }
+}
