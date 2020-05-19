@@ -1,4 +1,25 @@
 class Solution {
+
+// Fast using the variables
+public int numTeams(int[] rating) {
+        int result = 0;
+        int n = rating.length;
+        
+        for(int i = 1; i < rating.length - 1; i++) {
+            int l = 0;
+            int r = 0;
+            
+            for(int j=0;j<i;j++)
+                if(rating[j]<rating[i]) l++;
+            for(int k=i+1;k<n;k++)
+                if(rating[i]<rating[k]) r++;
+            result += (l*r) + (i-l)*(n-i-1-r);
+        }
+        return result;
+    }
+
+
+// Slow using the arrays
     public int numTeams(int[] rating) {
         int[] small = new int[2];
         int[] large = new int[2];
