@@ -1,0 +1,24 @@
+class Solution {
+    // int count  = 0;
+    public int numTilePossibilities(String tiles) {
+        int[] ar = new int[26];
+        for(char ch : tiles.toCharArray()) {
+            ar[ch - 'A']++;
+        }
+        return count(ar);
+        // return count;
+    }
+    
+    private int count(int[] ar) {
+        int count = 0;
+        for(int i = 0; i < ar.length; i++) {
+            if(ar[i] > 0) {
+                count++;
+                ar[i]--;
+                count += count(ar);
+                ar[i]++;
+            }
+        }
+        return count;
+    }
+}
