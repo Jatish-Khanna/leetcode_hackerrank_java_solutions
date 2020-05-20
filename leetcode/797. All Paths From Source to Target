@@ -1,0 +1,22 @@
+class Solution {
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        list.add(0);
+        check(0, graph.length - 1, list, result, graph);
+        return result;
+    }
+    
+    private void check(int current, int target, List<Integer> list, List<List<Integer>> result, int[][] graph) {
+        if(current == target) {
+            result.add(new ArrayList<>(list));
+            return;
+        } else {
+            for(int node : graph[current]) {
+                list.add(node);
+                check(node, target, list, result, graph);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+}
