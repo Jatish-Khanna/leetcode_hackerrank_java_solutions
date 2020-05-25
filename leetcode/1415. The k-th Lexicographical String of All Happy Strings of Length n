@@ -1,0 +1,31 @@
+class Solution {
+    int count = 0;
+    String result = "";
+    public String getHappyString(int n, int k) {
+        char[] ch = {'a', 'b', 'c'};
+        char[] ar = new char[n];
+        dfs(-1, 0, ch, ar, k);
+        return result;
+    }
+    
+    private void dfs(int index, int cIndex, char[] ch, char[] ar, int k) {
+        if(!"".equals(result)) {
+            return;
+        }
+        if(ar.length == cIndex) {
+            count++;
+            if(count == k) {
+                result = new String(ar);
+            }
+            return; 
+        }
+        
+        for(int i = 0; i < ch.length; i++) {
+            if(i != index) {
+                ar[cIndex] = ch[i];
+                dfs(i, cIndex + 1, ch, ar, k);
+            }
+        }
+        return;
+    }
+}
