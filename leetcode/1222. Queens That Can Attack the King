@@ -1,0 +1,58 @@
+class Solution {
+    public List<List<Integer>> queensAttacktheKing(int[][] queens, int[] king) {
+         int krow = king[0];
+        int kcol = king[1];
+        //populate booean array
+        boolean [][] board = new boolean[8][8];
+        for(int[] q: queens){
+            board[q[0]][q[1]] = true;
+        }
+        
+        List<List<Integer>> attacks = new ArrayList<>();
+        //check attack right side
+        for(int i=kcol+1; i < 8; i++){
+            if(board[krow][i]) {  addPoint(krow,i,attacks); break; }
+        }
+        //check attack left side
+        for(int i=kcol-1; i >= 0; i--){
+            if(board[krow][i]) { addPoint(krow,i,attacks);  break; }
+        }
+        //check attack top side
+        for(int i=krow-1; i >= 0; i--){
+            if(board[i][kcol]) { addPoint(i,kcol,attacks);  break; }
+        }
+        //check attack down side
+        for(int i=krow+1; i < 8; i++){
+            if(board[i][kcol]) { addPoint(i,kcol,attacks);  break; }
+        }
+        
+        //check attack north east diagonal
+        for(int i=krow-1, j = kcol+1; i >=0 && j <8; i--, j++){
+            if(board[i][j]) { addPoint(i,j,attacks);  break; }
+        }
+        
+        //check attack east south diagonal
+        for(int i=krow+1, j = kcol+1; i < 8 && j <8; i++, j++){
+            if(board[i][j]) {  addPoint(i,j,attacks);  break; }
+        }
+        
+        //check attack south west diagonal
+        for(int i=krow+1, j = kcol-1; i < 8 && j >=0; i++, j--){
+            if(board[i][j]) {  addPoint(i,j,attacks);  break; }
+        }
+        
+        //check attack west north diagonal
+        for(int i=krow-1, j = kcol-1; i >=0 && j >= 0; i--, j--){
+            if(board[i][j]) {  addPoint(i,j,attacks);  break; }
+        }
+        
+        return attacks;
+    }
+    
+    void addPoint(int row, int col, List<List<Integer>> attacks){
+        List<Integer> list = new ArrayList<>();
+        list.add(row); 
+        list.add(col);
+        attacks.add(list); 
+    }
+}
