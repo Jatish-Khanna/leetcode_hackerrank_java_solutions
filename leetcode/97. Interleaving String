@@ -1,0 +1,42 @@
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        char []first = s1.toCharArray();
+        char []second = s2.toCharArray();
+        char []third = s3.toCharArray();
+        int m = first.length;
+        int n = second.length;
+        
+        if(m + n != third.length) { return false; }
+        
+        boolean [][]dp = new boolean[m + 1][n + 1];
+        
+        dp[0][0] = true;
+        for(int i = 1; i <= m; i++) {
+            if(first[i - 1] == third[i - 1]) {
+                dp[i][0] = true;
+            } else {
+                break;
+            }
+        }
+        for(int i = 1; i <= n; i++) {
+            if(second[i - 1] == third[i - 1]) {
+                dp[0][i] = true;
+            } else {
+                break;
+            }
+        }
+        
+        for(int i = 1; i <= m; i++) {
+            for(int j = 1; j <= n; j++) {
+                if(dp[i-1][j] && first[i - 1] == third[i + j - 1]) {
+                    dp[i][j] = true;
+                }
+                if(dp[i][j-1] && second[j - 1] == third[i + j - 1]) {
+                    dp[i][j] = true;
+                }
+            }
+        }
+        // System.out.println(Arrays.deepToString(dp));
+        return dp[m][n];
+    }
+}
