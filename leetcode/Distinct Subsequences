@@ -1,0 +1,27 @@
+class Solution {
+    public int numDistinct(String A, String B) {
+        
+        char []first = A.toCharArray();
+        char []second = B.toCharArray();
+        int m = first.length;
+        int n = second.length;
+        if(m < n) { return 0; }
+        
+        
+        int mat[][] = new int[m + 1][n + 1];
+        for(int id = 0; id <= m; id++) {
+            mat[id][0] = 1;
+        }
+        
+        for(int f = 1; f <= m; f++) {
+            for(int s = 1; s <= n; s++) {
+                if(first[f - 1] != second[s - 1]) {
+                    mat[f][s] = mat[f - 1][s];
+                } else {
+                    mat[f][s] = mat[f - 1][s] + mat[f - 1][s - 1];
+                }
+            }
+        }
+        return mat[m][n];
+    }
+}
