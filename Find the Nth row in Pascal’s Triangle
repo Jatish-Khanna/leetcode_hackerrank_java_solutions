@@ -1,0 +1,45 @@
+class Solution {
+
+// Fast Solution
+    public ArrayList<Integer> getRow(int number) {
+  
+    ArrayList<Integer> current = new ArrayList<>();
+    int prev = 1;
+    int curr;
+    current.add(prev);
+    for(int index = 1; index <= number; index++) {
+      curr = (prev *(number - index + 1)) / index;
+      current.add(curr);
+      prev = curr;
+    }    
+    return current;
+  }
+
+
+
+// Slow solution
+  public ArrayList<Integer> getRow(int number) {
+    ArrayList<Integer> current = new ArrayList<>();
+    //List<List<Integer>> list = new ArrayList<>();
+    
+    current.add(1);
+    //list.add(current);
+    if(number == 0) {
+      return current;
+    }
+    
+    ArrayList<Integer> prev;
+    for(int index = 1; index <= number; index++) {
+      prev = current;
+      current = new ArrayList<>();
+      current.add(1);
+      for(int id = 1; id < prev.size(); id++) {
+        current.add(prev.get(id) + prev.get(id - 1));
+      }
+      current.add(1);
+      //list.add(current);
+    }    
+    return current;
+
+  }
+}
