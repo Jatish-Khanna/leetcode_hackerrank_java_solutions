@@ -1,0 +1,26 @@
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        
+        combinations(1, n, k, new LinkedList<>(), result);
+        return result;
+    }
+    
+    public void combinations(int index, int n, int k, LinkedList<Integer> list, List<List<Integer>> result) {
+        if(list.size() == k) {
+            
+            result.add(new LinkedList<>(list));
+            return;
+        } else if(list.size() > k || index > n) {
+            return;
+        }
+        
+        for(int id = index; id <= n; id++) {
+            list.add(id);
+            combinations(id + 1, n, k, list, result);
+            list.removeLast();
+            // combinations(index + 1, n, k, list, result);
+        }
+    }
+    
+}
