@@ -1,0 +1,22 @@
+
+
+lass Main
+{
+	public static void main(String[] args) {
+	    int n = 10; 
+	    int r = 3;
+		long res = 1;
+        int N = n;
+        int R = Math.min(r, n-r);
+        for ( int i=1; i<=R; i++){
+            res*=n;
+            n--;
+        }
+        System.out.println(n);
+        long res1 = 1;
+        for ( int i=1; i<=R; i++){
+            res1*=i;
+        }
+        System.out.println((int) (res / res1));
+	}
+}
