@@ -1,0 +1,88 @@
+class Solution {
+
+    // 10 x faster than HashMap solution
+	// time - O(2n ) = O(n) and space is O(1) 
+	// Moores voting algorithm - to track two numbers instead of one number
+    // DO NOT MODIFY THE LIST
+    public List<Integer> majorityElement(int[] nums) {
+        
+        int count1 = 0, count2 = 0; 
+          
+        // take the integers as the maximum  
+        // value of integer hoping the integer 
+        // would not be present in the array 
+        int first =  Integer.MIN_VALUE;; 
+        int second = Integer.MAX_VALUE; 
+      
+        for (int i : ar) { 
+            
+            // if this element is previously 
+            // seen, increment count1. 
+            if (first == i) 
+                count1++; 
+      
+            // if this element is previously 
+            // seen, increment count2. 
+            else if (second == i) 
+                count2++; 
+          
+            else if (count1 == 0) { 
+                count1++; 
+                first = i; 
+            } 
+      
+            else if (count2 == 0) { 
+                count2++; 
+                second = i; 
+            } 
+      
+            // if current element is different 
+            // from both the previously seen 
+            // variables, decrement both the 
+            // counts. 
+            else { 
+                count1--; 
+                count2--; 
+            } 
+        } 
+      
+        count1 = 0; 
+        count2 = 0; 
+        List<Integer> result = new LinkedList<>();
+        // Again traverse the array and  
+        // find the actual counts. 
+        for (int i : ar) { 
+            if (i == first) 
+                count1++; 
+      
+            else if (i == second) 
+                count2++; 
+        } 
+      
+        if (count1 > (ar.length / 3)) 
+            result.add(first);
+      
+        if (count2 > (ar.length / 3)) 
+            result.add(second);
+      
+        return result;
+    }
+  }
+
+
+    // HashMap based solution - O(n) space - worst case - time O(n)
+    public List<Integer> majorityElement(int[] nums) {
+        Map<Integer, Integer> countMap = new HashMap<>();
+        Set<Integer> result = new HashSet<>();
+		int bound = (nums.length / 3) + 1;
+        for(int element : nums) {
+		  countMap.put(element, countMap.getOrDefault(element, 0) + 1);
+		  if(countMap.get(element) >= bound) {
+            result.add(element);
+		  }		  
+		}
+		return new LinkedList<>(result);
+    }
+}
+
+
