@@ -2,37 +2,7 @@
 
 public class Solution {
 
-
-    public int[] maxSlidingWindow(int[] nums, int k) {
-        if(nums == null || nums.length == 0) {
-            return new int[0];
-        }
-        
-        int size = nums.length;
-        int []result = new int[size - k + 1];
-        
-        Deque<Integer> max = new ArrayDeque<>();
-        int i = 0;
-        int j;
-        for(j = 0; j < k; j++) {
-            while(!max.isEmpty() && nums[max.peekLast()] < nums[j]) max.removeLast();
-            max.add(j);
-        }
-        int index = 0;
-        for(; j < size; j++) {
-            result[index++] = nums[max.peek()];
-            while(!max.isEmpty() && nums[max.peekLast()] < nums[j]) max.removeLast();
-            max.add(j);
-            if(i == max.peek()) {
-                max.poll();
-            }
-            i++;
-        }
-        result[index] = nums[max.peek()];
-        return result;
-    }
-    
-    // The approach is O(N) where left and right arrays are used using DP solution
+     // The approach is O(N) where left and right arrays are used using DP solution
     
     public int[] maxSlidingWindow(int[] nums, int k) {
         if(nums == null || nums.length == 0) {
@@ -70,4 +40,35 @@ public class Solution {
         
         return result;
     }
-}
+
+   // Slower in terms of CPU cycles
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if(nums == null || nums.length == 0) {
+            return new int[0];
+        }
+        
+        int size = nums.length;
+        int []result = new int[size - k + 1];
+        
+        Deque<Integer> max = new ArrayDeque<>();
+        int i = 0;
+        int j;
+        for(j = 0; j < k; j++) {
+            while(!max.isEmpty() && nums[max.peekLast()] < nums[j]) max.removeLast();
+            max.add(j);
+        }
+        int index = 0;
+        for(; j < size; j++) {
+            result[index++] = nums[max.peek()];
+            while(!max.isEmpty() && nums[max.peekLast()] < nums[j]) max.removeLast();
+            max.add(j);
+            if(i == max.peek()) {
+                max.poll();
+            }
+            i++;
+        }
+        result[index] = nums[max.peek()];
+        return result;
+    }
+    
+   }
