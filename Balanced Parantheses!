@@ -1,0 +1,17 @@
+public class Solution {
+    public int solve(String paranthesis) {
+        // char []ar = paranthesis.toCharArray();
+		int count = 0;
+		for(char current : paranthesis.toCharArray()) {
+		  if(current == '(') {
+		    ++count;
+		  } else {
+		    --count;
+		  }
+		  if(count < 0) {
+		    return 0;
+		  }
+		}
+		return count == 0 ? 1 : 0;
+    }
+}
