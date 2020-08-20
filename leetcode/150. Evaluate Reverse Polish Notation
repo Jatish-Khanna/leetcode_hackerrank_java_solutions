@@ -1,0 +1,33 @@
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Deque<Integer> operands = new ArrayDeque<>();
+        
+        for(String token : tokens) {
+            if(isOperation(token)) {
+                operands.push(evaluate(operands.pop(), token, operands.pop()));
+            } else {
+                operands.push(Integer.parseInt(token));
+            }
+        }
+        return operands.peek();
+    }
+    
+    private boolean isOperation(String token) {
+        return "+".equals(token) || "-".equals(token) || "*".equals(token) || "/".equals(token);
+    }
+    
+    public int evaluate(int first, String token, int second) {
+        switch(token) {
+            case "+" :
+                return second + first;
+            case "-":
+                return second - first;
+            case "/":
+                return second / first;
+            case "*":
+                return second * first;
+            default:
+                return second + first;
+        }
+    }
+}
