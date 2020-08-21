@@ -1,0 +1,45 @@
+public class Solution {
+    public ArrayList<Integer> maxset(ArrayList<Integer> ar) {
+        int count = 0;
+    	int maxLength = -1;
+    	long maxSum = -1;
+    	int endIndex = 0;
+    	int element;
+    	long sum = 0;
+    	
+    	for(int index = 0; index < ar.size(); index++) {
+    	    element = ar.get(index);
+    	  if(element < 0) {
+    	   if(sum > maxSum || (sum == maxSum && count > maxLength)) {
+    	    maxLength = count;
+    		endIndex = index - 1;
+    		maxSum = sum;
+    		
+    	   }
+    	   sum = 0;
+    		count = 0;
+    	  } else {
+    	    
+    	    count++;
+    	    sum += element;
+    	  }
+    	}
+    	
+    	if(sum > maxSum) {
+    	    maxLength = count;
+    	    endIndex = ar.size() - 1;
+    	    
+    	}
+    // 	System.out.println(maxLength);
+    	ArrayList<Integer> result = new ArrayList<>();
+    	if(maxLength == -1) { 
+    	    return result; 
+    	}
+    	for(int index = endIndex - maxLength + 1; index <= endIndex; index++) {
+    	    
+    	    result.add(ar.get(index));
+    	}
+    	
+    	return result;
+    }
+}
