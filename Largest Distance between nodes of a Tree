@@ -1,0 +1,54 @@
+public class Solution {
+    int max = 0;
+    public int solve(ArrayList<Integer> A) {
+        int size = A.size();
+        if(size == 1) {
+            return 0;
+        }
+        int root = -1;
+        int current;
+        List<Integer> []child  = new List[size];
+        // Build tree
+        for(int i = 0; i < size; i++) {
+            current = A.get(i);
+            
+            if(current == -1) {
+                root = i;
+                // child[i] = new ArrayList<>();
+                continue;
+            }
+            
+            
+            if(child[current] == null) {
+                child[current] = new ArrayList<>();
+            }
+            child[current].add(i);
+            
+        }
+        // System.out.println(child[3]);
+        diameter(root, child);
+        return max;
+    }
+    // Find diameter
+    public int diameter(int node, List<Integer> []children) {
+    if(children[node] == null) { return 1; }
+    int localMax1 = 0;
+    int localMax2 = 0;
+    int currentDia;
+    
+	for(int index : children[node]) {
+	    currentDia = diameter(index, children);
+	    if(currentDia > localMax1) {
+	        localMax2 = localMax1;
+	        localMax1 = currentDia;
+	    } else if(currentDia > localMax2) {
+	        localMax2 = currentDia;
+	    }
+	}
+// 	System.out.println(localMax1 + " " + localMax2 + " ");
+	max = Math.max(max, localMax1 + localMax2);
+	return Math.max(localMax1, localMax2) + 1;
+   
+  }
+    
+}
