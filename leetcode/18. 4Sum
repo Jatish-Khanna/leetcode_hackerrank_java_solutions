@@ -1,0 +1,46 @@
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        // Map<Integer, List<int[]>> map = new HashMap<>();
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> list = null;
+        int sum, firstHalfSum;
+        
+        int low, high;
+        
+        for(int i = 0; i < nums.length - 3; i++) {
+            if(i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            for(int j = i + 1; j < nums.length - 2; j++) {
+                if(j > i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+                firstHalfSum = nums[i] + nums[j];
+                low = j + 1;
+                high = nums.length - 1;
+                while(low < high) {
+                    sum = firstHalfSum + nums[low] + nums[high];
+                    if(sum == target) {
+                        list = new ArrayList<>();
+                        list.add(nums[i]);
+                        list.add(nums[j]);
+                        list.add(nums[low]);
+                        list.add(nums[high]);
+                        result.add(list);
+                        while(low < high && nums[low] == nums[++low]);
+                        while(low < high && nums[high] == nums[--high]);
+                    } else if(sum < target) {
+                        ++low;
+                    } else {
+                        --high;
+                    }
+                }
+                
+            }
+        }
+        
+        // System.out.println(map);
+        return result;
+    }
+}
