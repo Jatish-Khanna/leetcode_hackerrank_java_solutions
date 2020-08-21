@@ -1,0 +1,35 @@
+public class Solution {
+    // DO NOT MODIFY THE LIST. IT IS READ ONLY
+    public int maximumGap(final List<Integer> ar) {
+        int maxDiff = 0;
+    	int size = ar.size();
+    	int []left = new int[size];
+    	int []right = new int[size];
+    	
+    	left[0] = ar.get(0);
+    	right[size - 1] = ar.get(size - 1);
+    	
+    	for(int index = 1; index < size; index++) {
+    	  left[index] = Math.min(ar.get(index), left[index - 1]);
+    	}
+    	
+    	
+    	for(int index = size - 2; index >= 0; index--) {
+    	  right[index] = Math.max(ar.get(index), right[index + 1]);
+    	}
+    	
+    	int lIndex = 0;
+    	int rIndex = 0;
+    	while(lIndex < size && rIndex < size) {
+    	  if(left[lIndex] <= right[rIndex]) {
+    	    maxDiff = Math.max(maxDiff, rIndex - lIndex);
+    		rIndex++;
+    	  } else {
+    	    lIndex++;
+    	  }
+    	  
+    	  
+        }
+        return maxDiff;
+    }
+}
