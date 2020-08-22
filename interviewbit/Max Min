@@ -1,0 +1,14 @@
+public class Solution {
+    public int solve(ArrayList<Integer> A) {
+        int min = A.get(0);
+        int max = min;
+        for(int element : A) {
+            if(min > element) {
+                min = element;
+            } else if (element > max) {
+                max = element;
+            }
+        }
+        return max + min;
+    }
+}
