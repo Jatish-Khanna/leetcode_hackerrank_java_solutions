@@ -1,0 +1,16 @@
+public class Solution {
+    public int solve(ArrayList<Integer> A) {
+        int size = A.size();
+	  Collections.sort(A);
+	  int current;
+	  if(A.get(size - 1) == 0) { return 1; }
+	  
+	  for(int index = 0; index < size - 1; index++) {
+	    current = A.get(index);
+	    if(current == A.get(index+1)) { continue; }
+		if(current == size - index - 1) { return 1; }
+	  }
+	  
+	  return -1;
+    }
+}
