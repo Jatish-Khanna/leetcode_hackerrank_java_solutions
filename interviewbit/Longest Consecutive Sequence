@@ -1,0 +1,28 @@
+
+
+public class Solution {
+    // DO NOT MODIFY THE LIST. IT IS READ ONLY
+    public int longestConsecutive(final List<Integer> A) {
+        if(A.isEmpty()) { return 0; }
+        TreeSet<Integer> set = new TreeSet<>();
+        for(int num : A) {
+            set.add(num);
+        }
+        
+        int maxCount = 1;
+        int count = 0;
+        int prev = Integer.MIN_VALUE;
+        for(int element : set) {
+            if(prev + 1 == element) {
+                count++;
+            } else {
+                maxCount = Math.max(maxCount, count);
+                prev = element;
+                count = 1;
+            }
+            prev = element;
+            // System.out.println(prev);
+        }
+        return Math.max(maxCount, count);
+    }
+}
