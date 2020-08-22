@@ -1,0 +1,29 @@
+
+
+	  int size = a.size();
+	  int low = 0;
+	  int high = size - 1;
+	  int mid;
+	  int midElement;
+	  
+	  while(low <= high) {
+	    mid = low + (high - low) / 2;
+		midElement = a.get(mid);
+		if(a.get(mid) == b) {
+		  return mid;
+		} else if(a.get(low) <= midElement) {
+		  if(b < midElement && b >= a.get(low)) {
+		    high = mid - 1;
+		  } else {
+		    low = mid + 1;
+		  }
+		} else {
+		  if(b > midElement && b <= a.get(high)) {
+		    low  = mid + 1;
+		  } else {
+		    high = mid - 1;
+		  }
+		}
+	  
+	  }
+	  return -1;
