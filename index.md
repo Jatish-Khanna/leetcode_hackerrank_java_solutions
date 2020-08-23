@@ -4,3 +4,5 @@ You can use the [editor on GitHub](https://github.com/Jatish-Khanna/leetcode_hac
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
+[include](File:index.html)
+
