@@ -1,0 +1,54 @@
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    
+    
+    // Slow solution - O(N) - space for the element it keeps in Priority Queue
+    // M * N log n for the CPU cycles as M is number of elements from all the list
+    
+    static class Pair {
+        int index;
+        ListNode node;
+        Pair(int index, ListNode node) {
+            this.index = index;
+            this.node = node;
+        }
+    }
+    
+    
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode dummy = new ListNode(-1);
+        ListNode current = dummy;
+        PriorityQueue<Pair> element = new PriorityQueue<>((p1, p2) -> {
+            if(p1.node.val == p2.node.val) {
+                return p1.index - p2.index;
+            }
+            return p1.node.val - p2.node.val;
+        });
+        
+        for(int index = 0; index < lists.length; index++) {
+            if(lists[index] != null)
+            element.offer(new Pair(index, lists[index]));
+        }
+        Pair top;
+        while(!element.isEmpty()) {
+            top = element.poll();
+            current.next = top.node;
+            current = current.next;
+            if(top.node.next != null) {
+                element.offer(new Pair(top.index, top.node.next));
+            }
+        }
+        
+        return dummy.next;
+    }
+}
