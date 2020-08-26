@@ -1,0 +1,54 @@
+
+
+class Solution {
+    public void nextPermutation(int[] nums) {
+        if(nums.length <= 1) { return; }
+        
+        int size = nums.length;
+        int index = size - 2;
+        // Find the first smaller element than prev seen
+        while(index >= 0) {
+            if(nums[index] < nums[index + 1]) {
+                break;
+            } 
+            --index;
+        }
+        
+        // If no such element - as per code return the smallest element
+        if(index == -1) {
+            reverse(nums, 0, size - 1);
+            return;
+        }
+        
+        // Find the next element greater than smallest element but smaller or equal to all the elements on right side of it
+        int current = index + 1;
+        int minIndex = current;
+        while(current < size) {
+            if(nums[current] <= nums[minIndex] && nums[current] > nums[index]) {
+                minIndex = current;
+            }
+            current++;
+        }
+        // System.out.println(minIndex+ " " + index);
+        // Swap both the elements
+        int temp = nums[minIndex];
+        nums[minIndex] = nums[index];
+        nums[index] = temp;
+        // Arrays.sort(nums, index, size);
+        // Reverese the element next to swapped index till end
+        reverse(nums, index + 1, size - 1);
+        // return nums;
+    }
+    
+    private void reverse(int[] nums, int start, int end) {
+        int temp;
+        // System.out.println(nums[start]+ ".. " + nums[end]);
+        while(start < end) {
+            temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
+}
