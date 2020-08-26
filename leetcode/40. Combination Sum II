@@ -1,0 +1,28 @@
+
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(candidates == null || candidates.length == 0) { return result; }
+        Arrays.sort(candidates);
+        LinkedList<Integer> list = new LinkedList<>();
+        calculate(0, target, list, result, candidates);
+        return result;
+    }
+    
+    public void calculate(int index, int target, LinkedList<Integer> list, List<List<Integer>> result, int[] candidates) {
+        if(target == 0) {
+            result.add(new LinkedList<>(list));
+        } if(target < 0) { return; }
+        
+        for(int current = index; current < candidates.length; current++) {
+            if(candidates[current] > target) { continue; }
+            list.add(candidates[current]);
+            calculate(current + 1, target - candidates[current], list, result, candidates);
+            list.removeLast();
+            while(current + 1 < candidates.length && candidates[current] == candidates[current + 1]) {
+                current++;
+            }
+        }
+    }
+}
