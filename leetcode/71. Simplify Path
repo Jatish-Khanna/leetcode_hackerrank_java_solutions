@@ -1,0 +1,25 @@
+
+class Solution {
+    public String simplifyPath(String path) {
+        if(path == null || path.isEmpty()) { return ""; }
+        
+        String[] tokens = path.split("/");
+        Deque<String> stack = new ArrayDeque<>();
+        
+        for(String token : tokens) {
+            if(token.isEmpty() || ".".equals(token)) { continue; }
+            else if("..".equals(token)) {
+                if(!stack.isEmpty()) { stack.pop(); }
+            }
+            else {
+                stack.push("/"+token);
+            }
+        }
+        if(stack.isEmpty()) { return "/"; }
+        StringBuilder sb = new StringBuilder();
+        for(String absPath : stack) {
+            sb.insert(0, absPath);
+        }
+        return sb.toString();
+    }
+}
