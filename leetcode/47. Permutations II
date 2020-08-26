@@ -1,0 +1,49 @@
+
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(nums == null || nums.length == 0) { return result; }
+
+        Arrays.sort(nums);
+        calculate(0, nums, result);
+
+        return result;
+    }
+    
+    public void calculate(int index, int[] nums, List<List<Integer>> result) {
+        
+        
+        if(index == nums.length - 1) {
+            
+            result.add(Arrays.stream(nums).boxed().collect(Collectors.toList()));
+            return;
+        }
+        
+        
+        for(int current = index; current < nums.length; current++) {
+            
+            if(!shouldSwap(nums, index, current)) { continue; }
+            swap(nums, index, current);
+            calculate(index + 1, nums, result);
+            swap(nums, index, current);
+            
+        }
+    }
+    
+    public void swap(int[] nums, int first, int second) {
+        int temp = nums[first];
+        nums[first] = nums[second];
+        nums[second] = temp;
+        return;
+    }
+    
+    private boolean shouldSwap(int[] nums, int start, int end) {
+        while(start < end) {
+            if(nums[start] == nums[end]) {
+                return false;
+            }
+            start++;
+        }
+        return true;
+    }
+}
