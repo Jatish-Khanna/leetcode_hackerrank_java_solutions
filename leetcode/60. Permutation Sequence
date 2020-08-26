@@ -1,0 +1,37 @@
+
+class Solution {
+    String result;
+    int count = 0;
+    public String getPermutation(int n, int k) {
+      
+        
+        calculate(new boolean[n], new StringBuilder(), k, n);
+        // System.out.println(result);
+        return result;
+    }
+    
+    private void calculate(boolean[] visited, StringBuilder sb, int k, int n) {
+        if(sb.length() == n) {
+            count++;
+            if(count == k)
+              result = sb.toString();
+            return;
+        }
+        
+        for(int current = 0; current < n; current++) {
+            if(visited[current]) { continue; }
+            visited[current] = true;
+            sb.append(current + 1);
+            calculate(visited, sb, k, n);
+            sb.deleteCharAt(sb.length() - 1);
+            visited[current] = false;
+            
+        }
+    }
+    
+    private void swap(char[] nums, int first, int second) {
+        char tmp = nums[first];
+        nums[first] = nums[second];
+        nums[second] = tmp;
+    }
+}
