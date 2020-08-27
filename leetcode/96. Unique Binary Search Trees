@@ -1,0 +1,21 @@
+
+class Solution {
+    public int numTrees(int n) {
+        // catalan number
+        int[] dp = new int[n+1];
+        return dfs(n, dp);
+    }
+    
+    public int dfs(int n, int[] dp) {
+        if(n <= 1) {
+            return 1;
+        } else if(dp[n] != 0) {
+            return dp[n];
+        }
+        
+        for(int current = 1; current <= n; current++) {
+            dp[n] += dfs(current - 1, dp) * dfs(n - current, dp);
+        }
+        return dp[n];
+    }
+}
