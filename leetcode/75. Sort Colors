@@ -1,0 +1,35 @@
+class Solution {
+    public void sortColors(int[] nums) {
+        if(nums == null || nums.length == 0) { return; }
+        
+        int zeros = 0;
+        int current = 0;
+        int twos = nums.length - 1;
+        
+        // Dutch national flag problem
+        while(current <= twos) {
+            switch(nums[current]) {
+                case 0:
+                  swap(nums, zeros, current);
+                    zeros++;
+                    current++;
+                  break;
+                case 1:
+                    current++;
+                    break;
+                case 2:
+                    swap(nums, current, twos);
+                    twos--;
+                    break;
+                default:
+                    current++;
+            }
+        }        
+    }
+    
+    public void swap(int[] nums, int first, int second) {
+        int temp = nums[first];
+        nums[first] = nums[second];
+        nums[second] = temp;
+    }
+}
