@@ -1,0 +1,41 @@
+
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        int rows = board.length;
+        int cols = board[0].length;
+        char[] originalWord = word.toCharArray();
+        
+        
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                if(board[row][col] == originalWord[0] && dfs(0, row, col, rows, cols, board, originalWord)) {
+                  return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean dfs(int index, int row, int col, int rows, int cols, char[][] board, char[] originalWord) {
+        
+        
+        if(index == originalWord.length) {
+            return true;
+        } else if(row < 0 || row >= rows || col < 0 || col == cols || board[row][col] != originalWord[index]) { return false; }
+        
+        char current = board[row][col];
+        board[row][col] = '0';
+        
+        if(dfs(index + 1, row, col - 1, rows, cols, board, originalWord) ||
+           dfs(index + 1, row - 1, col, rows, cols, board, originalWord) ||
+           dfs(index + 1, row, col + 1, rows, cols, board, originalWord) ||
+           dfs(index + 1, row + 1, col, rows, cols, board, originalWord)
+          ) {
+            return true;
+        } else {
+            board[row][col] = current;
+            return false;
+        }
+        
+    }
+}
