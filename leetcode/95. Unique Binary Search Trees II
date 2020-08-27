@@ -1,0 +1,54 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<TreeNode> generateTrees(int n) {
+        List<TreeNode> result = new ArrayList<>();
+        // Map<String, List<TreeNode>> seen = new HashMap<>();
+        if(n == 0) { return result; }
+        return dfs(1, n);
+    }
+    
+    public List<TreeNode> dfs(int left, int right) {
+        List<TreeNode> result = new ArrayList<>();
+        
+        if(left > right) {
+            result.add(null);
+            return result;
+//         } else if(seen.containsKey(left+"_"+right)) {
+            
+//             return seen.get(left+"_"+right);
+        } 
+        
+        else if(left == right) {
+            result.add(new TreeNode(left));
+            // seen.put(left+"_"+right, result);
+            return result;
+        }
+        for(int current = left; current <= right; current++) {
+            List<TreeNode> treeLeft = dfs(left, current - 1);
+            List<TreeNode> treeRight = dfs(current+1, right);
+            
+            for(TreeNode treeNodeLeft : treeLeft) {
+                for(TreeNode treeNodeRight : treeRight) {
+                    result.add(new TreeNode(current, treeNodeLeft, treeNodeRight));
+                }
+            }
+            
+        }
+        // seen.put(left+"_"+right, result);
+        return result;
+    }
+}
