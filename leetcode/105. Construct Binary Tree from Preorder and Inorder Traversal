@@ -14,6 +14,36 @@
  * }
  */
 class Solution {
+
+    // Faster solution by caching the inorder index instead of searching - O(n) space extra
+    int index = 0;
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if(preorder == null || preorder.length == 0) { return null; }
+        Map<Integer, Integer> inorderIndex = new HashMap<>();
+        for(int index = 0; index < inorder.length; index++) {
+            inorderIndex.put(inorder[index], index);
+        }
+        return build(0, preorder.length - 1, preorder, inorderIndex);
+    }
+    
+    private TreeNode build(int left, int right, int[] preorder, Map<Integer, Integer> inorderIndex) {
+        
+        if(left > right) {
+            return null;
+        }
+        
+        TreeNode node = new TreeNode(preorder[index++]);
+        if(left == right) {
+            return node;
+        }
+        
+        // int inOrderIndex = find(left, right, node.val, inorder);
+        int inorderLocation = inorderIndex.get(node.val);
+        node.left = build(left, inorderLocation - 1, preorder, inorderIndex);
+        node.right = build(inorderLocation + 1, right, preorder, inorderIndex);
+        return node;
+    }
+ 
     
     
     // Slow solution when compared to caching the location of element instead of O(n) searching
