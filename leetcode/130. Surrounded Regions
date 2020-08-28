@@ -1,0 +1,57 @@
+class Solution {
+    
+    private int[][] directions = {{0, -1}, {-1, 0},{0, 1}, {1, 0}};
+    
+    public void solve(char[][] board) {
+        if(board == null || board.length == 0 || board[0].length == 0) { return; }
+        
+        // First and Last Column for each row
+        int rows = board.length;
+        int cols = board[0].length;
+        
+        for(int row = 0; row < rows; row++) {
+            if(board[row][0] == 'O') {
+                dfs(row, 0, board, rows, cols);
+            }
+            if(board[row][cols - 1] == 'O') {
+                dfs(row, cols - 1, board, rows, cols);
+            }
+        }
+        
+        // First and Last row
+        for(int col = 0; col < cols; col++) {
+            if(board[0][col] == 'O') {
+                dfs(0, col, board, rows, cols);
+            }
+            if(board[rows-1][col] == 'O') {
+                dfs(rows - 1, col, board, rows, cols);
+            }
+        }
+        
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                if(board[row][col] == 'O') {
+                    board[row][col] = 'X';
+                } else if(board[row][col] == '#') {
+                    board[row][col] = 'O';
+                }
+            }
+        }
+        // return board;
+    }
+    
+    private void dfs(int row, int col, char[][] board, int rows, int cols) {
+        if(isInvalid(row, col, board, rows, cols)) {
+            return;
+        }
+        board[row][col] = '#';
+        for(int[] dir : directions) {
+            dfs(row+dir[0], col + dir[1], board, rows, cols);
+        }
+        // board[row][col] = 'X';
+    }
+    
+    private boolean isInvalid(int row, int col, char[][] board, int rows, int cols) {
+        return row < 0 || row >= rows || col < 0 || col >= cols || board[row][col] != 'O';
+    }
+}
