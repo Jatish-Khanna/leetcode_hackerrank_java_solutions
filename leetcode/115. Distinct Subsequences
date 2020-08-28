@@ -1,0 +1,26 @@
+class Solution {
+    public int numDistinct(String s, String t) {
+        if(s == null) { return 0; }
+        else if(s.isEmpty() && !t.isEmpty()) { return 0; }
+        
+        char[] source = s.toCharArray();
+        char[] pattern = t.toCharArray();
+        int m = pattern.length;
+        int n = source.length;
+        int[][] dp = new int[m + 1][n + 1];
+        
+        for(int col = 0; col <= n; col++) {
+            dp[0][col] = 1;
+        }
+        
+        for(int row = 1; row <= m; row++) {
+            for(int col = 1; col <= n; col++) {
+                dp[row][col] = dp[row][col - 1];
+                if(source[col - 1] == pattern[row - 1]) {
+                    dp[row][col] += dp[row - 1][col - 1];
+                }
+            }
+        }
+        return dp[m][n];
+    }
+}
