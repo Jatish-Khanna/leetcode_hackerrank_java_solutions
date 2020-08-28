@@ -1,0 +1,37 @@
+class Solution {
+    char[] ar;
+    public List<List<String>> partition(String s) {
+        List<List<String>> all = new ArrayList<>();
+        LinkedList<String> palindrome = new LinkedList<>();
+        ar = s.toCharArray();
+        
+        findAll(0, s, palindrome, all);
+        return all;
+    }
+    
+    private void findAll(int start, String s, LinkedList<String> palindrome, List<List<String>> all) {
+        if(start >= ar.length) {
+            all.add(List.copyOf(palindrome));
+            return;
+        }
+        
+        for(int index = start; index < ar.length; index++) {
+            if(isPalindrome(start, index, ar)) {
+                palindrome.add(s.substring(start, index + 1));
+                findAll(index + 1, s, palindrome, all);
+                palindrome.removeLast();
+            }
+        }
+    }
+    
+    private boolean isPalindrome(int start, int end, char[] ar) {
+        while(start < end) {
+            if(ar[start] != ar[end]) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+}
