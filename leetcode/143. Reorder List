@@ -9,6 +9,47 @@
  * }
  */
 class Solution {
+
+   // Faster Solution interms of CPU cycles - no additional space being used
+       public void reorderList(ListNode head) {
+        if(head == null || head.next == null) { return ; }
+        // Deque<ListNode> stack = new ArrayDeque<>();
+        ListNode slow = head;
+        ListNode fast = head;
+        
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        
+        
+        ListNode current = slow.next;
+        // Terminate the list
+        slow.next = null;
+        ListNode prev = null;
+        ListNode next;
+        // last nodes in reverse
+        while(current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        
+        merge(head, prev);
+    }
+    
+    private void merge(ListNode first, ListNode second) {
+        ListNode nextFirst, nextSecond;
+        while(second != null) {
+            nextFirst = first.next;
+            nextSecond = second.next;
+            first.next = second;
+            second.next = nextFirst;
+            first = nextFirst;
+            second = nextSecond;
+        }
+    
  
     // Slow due to using collections - instead, break at mid, reverse post mid, and merge two list
     public void reorderList(ListNode head) {
