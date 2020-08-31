@@ -1,0 +1,62 @@
+class NumArray {
+
+class TreeArray {
+        int[] partsum;
+        int[] nums;
+        int n;
+        TreeArray(int[] nums) {
+            n = nums.length;
+            partsum = new int[n + 1];
+            this.nums = nums;
+            for (int i = 0; i < n; i ++) {
+                add(i,nums[i]);
+            }
+        }
+        int lowbit(int i) {
+            return i & (-i);
+        }
+        void update(int i, int val) {
+            int delta = val - nums[i];
+            nums[i] = val;
+            add(i,delta);
+        }
+        void add(int i, int delta) {
+            i ++;
+            while (i <= n) {
+                partsum[i] += delta;
+                // propagate to other parents follwing the low bit
+                i += lowbit(i);
+            }
+        }
+        int presum(int i) {
+            i ++;
+            int sum = 0;
+            while (i > 0) {
+                sum += partsum[i];
+                // go to parent on the left
+                i -= lowbit(i);
+            }
+            return sum;
+        }
+    }
+    TreeArray ta;
+    public NumArray(int[] nums) {
+        ta = new TreeArray(nums);
+    }
+    
+    public void update(int i, int val) {
+        ta.update(i,val);
+    }
+    
+    public int sumRange(int i, int j) {
+        int presumj = ta.presum(j);
+        int presumi = ta.presum(i - 1);
+        return presumj - presumi;
+    }
+}
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * obj.update(i,val);
+ * int param_2 = obj.sumRange(i,j);
+ */
