@@ -1,0 +1,6 @@
+class Solution {
+    public int bulbSwitch(int n) {
+        // This works because if we're between two squares a=s^2 and b=(s+1)^2, sqrt(n) will be some number between s and s+1, so floor(sqrt(n)) will bring us down to the sqrt of the last square we added to the list
+    return (int)(Math.sqrt(n));
+    }
+}
