@@ -1,0 +1,77 @@
+class Solution {
+    public int[][] outerTrees(int[][] points) {
+     
+        if(points == null || points[0].length == 0) { return new int[][]{}; }
+        Set<int[]> result = new HashSet<>();
+        List<int[]> colinearPoints = new LinkedList<>();
+        
+        int[] start = points[0];
+        int[] current = null;
+        int[] next;
+        // Find the leftmost points;
+        for(int index = 1; index < points.length; index++) {
+            if(points[index][0] < start[0]) {
+                start = points[index];
+            }
+        }
+        
+        // start
+        current = start;
+        // add the result to list;
+        result.add(current);
+        int crossProduct;
+        int distance;
+        
+        do {
+            next = points[0];
+            for(int index = 1; index < points.length; index++) {
+                if(current == points[index]) {
+                    continue;
+                }
+                crossProduct = crossProduct(current, next, points[index]);
+                if(crossProduct > 0) {
+                    colinearPoints.clear();
+                    next = points[index];
+                } else if(crossProduct == 0) {
+                    distance = calculateDistance(current, next, points[index]);
+                    if(distance < 0) {
+                        colinearPoints.add(next);
+                        next = points[index];
+                    } else {
+                        colinearPoints.add(points[index]);
+                    }
+                } // skip the third case - point is on right
+                
+            }
+            
+            // add colinear points;
+            result.addAll(colinearPoints);
+            // add next;
+            result.add(next);
+            current = next;
+                    
+        } while(current != start);
+        
+        return result.toArray(new int[result.size()][2]);
+        
+        
+    }
+    
+    private int calculateDistance(int[] p1, int[] p2, int[] p3) {
+        int x1 = Math.abs(p1[0] - p2[0]);
+        int x2 = Math.abs(p1[0] - p3[0]);
+        int y1 = Math.abs(p1[1] - p2[1]);
+        int y2 = Math.abs(p1[1] - p3[1]);
+        int mahattanP12 = x1 + y1;
+        int mahattanP13 = x2 + y2;
+        return Integer.compare(mahattanP12, mahattanP13);
+    }
+    
+    private int crossProduct(int[] p1, int[] p2, int[] p3) {
+        int x1 = p1[0] - p2[0];
+        int x2 = p1[0] - p3[0];
+        int y1 = p1[1] - p2[1];
+        int y2 = p1[1] - p3[1];
+        return y2 * x1 - y1 * x2;
+    }
+}
