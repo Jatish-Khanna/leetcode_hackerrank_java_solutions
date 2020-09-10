@@ -1,0 +1,23 @@
+class Solution {
+    public String lastSubstring(String sa) {
+        char[] s = sa.toCharArray();
+        int idx = s.length - 1;
+        int nidx = s.length - 1;
+        while(nidx >= 0){
+            if(s[nidx] > s[idx]){
+                idx = nidx;
+            }else if(s[nidx] == s[idx]){
+                int i = idx + 1;
+                int j = nidx + 1;
+                while(j < idx && i < s.length && s[i] == s[j]){
+                    i++;
+                    j++;
+                }
+                if(j == idx || i == s.length || s[j] > s[i])
+                    idx = nidx;
+            }
+            nidx--;
+        }
+        return sa.substring(idx , sa.length());
+    }
+}
