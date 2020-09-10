@@ -1,0 +1,63 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int maxSum = 0;
+    static class Node {
+        TreeNode treeNode;
+        int min;
+        int max;
+        int sum = 0;
+        boolean isBST;
+        
+      Node(TreeNode treeNode) {
+          this.treeNode = treeNode;
+          this.min = treeNode.val;
+          this.max = treeNode.val;
+          sum = treeNode.val;
+          isBST = true;
+      }
+    }
+    
+    public int maxSumBST(TreeNode root) {
+        if(root == null) { return maxSum; }
+        find(root);
+        return maxSum;
+    }
+    
+    private Node find(TreeNode node) {
+        if(node == null) { return null; }
+        Node left = find(node.left);
+        Node right = find(node.right);
+        Node current = new Node(node);
+        if(left != null) {
+            current.sum += left.sum;
+            current.min = Math.min(current.min, left.min);
+            current.max = Math.max(current.max, left.max);
+            current.isBST = left.isBST && left.max < node.val;
+        }
+        if(right != null) {
+            current.sum += right.sum;
+            current.min = Math.min(current.min, right.min);
+            current.max = Math.max(current.max, right.max);
+            current.isBST = current.isBST && right.isBST && node.val < right.min;
+        }
+        if(current.isBST) {
+            maxSum = Math.max(maxSum, current.sum);
+        }
+        return current;
+        
+    }
+}
