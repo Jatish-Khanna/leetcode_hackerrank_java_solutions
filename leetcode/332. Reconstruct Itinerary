@@ -1,0 +1,24 @@
+class Solution {
+    public List<String> findItinerary(List<List<String>> tickets) {
+        Map<String, PriorityQueue<String>> flights = new HashMap<>();
+		// build graph 
+        for (List<String> ticket : tickets) {
+            flights.putIfAbsent(ticket.get(0), new PriorityQueue<>());
+            flights.get(ticket.get(0)).add(ticket.get(1));
+        }
+
+        LinkedList<String> path = new LinkedList<>();
+        dfs(flights,"JFK", path);
+        return path;
+    }
+    
+    public void dfs(Map<String,PriorityQueue<String>> map ,String source, LinkedList<String> ans){
+        PriorityQueue<String> dest =  map.get(source);
+        while(dest!=null && !dest.isEmpty()){
+            dfs(map,dest.poll(), ans);
+        }
+          ans.addFirst(source);
+    }
+    
+    
+}
