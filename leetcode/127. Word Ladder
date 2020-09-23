@@ -1,0 +1,50 @@
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> beginSet = new HashSet<>();
+        Set<String> endSet = new HashSet<>();
+        Set<String> dict = new HashSet<>(wordList);
+        
+        if(!dict.contains(endWord)) {return 0;}
+        endSet.add(endWord);
+        beginSet.add(beginWord);
+        
+        return transform(beginSet, endSet, dict, 1);
+        
+    }
+    
+    private int transform(Set<String> beginSet, Set<String> endSet, Set<String> dict, int distance) {
+        if(beginSet.isEmpty() || endSet.isEmpty()) { return 0; }
+        dict.removeAll(beginSet);
+        distance++;
+        
+        char current;
+        char []currentWord;
+        String transformedWord;
+        Set<String> transformedSet = new HashSet<>();
+        
+        for(String word : beginSet) {
+            
+            currentWord = word.toCharArray();
+            // Iterate over each char to modify it to the required
+            for(int index = 0; index < currentWord.length; index++) {
+                current = currentWord[index];
+                // Update to the char
+                for(char ts = 'a'; ts <= 'z'; ts++) {
+                    currentWord[index] = ts;
+                    
+                    // get the transformed word
+                    transformedWord = new String(currentWord);
+                    // add checks for transformed word
+                    if(!dict.contains(transformedWord)) { continue; }
+                    else if(endSet.contains(transformedWord)) return distance;
+                    
+                    transformedSet.add(transformedWord);
+                }
+                // reset the char - only single modification is allowed
+                currentWord[index] = current;
+            }
+        }
+        return transformedSet.size() > endSet.size() ? transform(endSet, transformedSet, dict, distance) :
+                                                       transform(transformedSet, endSet, dict, distance);
+    }
+}
