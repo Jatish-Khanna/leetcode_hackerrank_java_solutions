@@ -1,0 +1,18 @@
+class Solution {
+    public void merge(ArrayList<Integer> a, ArrayList<Integer> b) {
+        int f = 0;
+        int s  = 0;
+        while(f < a.size() && !b.isEmpty()) {
+            if(a.get(f) > b.get(0)) {
+                a.add(f, b.remove(0));
+                // f++;
+            }
+            f++;
+        }
+        if(!b.isEmpty()) {
+            a.addAll(b);
+            b.clear();
+        }
+        
+    }
+}
