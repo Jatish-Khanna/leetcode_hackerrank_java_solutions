@@ -1,6 +1,64 @@
 class Solution {
 
-    // Better solution - Union Find with the Rank - O(N)
+    // Better path compression with the UnionFind
+     static class UF {
+        int[] parent;
+        // int[] rank;
+        
+        UF(int count) {
+            parent = new int[count];
+            // rank = new int[count];
+            for(int index = 0; index < count; index++) {
+                parent[index] = index;
+                // rank[index] = 1;
+            }
+        }
+        
+        public int find(int x) {
+            // Path compression find
+            if(parent[x] != x) {
+                parent[x] = find(parent[x]);
+            }
+            return parent[x];
+        }
+        
+        public void union(int a, int b) {
+            int p1 = find(a);
+            int p2 = find(b);
+            
+            if(p1 == p2) { return; }
+            // if(rank[p1] >= rank[p2]) {
+            parent[p2] = p1;
+            //     rank[p1] += rank[p2];
+            // } else {
+            //     parent[p1] = p2;
+            //     rank[p2] += rank[p1];
+            // }
+        }
+        
+    }
+    
+    public int removeStones(int[][] stones) {
+        UF uf = new UF(20000);
+        for(int[] stone : stones) {
+            uf.union(stone[0], stone[1] + 10000);
+        }
+        // count of disjoint sets;
+        Set<Integer> parents = new HashSet<>();
+        int found;
+        for(int[] stone : stones) {
+            found = uf.find(stone[0]);
+            parents.add(found);
+        }
+        // the total number of moves 
+        // Number of stones - [number of parents because starting at each parent won't be considered as a move but all the reachable nodes from different parents]
+        
+        return stones.length - parents.size();
+    }
+
+
+
+    // Better solution - Union Find with the Rank - O(N log N)
     
     static class UF {
         int[] parent;
