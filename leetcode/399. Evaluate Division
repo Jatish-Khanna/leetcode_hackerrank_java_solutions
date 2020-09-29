@@ -1,0 +1,63 @@
+class Solution {
+    
+    static class Node {
+        
+        String label;
+        double weight;
+        Node(String label, double weight) {
+            this.label = label;
+            this.weight = weight;
+        }
+    }
+    
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        Map<String, List<Node>> graph = new HashMap<>();
+        
+        
+        for(int index = 0; index < values.length; index++) {
+            List<String> eq = equations.get(index);
+            addNodes(graph, eq, values[index]);
+        }
+        double[] result = new double[queries.size()];
+        String first, second;
+        int resultIndex = 0;
+        // System.out.println(graph);
+        for(List<String> query : queries) {
+            first = query.get(0);
+            second = query.get(1);
+            
+            if(!graph.containsKey(first) || !graph.containsKey(second)) {
+                result[resultIndex] = -1.0;
+                resultIndex++;
+                continue;
+            }
+            result[resultIndex++] = dfs(first, second, new HashSet<>(), graph);
+        }
+        return result;
+    }
+    
+    private double dfs(String source, String dest, Set<String> visited, Map<String, List<Node>> graph) {
+        if(source.equals(dest)) {
+            return 1.0;
+        } 
+        // double result = 1.0;
+        double val;
+        visited.add(source);
+        for(Node adj : graph.get(source)) {
+            if(!visited.contains(adj.label)) {
+                val = dfs(adj.label, dest, visited, graph);
+                if(val != -1.0)
+                    return val * adj.weight;
+            }
+        }
+        return -1.0;
+        
+    }
+    
+    private void addNodes(Map<String, List<Node>> graph, List<String> eq, double value) {
+        graph.computeIfAbsent(eq.get(0), e -> new LinkedList<>());
+        graph.computeIfAbsent(eq.get(1), e -> new LinkedList<>());
+        graph.get(eq.get(0)).add(new Node(eq.get(1), value));
+        graph.get(eq.get(1)).add(new Node(eq.get(0), 1.0/value));
+    }
+}
