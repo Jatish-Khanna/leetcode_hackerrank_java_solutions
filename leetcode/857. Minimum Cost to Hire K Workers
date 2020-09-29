@@ -1,0 +1,41 @@
+class Solution {
+    public double mincostToHireWorkers(int[] quality, int[] wage, int K) {
+        double[][] workers = new double[quality.length][2];
+        
+        // Calculate the workers wage/quality - ratio
+        for(int index = 0; index < quality.length; index++) {
+            workers[index] = new double[]{wage[index] * 1.0 / quality[index], quality[index]};
+        }
+        
+        // Sort the worker with the lowest ratio first;
+        Arrays.sort(workers, (a, b) ->  {
+                if(a[0] < b[0]) return -1;
+                if(a[0] > b[0]) return 1;
+                return 0;
+                });
+        // System.out.println(Arrays.deepToString(workers));
+        // Maintain the workers by best quality first
+        PriorityQueue<Double> qualityP = new PriorityQueue<>((a, b) -> 
+                                            { if(a > b) return -1;
+                                                if(a < b) return 1;
+                                                return 0;
+                                            });
+        long sum = 0;
+        double minValue = Double.MAX_VALUE;
+        
+        for(double[] worker : workers) {
+            qualityP.offer(worker[1]);
+            sum += worker[1];
+            
+            if(qualityP.size() > K) { sum -= qualityP.poll(); }
+            // Same quality with higher wage ratio
+            // Lower quality [total] with higher wage ratio
+            // Find min of these two
+            if(qualityP.size() == K) {
+                minValue = Math.min(minValue, sum * worker[0]);
+            }
+            // System.out.println(minValue);
+        }
+        return minValue;
+    }
+}
