@@ -1,0 +1,26 @@
+class Solution {
+    public int removeStones(int[][] stones) {
+        // DFS 
+        boolean[] visited = new boolean[stones.length];
+        int moves = 0;
+        for(int index = 0; index < stones.length; index++) {
+            // Each stone check visited
+            if(visited[index]) { continue; }
+            moves += dfs(index, stones, visited);
+        }
+        return moves;
+    }
+    
+    private int dfs(int index, int[][] stones, boolean[] visited) {
+        // visit
+        visited[index] = true;
+        int result = 0;
+        // Check each reachable stone
+        for(int next = 0; next < stones.length; next++) {
+            if(!visited[next] && (stones[index][0] == stones[next][0] || stones[index][1] == stones[next][1])) {
+                result += dfs(next, stones, visited) + 1;
+            }
+        }
+        return result;
+    }
+}
