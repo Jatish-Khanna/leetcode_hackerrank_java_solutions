@@ -1,0 +1,28 @@
+class Solution {
+    public String findReplaceString(String S, int[] indexes, String[] sources, String[] targets) {
+        
+        Map<Integer, Integer> map = new HashMap<>();
+        // Map the indexes to be modified with its position in the array to map to source
+        for(int index = 0; index < indexes.length; index++) {
+            map.put(indexes[index], index);
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        int id = 0;
+        int inputIndex;
+        while(id < S.length()) {
+            // Check if the current index to be modified
+            // Check if current index is matching condition - in the source array
+            // Start At index we are dealing with
+            inputIndex = map.getOrDefault(id, 0);
+            if(map.containsKey(id) && S.startsWith(sources[inputIndex], id)) {
+                sb.append(targets[inputIndex]);
+                id += sources[inputIndex].length();
+            } else {
+                sb.append(S.charAt(id));
+                id++;
+            }
+        }
+        return sb.toString();
+    }
+}
