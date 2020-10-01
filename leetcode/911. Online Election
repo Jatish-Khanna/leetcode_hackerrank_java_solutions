@@ -1,5 +1,46 @@
 class TopVotedCandidate {
 
+// Faster solution - but takes more memory - O(M) Time - (M)  Space  [0 ... M is the last time when vote counted]
+    int[] winner;
+    int[] votes;
+    int[] times;
+    
+    public TopVotedCandidate(int[] persons, int[] times) {
+        winner = new int[times[times.length - 1] + 1];
+        votes = new int[persons.length + 1];
+        this.times = times;
+        winner[0] = persons[0];
+        votes[persons[0]] = 1;
+        int start;
+        int leader = persons[0];
+        for(int index = 1; index < persons.length; index++) {
+            
+            
+            start = times[index - 1] + 1;
+            while(start < times[index]) {
+                winner[start] =leader;
+                start++;
+            }
+            
+            
+            votes[persons[index]]++; 
+            if(votes[winner[start - 1]] <= votes[persons[index]]) {
+               leader = persons[index];
+            } else {
+                leader = winner[start - 1];
+            }
+            winner[start] = leader;
+        }
+        // Arrays.stream(winner).forEach(System.out::println);
+    }
+    
+    public int q(int t) {
+        return winner.length <= t ? winner[winner.length - 1] : winner[t]; 
+    }
+
+
+// Slower approach - O(N log N) -> N length of time [space O(N)]
+
     int[] winner;
     int[] votes;
     int[] times;
