@@ -1,0 +1,33 @@
+class Solution {
+    public boolean canTransform(String start, String end) {
+        char[] first = start.toCharArray();
+        char[] second = end.toCharArray();
+        if(first.length != second.length) {
+            return false;
+        }
+        
+        int ptrFirst = 0;
+        int ptrSecond = 0;
+        
+        while(true) {
+            while(ptrFirst < first.length && first[ptrFirst] == 'X') ptrFirst++;
+            
+            while(ptrSecond < second.length && second[ptrSecond] == 'X') ptrSecond++;
+            
+            if(ptrFirst == first.length || ptrSecond == second.length) {
+                return ptrFirst == ptrSecond;
+            }
+            if(first[ptrFirst] != second[ptrSecond]) {
+                return false;
+            } else if(first[ptrFirst] == 'L' && ptrFirst < ptrSecond) {
+                return false;
+            } else if(first[ptrFirst] == 'R' && ptrFirst > ptrSecond) {
+                return false;
+            }
+            ptrFirst++;
+            ptrSecond++;
+        }
+        
+         //return true;
+    }
+}
