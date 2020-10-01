@@ -1,0 +1,42 @@
+class Solution {
+    public boolean circularArrayLoop(int[] nums) {
+        for(int index = 0; index < nums.length; index++) {
+            if(nums[index] != 0) {
+                if(dfs(index, nums)) {
+                    return true;
+                }
+            }
+            // System.out.println("-");
+        }
+        return false;
+    }
+    
+    private boolean dfs(int start, int[] nums) {
+        
+        Set<Integer> visited = new HashSet<>();
+        int current = start;
+        
+        while(true) {
+            // System.out.println(start);
+
+            current = (start + nums[start]) % nums.length;
+            // fix current
+            if(current < 0) {
+                current += nums.length;
+            }
+            
+            // opposite sign and self loop (not allowed)
+            if((nums[current] * nums[start]) < 0 || start == current) { return false; }    
+            // check if already visited            
+            if(visited.contains(current)) {
+                return true;
+            }
+            // visit the location
+            visited.add(start);
+            nums[start] = 0;
+            start = current;
+            
+        }
+
+    }
+}
