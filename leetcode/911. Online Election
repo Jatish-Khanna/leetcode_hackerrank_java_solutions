@@ -1,0 +1,52 @@
+class TopVotedCandidate {
+
+    int[] winner;
+    int[] votes;
+    int[] times;
+    
+    public TopVotedCandidate(int[] persons, int[] times) {
+        winner = new int[persons.length];
+        votes = new int[persons.length + 1];
+        this.times = times;
+        winner[0] = persons[0];
+        votes[persons[0]] = 1;
+        
+        for(int index = 1; index < persons.length; index++) {
+            votes[persons[index]]++;
+            if(votes[winner[index - 1]] <= votes[persons[index]]) {
+                winner[index] = persons[index];
+            } else {
+                winner[index] = winner[index - 1];
+            }
+        }
+        // Arrays.stream(winner).forEach(System.out::println);
+    }
+    
+    public int q(int t) {
+        int index = binarySearch(0, times.length - 1, t);
+        // System.out.println(index + " --- " + winner[index]);
+        return winner[index];
+    }
+    
+    // Find the last smaller instead of insertion point
+    private int binarySearch(int start, int end, int t) {
+        int mid;
+        while(start <= end) {
+            mid = start + (end - start) / 2;
+            if(times[mid] == t) {
+                return mid;
+            } else if(times[mid] < t) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return start == 0 ? 0 : start - 1;
+    }
+}
+
+/**
+ * Your TopVotedCandidate object will be instantiated and called as such:
+ * TopVotedCandidate obj = new TopVotedCandidate(persons, times);
+ * int param_1 = obj.q(t);
+ */
