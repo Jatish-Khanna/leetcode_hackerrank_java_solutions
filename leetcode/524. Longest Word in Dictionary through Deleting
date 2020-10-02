@@ -9,6 +9,12 @@ class Solution {
         
         for(String str : d) {
             ar = str.toCharArray();
+            
+            if((result.length() > ar.length) || (result.length() == ar.length && result.compareTo(str) <= 0)) {
+                continue;
+            }
+            
+            
             current = 0;
             index = 0;
             if(sar.length < ar.length || ar.length < result.length()) { continue; }
@@ -20,7 +26,7 @@ class Solution {
                 index++;
             }
             if(current == ar.length) {
-                result = (result.length() < ar.length) || (result.length() == ar.length && result.compareTo(str) > 0) ? str : result;
+                result = str;
             }
         }
         return result;
