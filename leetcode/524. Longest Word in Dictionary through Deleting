@@ -1,0 +1,28 @@
+class Solution {
+    public String findLongestWord(String s, List<String> d) {
+        int index = 0;
+        int current = 0;
+        char[] sar = s.toCharArray();
+        char[] ar;
+        
+        String result = "";
+        
+        for(String str : d) {
+            ar = str.toCharArray();
+            current = 0;
+            index = 0;
+            if(sar.length < ar.length || ar.length < result.length()) { continue; }
+            while(current < ar.length && index < sar.length) {
+                if(ar[current] == sar[index]) {
+                    current++;
+                    // index++;
+                }
+                index++;
+            }
+            if(current == ar.length) {
+                result = (result.length() < ar.length) || (result.length() == ar.length && result.compareTo(str) > 0) ? str : result;
+            }
+        }
+        return result;
+    }
+}
