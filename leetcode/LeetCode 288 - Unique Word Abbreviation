@@ -1,0 +1,29 @@
+class HelloWorld{
+
+     public static void main(String []args){
+        System.out.println("Hello World");
+        Map<String, String> map = new HashMap<>();
+        String[] dict = {"deer", "door", "cake", "card" };
+        String abbrWord;
+        for(String word : dict) {
+            abbrWord = getAbbr(word);
+            map.merge(abbrWord, word, (old, newWord) -> "");
+        }
+        String[] queries = {"deer", "door", "cake", "make"} ;
+        for(String query : queries) {
+            abbrWord = getAbbr(query);
+            if(!map.containsKey(abbrWord) || map.get(abbrWord).equals(query)) {
+                System.out.println(true);
+            } else {
+                System.out.println(false);
+            }
+        }
+     }
+     
+     private static String getAbbr(String word) {
+        if(word.length() <= 2) {
+            return word;
+        }
+        return "" + word.charAt(0) + (word.length() - 2) + word.charAt(word.length() - 1);
+     }
+}
