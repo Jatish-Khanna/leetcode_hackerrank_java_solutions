@@ -1,0 +1,74 @@
+class HelloWorld{
+
+     public void func(){
+        int start = 0;
+        int rows = 4;
+        int cols = 5;
+        String[] ar = new String[]{"I", "had", "I", "had"};
+        int[] space = new int[ar.length + 1];
+        
+        space[0] = 0;
+        space[1] = ar[0].length();
+        
+        for(int index = 1; index < ar.length; index++) {
+            space[index + 1] = space[index] + ar[index].length() + 1;    
+        }
+        Arrays.stream(space).forEach(System.out::println);
+        System.out.println("  --- ");
+        
+        int bin;
+        int last = space[space.length - 1] + 1;
+        for(int index = 0; index < rows; index++) {
+            start += cols;
+            // System.out.println(start);
+            bin = binarySearch(start % last, space);
+            // System.out.println(bin + " --");
+            if(bin >= 0) {
+                start++;
+            } else {
+                start = start - ((start % last) + bin);
+                
+            }
+        }
+        
+        System.out.println(start / last);
+        start = 0;
+        StringBuilder str = new StringBuilder();
+        for (String s : ar) {
+            s = s + " ";
+            str.append(s);
+        }
+        
+        
+        for (int i = 0; i < rows; i++) {
+            start = start + cols;
+            // System.out.println(start);
+            if (str.charAt(start % str.length()) == ' ') {
+                start++;
+            } else {
+                while (start > 0 && str.charAt((start-1) % str.length())  != ' ') {
+                    start--;
+                }
+            }
+        }
+        
+        System.out.println( start / str.length());
+     
+     }
+     
+     private static int binarySearch(int element, int[] space) {
+         int index = 0;
+         while(index < space.length) {
+             if(element == space[index]) {
+                 return index;
+             } else if(element < space[index]) {
+                 return -space[index - 1];
+             } 
+             index++;
+         }
+         return index;
+     }
+     /*
+    
+     }*/
+}
