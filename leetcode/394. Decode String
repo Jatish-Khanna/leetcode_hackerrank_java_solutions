@@ -1,0 +1,41 @@
+class Solution {
+    public String decodeString(String s) {
+        Deque<StringBuilder> stack = new ArrayDeque<>();
+        Deque<Integer> repeatStack = new ArrayDeque<>();
+        char[] ar = s.toCharArray();
+        
+        // int index = 0;
+        // StringBuilder result = new StringBuilder();
+        StringBuilder current = new StringBuilder();;
+        String repeated;
+        int repeat = 0;
+        
+        for(int index = 0; index < ar.length; index++) {
+            if(Character.isDigit(ar[index])) {
+                // get the number
+                repeat = repeat * 10 + (ar[index] - '0');
+                
+            } else if(ar[index] == '[') {
+                // memorize
+                stack.push(current);
+                repeatStack.push(repeat);
+                
+                // reset
+                repeat = 0;
+                current = new StringBuilder();
+                
+            } else {
+                // System.out.println(stack);
+                if(ar[index] == ']') {
+                  stack.peek().append(current.toString().repeat(repeatStack.pop()));
+                  current = stack.pop();
+                    
+                } else {
+                    current.append(ar[index]);
+                }
+                
+            }
+        }
+        return current.toString();
+    }
+}
