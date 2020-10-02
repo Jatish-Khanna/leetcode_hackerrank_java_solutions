@@ -56,8 +56,9 @@ class HelloWorld{
      
      }
      
+     // Linear search comment and binary search
      private static int binarySearch(int element, int[] space) {
-         int index = 0;
+         /*int index = 0;
          while(index < space.length) {
              if(element == space[index]) {
                  return index;
@@ -66,7 +67,21 @@ class HelloWorld{
              } 
              index++;
          }
-         return index;
+         return index;*/
+         int start = 0;
+        int end = space.length - 1;
+        int mid;
+        while(start <= end) {
+            mid = start + (end - start) / 2;
+            if(element == space[mid]) {
+                return mid;
+            } else if(space[mid] < element) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+         return start == 0 ? 0 : -space[start - 1];
      }
      /*
     
