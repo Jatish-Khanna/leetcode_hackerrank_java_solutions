@@ -1,0 +1,28 @@
+ class Main
+{
+    
+
+    
+	public static boolean check() {
+		System.out.println("Hello World");
+		String number = "61986";
+		char[] ar = number.toCharArray();
+		int start = 0;
+		int end = ar.length - 1;
+		
+		while(start < end) {
+		    if(ar[start] != ar[end]) {
+		        if((ar[start] == '6' && ar[end] != '9') || (ar[start] == '9' && ar[end] != '6')) {
+		            return false;
+		        }
+		    } else {
+		        if(ar[start] != '0' || ar[start] != '1' || ar[start] != '8') {
+		            return false;
+		        }
+		    }
+		    start++;
+		    end--;
+		}
+		return true;
+	}
+}
