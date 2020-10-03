@@ -1,0 +1,37 @@
+class Main
+{
+
+	
+	private static int findCount() {
+	    int[][] matrix = {{1, 1, 1},
+                          {1, 1, 1},
+                          {1, 1, 1}};
+                          
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        
+        int count;
+        int totalCount = 0;
+        
+        // fix top row
+        for(int r1 = 0; r1 < rows - 1; r1++) {
+            // fix bottom row - take care of already preocessed combinations
+            // check bottom row should be after top row
+            for(int r2 = r1 + 1; r2 < rows; r2++) {
+                // reset count for fixed rows
+                count = 0;
+                // for each col we have 4 points of rectangle
+                for(int col = 0; col < cols; col++) {
+                    // a line parallel to Y-axis is availble
+                    if(matrix[r1][col] == 1 && matrix[r2][col] == 1) {
+                        // number of parallel lines to Y-axis
+                        count++;
+                    }
+                }
+                // total rectangles formed
+                totalCount += (count * (count - 1)) /2;
+            }
+        }
+        return totalCount;
+	}
+}
