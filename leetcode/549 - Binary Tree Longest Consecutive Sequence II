@@ -1,0 +1,50 @@
+class Main
+{
+    static int max = 0;
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+    
+    
+	private static int[] findLongest() {
+	    TreeNode root = new TreeNode(2);
+	    root.right = new TreeNode(3);
+	    root.right.left = new TreeNode(2);
+	    root.right.left.left = new TreeNode(1);
+	    root.right.left.left.right = new TreeNode(0);
+	    return findLongest(root);
+	}
+	
+	private static int[] findLongest(TreeNode node) {
+	    int incr = 1;
+	    int decr = 1;
+	    
+	    // if left is present
+	    if(node.left != null) {
+	       int[] left = findLongest(node.left);
+	       // is it increasing CharSequence
+	       if(node.left.val + 1 == node.val) {
+	           incr += left[0];
+	       } else if(node.left.val - 1 == node.val) {
+	           // in case of decreaseing CharSequence
+	           decr += left[1];
+	       }
+	    }
+	    
+	   if(node.right != null) {
+	       int[] right = findLongest(node.right);
+	       if(node.right.val + 1 == node.val) {
+	           incr = Math.max(right[0] + 1, incr);
+	       } else if(node.right.val - 1 == node.val) {
+	           decr = Math.max(right[1] + 1, decr);
+	       }
+	   }
+	    // Diameter of the consecutive CharSequence not the path down to leaf
+	    max = Math.max(max, incr + decr - 1);
+	    return new int[]{incr, decr};
+	}
+}
