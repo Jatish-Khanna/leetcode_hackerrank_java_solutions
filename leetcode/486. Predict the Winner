@@ -1,0 +1,22 @@
+class Solution {
+
+   // No memorization
+
+    public boolean PredictTheWinner(int[] nums) {
+        return predict(0, nums.length - 1, 0, nums) >= 0;
+    }
+    
+    private int predict(int start, int end, int player, int[] nums) {
+        // base case
+        if(start > end) return 0;
+        
+        // if first player
+        if(player == 0) {
+            return Math.max(predict(start + 1, end, 1- player, nums) + nums[start],
+                            predict(start, end - 1, 1 - player, nums) + nums[end]);
+        } else {
+            return Math.min(predict(start + 1, end, 1 - player, nums) - nums[start],
+                            predict(start, end - 1, 1 - player, nums) - nums[end]);
+        }
+    }
+}
