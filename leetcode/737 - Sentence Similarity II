@@ -1,0 +1,47 @@
+class Main
+{
+    
+    public static void main(String[] args) {
+        String[] words1 = {"great", "acting", "skills"};
+        String[] words2 = {"fine", "drama", "talent"};
+        String[][] pairs = {{"great", "talent"}, {"fine", "good"}, {"acting","drama"}, {"skills","talent"}};
+		System.out.println(areSentencesSimilarTwo(words1, words2, pairs));
+	}
+	
+	private static boolean areSentencesSimilarTwo(String[] words1, String[] words2, String[][] pairs) {
+        if (words1.length != words2.length) {
+            return false;
+        }
+        Map<String, Set<String>> graph = new HashMap<>();
+        for(String[] pair : pairs) {
+            graph.computeIfAbsent(pair[0], v -> new HashSet<>()).add(pair[1]);
+            graph.computeIfAbsent(pair[1], v -> new HashSet<>()).add(pair[0]);
+        }
+        
+        System.out.println(graph);
+        
+        for(int index = 0; index < words1.length; index++) {
+            // equals check
+            if(words1[index].equals(words2[index])) { continue; }
+            // symmetric check
+            else if(graph.get(words1[index]).contains(words2[index])) { continue; }
+            // available check
+            else if(!graph.containsKey(words1[index]) || !graph.containsKey(words2[index])) { return false; }
+            // transitive check
+            if(!transitiveCheck(words1[index], words2[index], graph, new HashSet<>())) { return false; }
+        }
+        return true;
+	}
+	
+	private static boolean transitiveCheck(String first, String second, Map<String, Set<String>> graph, Set<String> visited) {
+	    if(visited.contains(first)) { return false; }
+	    visited.add(first);
+	    for(String neb : graph.get(first)) {
+	        if(neb.equals(second)) { return true; }
+	        if(transitiveCheck(neb, second, graph, visited)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+}
