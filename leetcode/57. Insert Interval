@@ -1,0 +1,51 @@
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        
+        if(intervals.length == 0) {
+            return new int[][]{ newInterval };
+        }
+        
+        LinkedList<int[]> newIntervals = new LinkedList<>();
+        int index = 0;
+        
+       
+        // all the non overlapping index
+        for(; index < intervals.length; index++) {
+           if(newInterval[0] <= intervals[index][1]) {
+               break;
+           }
+            newIntervals.add(intervals[index]);
+        }
+        
+        if(index < intervals.length && newInterval[1] >= intervals[index][0]) {
+            int[] last = intervals[index];
+            last[0] = Math.min(newInterval[0], last[0]);
+            last[1] = Math.max(newInterval[1], last[1]);
+            index++;
+            // merge
+            for(; index < intervals.length; index++) {
+                if(intervals[index][0] <= last[1]) {
+                    last[1] = Math.max(intervals[index][1], last[1]);
+                } else {
+                    break;
+                }
+            }
+            newIntervals.add(last);
+            
+            
+
+        } else {
+            // add the last element
+            newIntervals.add(newInterval);
+        }
+        
+        while(index < intervals.length) {
+                newIntervals.add(intervals[index]);
+                index++;
+            }
+        
+        // add all the intervals from index - end
+        
+        return newIntervals.toArray(new int[newIntervals.size()][2]);
+    }
+}
