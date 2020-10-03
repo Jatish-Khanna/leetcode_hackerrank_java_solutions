@@ -1,5 +1,7 @@
 class Main
 {
+  // Complexity of the solution 
+  // (rows * rows * cols)
 
 	
 	private static int findCount() {
