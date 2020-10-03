@@ -1,0 +1,31 @@
+class Main
+{
+    
+    static LinkedList<Integer> list;
+    static int k;
+    static int sum;
+    static int size;
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		list = new LinkedList<>();
+		k = 3;
+		sum = 0;
+		size = 0;
+		System.out.println(movingAverage(1));
+		System.out.println(movingAverage(10));
+		System.out.println(movingAverage(3));
+		System.out.println(movingAverage(5));
+	}
+	
+	public static double movingAverage(int element) {
+	    
+	    if(size == k) {
+	        sum -= list.removeFirst();
+	        size--;
+	    }
+	    list.add(element);
+	    sum += element;
+	    size++;
+	   return (1.0*sum / size);
+	}
+}
