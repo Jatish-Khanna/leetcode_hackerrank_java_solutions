@@ -1,0 +1,29 @@
+class Main
+{
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+	    printMatches();	
+	}
+	
+	private static void printMatches() {
+	    int count = 8;
+	    
+	    List<String> matches = new ArrayList<>();
+	    for(int index = 1; index <= count; index++) {
+	        matches.add(String.valueOf(index));
+	    }
+	    
+	    List<String> currentPlay;
+	    
+	    while(matches.size() != 1) {
+	        currentPlay = new ArrayList<>();
+	        for(int cur = 0; cur < matches.size() / 2; cur++) {
+	            // get the last added pair from the list
+	            currentPlay.add(String.format("(%s,%s)", matches.get(cur), matches.get(matches.size() - cur - 1)));
+	            
+	        }
+	        matches = currentPlay;
+	    }
+	    System.out.println(matches.get(0));
+	}
+}
