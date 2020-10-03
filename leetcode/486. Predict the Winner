@@ -1,5 +1,33 @@
 class Solution {
 
+  // States to be maintained via memoriazation
+  
+  
+    public boolean PredictTheWinner(int[] nums) {
+        int n = nums.length;
+        // for start, end and currently active player
+        return predict(0, nums.length - 1, 0, nums, new int[n][n][2]) >= 0;
+    }
+    
+    private int predict(int start, int end, int player, int[] nums, int[][][] score) {
+        // base case
+        if(start > end) return 0;
+        
+        if(score[start][end][player] != 0) { return score[start][end][player]; }
+        int sc = 0;
+        // if first player
+        if(player == 0) {
+            sc = Math.max(predict(start + 1, end, 1- player, nums, score) + nums[start],
+                        predict(start, end - 1, 1 - player, nums, score) + nums[end]);
+        } else {
+            sc = Math.min(predict(start + 1, end, 1 - player, nums, score) - nums[start],
+                        predict(start, end - 1, 1 - player, nums, score) - nums[end]);
+        }
+        score[start][end][player] = sc;
+        return sc;
+    }
+
+
    // No memorization
 
     public boolean PredictTheWinner(int[] nums) {
