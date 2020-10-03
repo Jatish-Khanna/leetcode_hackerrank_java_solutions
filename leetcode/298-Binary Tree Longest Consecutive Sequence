@@ -1,0 +1,39 @@
+
+class Main
+{
+    static int max = 0;
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+    
+	
+	private static int findLongest() {
+	    TreeNode root = new TreeNode(2);
+	    root.right = new TreeNode(3);
+	    root.right.left = new TreeNode(2);
+	    root.right.left.left = new TreeNode(1);
+	    return findLongest(root);
+	}
+	
+	private static int findLongest(TreeNode node) {
+	    if(node == null) { return 0; }
+	    
+	    int current = 1;
+	    int left = findLongest(node.left);
+	    if(left != 0 && node.val + 1== node.left.val) {
+	        current = left + 1;
+	    }
+	    
+	    int right = findLongest(node.right);
+	    if(right != 0 && node.val + 1 == node.right.val) {
+	        current = Math.max(right + 1, current);
+	    }
+	    
+	    max = Math.max(current, max);
+	    return current;
+	}
+}
