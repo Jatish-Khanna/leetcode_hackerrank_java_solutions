@@ -1,0 +1,96 @@
+class ExamRoom {
+
+    static class Interval {
+        int start;
+        int end;
+        int distance;
+        Interval(int start, int end) {
+            this.start = start;
+            this.end = end;
+            // Calculate current distance
+            if(start == 0 || end == N - 1)
+              this.distance = end - start;
+            else 
+                this.distance = (end - start) / 2;
+        }
+    }
+    
+    static int N;
+    PriorityQueue<Interval> pq;
+    public ExamRoom(int N) {
+        this.N = N;
+        // Comparator for the element based on distance and then starting point
+        pq = new PriorityQueue<>((first, second) -> {
+            if(first.distance == second.distance) {
+                return first.start - second.start;
+            }
+            return second.distance - first.distance;
+        });
+            
+            // Input the range
+            pq.offer(new Interval(0, N - 1));
+    }
+    
+    public int seat() {
+        // Get the top available interval
+        Interval interval = pq.poll();
+        int seatNum = 0;
+        // Calculate the seat Number
+        if(interval.start == 0) {
+            seatNum = 0;
+        } else if(interval.end == N - 1) {
+            seatNum = N - 1;
+        } else {
+            seatNum = interval.start + interval.distance;
+        }
+        // Input two new intervals - with start and end updated in bounds
+        // first half available when interval start in not seatNum
+        if(interval.start < seatNum) {
+            pq.offer(new Interval(interval.start, seatNum - 1));
+        }
+        // second half available or not incase seatNum is interview end
+        if(seatNum < interval.end) {
+            pq.offer(new Interval(seatNum + 1, interval.end));
+        }
+        return seatNum;
+    }
+    
+    public void leave(int p) {
+        // Iterate over all the present intervals
+        List<Interval> list = new LinkedList<>(pq);
+        Interval prev = null, next = null;
+        // 
+        for(Interval interval : list) {
+            // if next interval found to merge
+            if(interval.start - 1 == p) {
+                next = interval;
+                if(prev != null) {
+                    break;
+                }
+            }
+            
+            // found prev interval
+            if(interval.end + 1 == p) {
+                prev = interval;
+                if(next != null) {
+                    break;
+                }
+            }
+        }
+        pq.remove(prev);
+        pq.remove(next);
+        
+        // merge intervals and push
+        pq.offer(new Interval(
+            prev == null ? p : prev.start,
+            next == null ? p : next.end
+        ));
+    }
+}
+
+/**
+ * Your ExamRoom object will be instantiated and called as such:
+ * ExamRoom obj = new ExamRoom(N);
+ * int param_1 = obj.seat();
+ * obj.leave(p);
+ */
