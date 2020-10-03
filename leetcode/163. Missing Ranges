@@ -1,0 +1,53 @@
+class Main
+{
+
+	public static List<String> findRanges() {
+		System.out.println("Hello World");
+		int low = 1;
+		int high = 100;
+		
+		int start = low;
+		List<String> result = new ArrayList<>();
+		int[] ranges = {2, 5, 10, 70, 80};
+		// check lower bound 
+		if(low == Integer.MIN_VALUE) {
+		    return result;
+		}
+		
+		for(int index = 0; index < ranges.length; index++) {
+		    // handle duplicates
+		    if(index < ranges.length - 1 && ranges[index] == ranges[index+1]) {
+		        continue;
+		    }
+		    
+		    // check if element present
+		    if(ranges[index] == start) {
+		        start++;
+		        continue;
+		    }
+		    
+		    // add the range
+		    result.add(getRange(start, ranges[index] - 1));
+		    // OverflowError
+		    if(ranges[index] == Integer.MAX_VALUE) {
+		        return result;
+		    }
+		    // update to next to currently available
+		    start = ranges[index] + 1;
+		}
+		// check for the last cut
+		if(start <= high) {
+		    result.add(getRange(start, high));
+		}
+		return result;
+	}
+	
+	private static String getRange(int start, int end) {
+	    if(start == end) {
+	        return String.valueOf(start);
+	    } else {
+	        return String.format("%d->%d", start, end);
+	    }
+	    
+	}
+}
