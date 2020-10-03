@@ -1,0 +1,39 @@
+class Solution {
+    public boolean isPossible(int[] nums) {
+        
+        if(nums == null || nums.length < 3) { return false; }
+        // frequency map of the elements
+        Map<Integer, Integer> freq = new HashMap<>();
+        Map<Integer, Integer> required = new HashMap<>();
+        
+        for(int num : nums) {
+            freq.merge(num, 1, ((o, n) -> o + n));
+        }
+        
+        // System.out.println(freq);
+        
+        int current;
+        for(int index = 0; index < nums.length; index++) {
+            current = nums[index];
+            if(freq.getOrDefault(current, 0) == 0) {
+                continue;
+            }
+            
+            // can be accommodated to the existing sequence
+            if(required.getOrDefault(current, 0) > 0) {
+                freq.put(current, freq.get(current) - 1);
+                required.merge(current, 1, (o, n) -> o - n);
+                required.merge(current + 1, 1, ((o, n) -> o + n));
+            } else if(freq.getOrDefault(current, 0 ) > 0 && freq.getOrDefault(current + 1, 0 ) > 0 && freq.getOrDefault(current + 2, 0 ) > 0) {
+                freq.put(current, freq.get(current) - 1);
+                freq.put(current + 1, freq.get(current + 1) - 1);
+                freq.put(current + 2, freq.get(current + 2) - 1);
+                required.merge(current + 3, 1, ((o, n) -> o + n));
+            } else {
+                return false;
+            }
+            // System.out.println(required);
+        }
+        return true;
+    }
+}
