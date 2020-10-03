@@ -1,5 +1,29 @@
 class Solution {
 
+  // optimal
+  
+  
+    public boolean PredictTheWinner(int[] nums) {
+        int n = nums.length;
+        int[][] dp = new int[n][n];
+        for(int index = 0; index < n; index++) {
+            dp[index][index] = nums[index];
+        }
+        
+        for(int index = n - 2; index >= 0; index--) {
+            for(int j = index + 1; j < n; j++) {
+                dp[index][j] = Math.max(nums[index] - dp[index + 1][j],
+                                        nums[j] - dp[index][j - 1]);
+            }
+        }
+        
+        System.out.println(Arrays.deepToString(dp));
+        
+        return dp[0][n - 1] >= 0;
+    }
+
+
+
   // States to be maintained via memoriazation
   
   
