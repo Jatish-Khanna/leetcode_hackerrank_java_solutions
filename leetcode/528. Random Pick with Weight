@@ -1,0 +1,38 @@
+class Solution {
+
+   int[] prefix;
+    Random random;
+    public Solution(int[] w) {
+        prefix = new int[w.length];
+        prefix[0] = w[0];
+        for(int index = 1; index < w.length; index++) {
+            prefix[index] = prefix[index - 1] + w[index];
+        }
+        random = new Random();
+    }
+    
+    public int pickIndex() {
+        int id = random.nextInt(prefix[prefix.length - 1]) + 1;
+        
+        int low = 0;
+        int high = prefix.length - 1;
+        int mid;
+        while(low  < high) {
+            mid = low + (high - low) /2;
+            if(prefix[mid] == id) {
+                return mid;
+            } else if(prefix[mid] < id) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        return low;
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(w);
+ * int param_1 = obj.pickIndex();
+ */
