@@ -1,0 +1,26 @@
+class Solution {
+    // int min = Integer.MAX_VALUE;
+    public int getMoneyAmount(int n) {
+        if(n == 0) { return 0; }
+        return getMoney(1, n, new int[n+1][n+1]);
+        // return min;
+    }
+    
+    private int getMoney(int start, int end, int[][] map) {
+        // String key = start+"_"+end;
+        if(start >= end) {
+            return 0;
+        } else if(map[start][end] != 0) {
+            return map[start][end];
+        }
+        
+        int mid = start + (end - start) / 2;
+        int minResult = Integer.MAX_VALUE;
+        for(int index = mid; index <= end; index++) {
+            minResult = Math.min(minResult, index + Math.max(getMoney(start, index - 1, map), getMoney(index + 1, end, map)));
+        }
+        
+        map[start][end] = minResult;
+        return minResult;
+    }
+}
