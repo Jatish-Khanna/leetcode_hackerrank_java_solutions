@@ -1,0 +1,44 @@
+class Solution {
+
+    static class Node {
+        int index;
+        char[] word;
+        Node(String word) {
+            this.word = word.toCharArray();
+            index = 0;
+        }
+    }
+    
+   public int numMatchingSubseq(String S, String[] words) {
+       LinkedList<Node>[] list = new LinkedList[26];
+       
+       for(int index = 0; index < list.length; index++) {
+           list[index] = new LinkedList<>();
+       }
+       
+       Node newNode;
+        for(String word : words) {
+            newNode = new Node(word);
+            list[word.charAt(0) - 'a'].add(newNode);
+        }
+       
+       Node curr;
+       int result = 0;
+       for(char ch : S.toCharArray()) {
+           LinkedList<Node> nodes = list[ch - 'a'];
+           int size = nodes.size();
+           for(int id = 0; id < size; id++) {
+               // processNode
+               curr = nodes.removeFirst();
+               curr.index++;
+               if(curr.index == curr.word.length) {
+                   result++;
+               } else {
+                   list[curr.word[curr.index] - 'a'].add(curr);
+               }
+           }
+       }
+       return result;
+   }
+ 
+}
