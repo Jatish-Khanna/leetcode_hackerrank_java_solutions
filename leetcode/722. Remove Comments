@@ -1,0 +1,55 @@
+class Solution {
+    public List<String> removeComments(String[] source) {
+        
+        List<String> result = new ArrayList<>();
+        char[] ar;
+        char cur;
+        boolean nextStar = false, nextSlash = false;
+        boolean isBc = false;
+        char prev;
+        StringBuilder sb = new StringBuilder();
+        
+        for(String line : source) {
+            ar = line.toCharArray();
+            
+            for(int index = 0; index < ar.length; index++) {
+                cur = ar[index];
+                 
+                nextSlash = index + 1 < ar.length && ar[index + 1] == '/';
+                nextStar = index + 1 < ar.length && ar[index + 1] == '*';
+                    
+                // System.out.println(cur + " " + nextStar + " " + nextSlash);
+                // current comment is BC active
+                if(isBc) {
+                    if(cur == '*' && nextSlash) {
+                        isBc = false;
+                        index++;
+                    }        
+                } else {
+                    if(cur == '/') {
+                        if(nextSlash) {
+                            break;
+                        } else if(nextStar) {
+                            isBc = true;
+                            index++;
+                            // break;
+                        } else {
+                            sb.append(cur);
+                        }
+                    } else {
+                        sb.append(cur);
+                    }
+                }
+                prev = cur;
+            }
+            if(!isBc && sb.length() > 0) {
+                result.add(sb.toString());
+                sb.setLength(0);
+            }
+        }
+                                  
+        
+        
+        return result;
+    }
+}
