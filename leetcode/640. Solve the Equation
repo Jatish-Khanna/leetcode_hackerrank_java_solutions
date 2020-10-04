@@ -1,0 +1,51 @@
+class Solution {
+    public String solveEquation(String equation) {
+        // constants
+        int con = 0;
+        // coefficients
+        int coff = 0;
+        int num = 0;
+        boolean onRight = false;
+        boolean isPositive = true;
+        
+        char[] eq = equation.toCharArray();
+        
+        for(int index = 0 ; index < eq.length; index++) {
+            // Found symbols - process contant
+            if(eq[index] == '-' || eq[index] == '+') {
+                con += getNumber(num, onRight, isPositive);
+                //reset
+                num = 0;
+                isPositive = eq[index] == '+';
+            } else if(eq[index] == '=') {
+                con += getNumber(num, onRight, isPositive);
+                
+                // reset
+                num = 0;
+                onRight = true;
+                isPositive = true;
+            } else if(eq[index] == 'x') {
+                if(num == 0 && (index == 0 || eq[index - 1] != '0')) {
+                    num = 1;
+                }
+                coff += getNumber(num, onRight, isPositive);
+                num = 0;
+            } else {
+                num = num * 10 + (eq[index] - '0');
+            }
+        }
+        con += getNumber(num, onRight, isPositive);
+        if(coff == 0 && con == 0) {
+            return "Infinite solutions";
+        } else if(coff == 0) {
+            return "No solution";
+        } else {
+            return "x=" + (-con / coff);
+        }
+    }
+    
+    private int getNumber(int num, boolean onRight, boolean isPositive) {
+        isPositive = onRight ? !isPositive : isPositive;
+        return num * (isPositive ? 1 : -1);
+    }
+}
