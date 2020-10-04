@@ -1,0 +1,37 @@
+class Solution {
+
+   // Better space and Time for the algorithm
+   public int change(int amount, int[] coins) {
+        int[] dp = new int[amount + 1];
+        dp[0] = 1;
+        for(int coin : coins) {
+            for(int id = coin; id <= amount; id++) {
+                dp[id] += dp[id - coin];
+            }
+        }
+        return dp[amount];
+    }
+
+
+    public int change(int amount, int[] coins) {
+        // if(coins.length == 0) { return 1; }
+        int[][] dp = new int[coins.length + 1][amount + 1];
+        
+        for(int index = 0; index <= coins.length; index++) {
+            dp[index][0] = 1;
+        }
+        
+        for(int coin = 1; coin <= coins.length; coin++) {
+            for(int amt = 0; amt <= amount; amt++) {
+                dp[coin][amt] = dp[coin - 1][amt];
+                if(coins[coin - 1] <= amt) {
+                    dp[coin][amt] += dp[coin][amt - coins[coin - 1]];
+                }
+            }
+        }
+        
+        // System.out.println(Arrays.deepToString(dp));
+        
+        return dp[coins.length][amount];
+    }
+}
