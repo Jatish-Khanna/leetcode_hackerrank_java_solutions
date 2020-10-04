@@ -1,0 +1,15 @@
+class Solution {
+    public List<String> findRepeatedDnaSequences(String s) {
+        Map<String, Integer> freq = new HashMap<>();
+        List<String> result = new LinkedList<>();
+        String sub;
+        for(int index = 0; index < s.length() - 9; index++) {
+            sub = s.substring(index, index + 10);
+            freq.merge(sub, 1, ((o, n) -> o + n));
+            if(freq.get(sub) == 2) {
+                result.add(sub);
+            }
+        }
+        return result;
+    }
+}
