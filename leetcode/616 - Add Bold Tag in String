@@ -1,0 +1,40 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(boldMark());
+	}
+	
+	private static String boldMark() {
+	    String input = "aaaaabbcccbc";
+	    int n = input.length();
+	    
+	    Set<String> dict = new HashSet<>(Arrays.asList("aaa", "bb", "bc"));
+	    boolean[] mark = new boolean[n];
+	    
+	    for(int index = 0; index < n; index++) {
+	        for(int j = 0; j < index; j++) {
+	            //if this is present in the dict;
+	            if(dict.contains(input.substring(j, index + 1))) {
+	                for(int k = j; k <= index; k++) {
+	                    mark[k] = true;
+	                }
+	                break;
+	            }
+	        }
+	    }
+	    StringBuilder sb = new StringBuilder();
+	    for(int index = 0; index < n; index++) {
+	        if(mark[index]) {
+	            sb.append("<b>");
+	            while(index < n && mark[index]) {
+	                sb.append(input.charAt(index));
+	                index++;
+	            }
+	            sb.append("</b>");
+	        } else {
+	            sb.append(input.charAt(index));
+	        }
+	    }
+	    return sb.toString();
+	}
+}
