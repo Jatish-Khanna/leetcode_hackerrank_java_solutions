@@ -1,4 +1,45 @@
 class Solution {
+
+    // Optimized version
+    
+
+    public int minAreaRect(int[][] points) {
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        for(int[] point : points) {
+            map.computeIfAbsent(point[0], e -> new HashSet<>()).add(point[1]);
+        }
+        
+        int minArea = Integer.MAX_VALUE;
+        int area;
+        
+        int x1, y1, x2, y2;
+        
+        for(int first = 0; first < points.length - 1; first++) {
+            x1 = points[first][0];
+            y1 = points[first][1];
+            for(int second = first + 1; second < points.length; second++) {
+                x2 = points[second][0];
+                y2 = points[second][1];
+                if(x1 == x2 || y1 == y2) { continue; }
+                area = calculate(x1, y1, x2, y2);
+                if(area >= minArea) { continue; }
+                
+                if(map.get(x1).contains(y2) && map.get(x2).contains(y1)) {
+                    minArea = area;
+                }
+            }
+        }
+        
+        return minArea == Integer.MAX_VALUE ? 0 : minArea;
+        
+    }
+    
+    private int calculate(int x1, int y1, int x2, int y2) {
+        return Math.abs((x1 - x2) * (y1 - y2));
+    }
+
+
+
     public int minAreaRect(int[][] points) {
         Set<String> map = new HashSet<>();
         
