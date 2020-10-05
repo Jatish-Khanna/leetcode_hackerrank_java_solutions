@@ -1,0 +1,51 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(dfsAndroindLock());
+		
+	}
+	
+	static int m,n;
+	private static int dfsAndroindLock() {
+	    Map<String, Integer> jump = new HashMap<>();
+	    jump.put("1_3", 2);jump.put("3_1", 2);
+	    jump.put("4_6", 5);jump.put("6_4", 5);
+	    jump.put("7_9", 8);jump.put("9_7", 8);
+	    jump.put("1_7", 4);jump.put("7_1", 4);
+	    jump.put("2_8", 5);jump.put("8_2", 5);
+	    jump.put("3_9", 6);jump.put("9_3", 6);
+	    jump.put("1_9", 5);jump.put("9_1", 5);jump.put("3_7", 5);jump.put("7_3", 5);
+	    
+	    m = 1;
+	    n = 3;
+	    
+	    boolean[] visited = new boolean[10];
+	    visited[0] = true;
+	    int count = 0;
+	    count += dfs(1, 1, visited, jump, 0) * 4;
+	    count += dfs(2, 1, visited, jump, 0) * 4;
+	    count += dfs(5, 1, visited, jump, 0);
+	    
+	    return count;
+	}
+	
+	private static int dfs(int num, int added, boolean[] visited, Map<String, Integer> jumps, int count) {
+	    if(added >= m) {
+	        count++;
+	    }
+	    added++;
+	    if(added > n) {
+	        return count;
+	    }
+	    visited[num] = true;
+	    
+	    for(int index = 1; index < visited.length; index++) {
+	        if(visited[index]) { continue; }
+	        if(visited[jumps.getOrDefault(num+"_"+index, 0)]) {
+	           count = dfs(index, added, visited, jumps, count); 
+	        }
+	    }
+	    visited[num] = false;
+	    return count;
+	}
+}
