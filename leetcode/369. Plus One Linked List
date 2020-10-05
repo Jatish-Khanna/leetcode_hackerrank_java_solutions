@@ -1,0 +1,46 @@
+class Main
+{
+    static class Node {
+        int val;
+        Node next;
+        Node(int val) {
+            this.val = val;
+        }
+    }
+    
+	public static void main(String[] args) {
+		plusOne();
+	}
+	
+	private static void plusOne() {
+	    Node head = new Node(1);
+	    head.next = new Node(2);
+	    head.next.next = new Node(9);
+
+	    int carry = dfs(head);
+	    if(carry == 1) {
+	        Node c = new Node(1);
+	        c.next = head;
+	        head = c;
+	    }
+	    Node current = head;
+	    while(current != null) {
+	        System.out.print(current.val+"->");
+	        current = current.next;
+	    }
+	    
+	   // return result;
+	}
+	
+	private static int dfs(Node node) {
+	    if(node == null) { return 1; }
+	    
+	    int carry = dfs(node.next);
+	    if(carry == 1) {
+	        int sum = node.val + carry;
+	        carry = sum / 10;
+	        node.val = sum % 10;
+	    }
+	    return carry;
+	}
+}
