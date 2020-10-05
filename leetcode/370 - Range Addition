@@ -1,0 +1,31 @@
+class HelloWorld{
+
+  // Half implementation of binary indexed tree
+
+     public static void main(String []args){
+        Arrays.stream(updates()).forEach(System.out::println);
+     }
+     
+     private static int[] updates() {
+         int n = 5;
+         int[] nums = new int[n];
+         int[][] updates = {
+                        {1,  3,  2},
+                        {2,  4,  3},
+                        {0,  2, -2}
+                    };
+                    
+        
+        for(int[] update : updates) {
+            nums[update[0]] += update[2];
+            if(update[1] + 1 < nums.length)
+                nums[update[1] + 1] -= update[2];
+        }
+        
+        for(int index = 1; index < nums.length; index++) {
+            nums[index] += nums[index - 1];
+        }
+        
+        return nums;
+     }
+}
