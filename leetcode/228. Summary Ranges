@@ -1,0 +1,32 @@
+class Solution {
+    public List<String> summaryRanges(int[] nums) {
+        
+        List<String> ranges = new ArrayList<>();
+        if(nums.length == 0) {
+            return ranges;
+        }
+                
+        int min = nums[0];
+        int max = min;
+        for(int index = 1; index < nums.length; index++) {           
+            if(max + 1 != nums[index]) {
+                ranges.add(getRange(min, max));
+                min = nums[index];
+            }
+            max = nums[index];
+        }
+        
+        ranges.add(getRange(min, max));
+            
+        return ranges;
+    }
+    
+    private String getRange(int min, int max) {
+        StringBuilder result = new StringBuilder();
+        result.append(min);
+        if(min != max) {
+           result.append("->").append(max);
+        }
+        return result.toString();
+    }
+}
