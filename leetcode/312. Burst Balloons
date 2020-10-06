@@ -1,0 +1,55 @@
+class Solution {
+    public int maxCoins(int[] nums) {
+        int n = nums.length;
+        if(n == 0) { return 0; }
+        int [][]dp = new int[n][n];
+        
+        int endWindow;
+        int leftInWindow, rightInWindow;
+        
+        int leftOutWindow, rightOutWindow;
+        
+        // for each window length
+        for(int len = 1; len <= nums.length; len++) {
+            // pick the starting point of window
+            for(int index = 0; index < nums.length - len + 1; index++) {
+                // endWindow index
+                endWindow = index + len - 1;
+                
+                // each element in window
+                for(int k = index; k <= endWindow; k++) {
+                    
+                    // left value in window
+                    leftInWindow = 0;
+                    rightInWindow = 0;
+                    
+                    // point is the window boundary
+                    if(index != k) {
+                       leftInWindow = dp[index][k-1]; 
+                    }
+                    if(endWindow != k) {
+                        rightInWindow = dp[k + 1][endWindow];
+                    }
+                    
+                    
+                    // Values out of Window / pads / defaults = 1 in case no left/right
+                    leftOutWindow = 1;
+                    rightOutWindow = 1;
+                    
+                    if(index != 0) {
+                        leftOutWindow = nums[index - 1];
+                    }
+                    
+                    if(endWindow != nums.length - 1) {
+                        rightOutWindow = nums[endWindow + 1];
+                    }
+                    
+                    // Max for this window
+                    dp[index][endWindow] = Math.max(dp[index][endWindow], leftInWindow + leftOutWindow * nums[k] * rightOutWindow + rightInWindow);
+                    
+                }
+            }
+        }
+        return dp[0][nums.length - 1];
+    }
+}
