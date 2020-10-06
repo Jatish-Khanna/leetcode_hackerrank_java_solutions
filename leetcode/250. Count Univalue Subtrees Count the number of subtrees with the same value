@@ -1,0 +1,50 @@
+ class Main
+{
+    static class Node {
+        int val;
+        Node left, right;
+        Node(int val) {
+            this.val = val;
+        }
+    }
+    
+    static int count = 0;
+    
+	public static void main(String[] args) {
+	    countTrees();
+		System.out.println(count);
+	}
+	
+	private static void countTrees() {
+	    Node root = new Node(5); 
+        root.left = new Node(4); 
+        root.right = new Node(5); 
+        root.left.left = new Node(4); 
+        root.left.right = new Node(4); 
+        root.right.right = new Node(5);
+        
+        countTrees(root);
+	}
+	
+	private static boolean countTrees(Node node) {
+	    // Empty tree is same valued
+	    if(node == null) { return true; }
+	    
+	    boolean left = countTrees(node.left);
+	    boolean right = countTrees(node.right);
+	    if(!left || !right) {
+	        return false;
+	    }
+	    
+	    if(node.left != null && node.val != node.left.val) {
+	        return false;
+	    }  
+	    if(node.right != null && node.val != node.right.val) {
+	        return false;
+	    }
+	    
+	    count++;
+	    return true;
+	    
+	}
+}
