@@ -1,0 +1,22 @@
+class Solution {
+    public List<Integer> lexicalOrder(int n) {
+        List<Integer> list = new ArrayList<>();
+        for(int index = 1; index < 10; index++) {
+            dfs(index, list, n);    
+        }
+        
+        return list;
+    }
+    
+    private void dfs(int num, List<Integer> list, int max) {
+        if(num > max) { return; }
+        list.add(num);
+        num = num * 10;
+        
+        if(num > max) { return; }
+        
+        for(int index = 0; index < 10; index++) {
+            dfs(num + index, list, max);
+        }
+    }
+}
