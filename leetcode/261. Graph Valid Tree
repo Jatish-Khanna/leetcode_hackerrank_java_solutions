@@ -1,0 +1,48 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(checkGraph());
+	}
+	
+	// Other solutions
+	// 1. dfs (N) -> O(N)
+	// 2. BFS (N) -> O(N)
+	// 3. UnionFind - find the parent of both nodes, if same reutn false;
+	// In UnionFind the complexity is better because it has been verified at the time of adding edges
+	// UF - O(NlogN) -> O(N)
+	
+	private static boolean checkGraph() {
+	    // 0, 4 edge makes a cycle
+	    int[][] edges = {{0,1}, {0,2}, {0,3}, {1,4}, {0, 4}};
+	    int nodes = 5;
+	    
+	    Set<Integer>[] graph = new HashSet[nodes];
+	    // prepared the graph
+	    for(int[] edge : edges) {
+	        if(graph[edge[0]] == null) {
+	            graph[edge[0]] = new HashSet<>();
+	        }
+	        if(graph[edge[1]] == null) {
+	            graph[edge[1]] = new HashSet<>();
+	        }
+	        graph[edge[0]].add(edge[1]);
+	        graph[edge[1]].add(edge[0]);
+	    }
+	    
+	    // perform dfs
+	    boolean[] visited = new boolean[graph.length];
+	    return dfs(0, graph, visited, -1);
+	}
+	
+	private static boolean dfs(int index, Set<Integer>[] graph, boolean[] visited, int parent) {
+	    if(visited[index]) { return false; }
+	    visited[index] = true;
+	    for(int neb : graph[index]) {
+	        if(neb == parent) { continue; }
+	        if(!dfs(neb, graph, visited, index)) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+}
