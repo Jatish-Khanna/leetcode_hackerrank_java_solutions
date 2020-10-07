@@ -1,0 +1,38 @@
+class Solution {
+    // O(N*M)
+    
+    public void rotate(int[][] matrix) {
+        int start = 0;
+        int end = matrix.length - 1;
+        
+        while(start < end) {
+            // Instead of swaping the whole row - swap (element by element in the row)
+            // swap would be start+i  and end + i i.e. i --- 0, cols
+            // int[] temp = matrix[start];
+            // matrix[start] = matrix[end];
+            // matrix[end] = temp;
+            
+            swap(matrix, start, end);
+            
+            start++;
+            end--;
+        }
+        
+        for(int i = 0; i < matrix.length - 1; i++) {
+            for(int j = i + 1; j < matrix[0].length; j++) {
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = tmp;
+            }
+        }
+        // return matrix;
+    }
+    
+    private void swap(int[][] matrix, int start, int end) {
+        for(int index = 0; index < matrix[0].length; index++) {
+            int temp = matrix[start][index];
+            matrix[start][index]= matrix[end][index];
+            matrix[end][index] = temp;
+        }
+    }
+}
