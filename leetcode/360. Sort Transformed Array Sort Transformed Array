@@ -1,0 +1,38 @@
+ class Main
+{
+	public static void main(String[] args) {
+		Arrays.stream(sortTransformed()).forEach(System.out::println);
+	}
+	
+	private static int[] sortTransformed() {
+	    int[] elements = {-4,-2,2,4};
+	    int a = 1;
+	    int b = 3;
+	    int c = 5;
+	    
+	    
+	    int low = 0;
+	    int high = elements.length - 1;
+	    
+	    int[] result = new int[elements.length];
+	    int index = result.length - 1;
+	    int firstResult = 0;
+	    int secondResult = 0;
+	    while(low <= high) {
+	        firstResult = transform(elements[low], a, b, c);
+	        secondResult = transform(elements[high], a, b, c);
+	        if(firstResult <= secondResult) {
+	            high--;
+	            result[index--] = secondResult;
+	        } else {
+	            result[index--] = firstResult;
+	            low++;
+	        }
+	    }
+	    return result;
+	}
+	
+	private static int transform(int element, int a, int b, int c) {
+	    return a * (element * element) + b * element + c;
+	}
+}
