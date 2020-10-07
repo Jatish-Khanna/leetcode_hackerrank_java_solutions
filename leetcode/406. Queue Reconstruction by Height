@@ -1,0 +1,41 @@
+class Solution {
+    public int[][] reconstructQueue(int[][] people) {
+        sort(people, 0, people.length - 1);
+        
+        List<int[]> list = new ArrayList<>();
+        for(int[] person : people) {
+            list.add(person[1], person);
+        }
+        return list.toArray(new int[list.size()][2]);
+    }
+    
+    private void sort(int[][] people, int start, int end) {
+        if(start > end) { return; }
+        int pivot = fPivot(start, end, people);
+        sort(people, start, pivot - 1);
+        sort(people, pivot + 1, end);
+    }
+    
+    private int fPivot(int start, int end, int[][] people) {
+        int[] pivot = people[start];
+        
+        while(start < end) {
+            while(start < end && isCondition(people[end], pivot)) { end--; }
+            people[start] = people[end];
+            while(start < end && isCondition(pivot, people[start])) { start++; }
+            people[end] = people[start];
+        }
+        people[start] = pivot;
+        return start;        
+    }
+    
+    private boolean isCondition(int[] bigger, int[] smaller) {
+        if(bigger[0] == smaller[0]) {
+            return bigger[1] > smaller[1];
+        } else {
+            return bigger[0] < smaller[0];
+        }
+    }
+
+}
+
