@@ -1,0 +1,34 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(groupShiftedString());
+	}
+	
+	private static List<List<String>> groupShiftedString() {
+	    String[] input = {"abc", "bcd", "acef", "xyz", "az", "ba", "a", "z"};
+	    
+	    Map<String, List<String>> map = new HashMap<>();
+	    String shift;
+	    for(String current  : input) {
+	        shift = calculateShift(current);
+	        map.computeIfAbsent(shift, e -> new ArrayList<>()).add(current);
+	    }
+	    List<List<String>> result = new ArrayList<>();
+	    result.addAll(map.values());
+	    return result;
+	}
+	
+	private static String calculateShift(String current) {
+	    char[] ar = current.toCharArray();
+	    StringBuilder shift = new StringBuilder();
+	    int diff;
+	    for(int index = 1; index < ar.length; index++) {
+	        diff = ar[index] - ar[index - 1];
+	        // Important to rotate the difference
+	        diff = diff  < 0 ? diff + 26 : diff;
+	        shift.append(diff).append(",");
+	    }
+	    return shift.toString();
+	}
+	
+}
