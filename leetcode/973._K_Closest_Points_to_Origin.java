@@ -2,6 +2,7 @@
 public class Solution {
  
    // Quick select algorithm implementations - QuickSelect - QuickSort(no complete)
+   // Best and Average case performance - O(N) whereas worst case O(N^2)
  
     public int[][] kClosest(int[][] points, int K) {
         int left = 0;
@@ -40,7 +41,7 @@ public class Solution {
     }
 
  
- 
+ // Slower solution as compared to quick select - O(N) - O(K) space
  
   static class Point {
   
