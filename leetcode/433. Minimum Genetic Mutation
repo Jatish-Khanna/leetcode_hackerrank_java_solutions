@@ -1,0 +1,77 @@
+class Solution {
+    
+    int level = 1;
+    
+    public int minMutation(String start, String end, String[] bank) {
+        Set<String> bankSet = new HashSet<>();
+        for(String current  : bank) {
+            bankSet.add(current);
+        }
+        
+        if(!bankSet.contains(end)) {
+            return -1;
+        }
+        
+        Set<String> startSet = new HashSet<>();
+        startSet.add(start);
+            
+        Set<String> endSet = new HashSet<>();
+        endSet.add(end);
+        
+        char[] gene = {'A', 'C', 'G', 'T'};
+            
+        if(bfs(startSet, endSet, bankSet, gene)) {
+            return level;
+        }
+        return -1;
+    }
+    
+    private boolean bfs(Set<String> start, Set<String> end, Set<String> bank, char[] gene) {
+        
+        if(start.isEmpty()) {
+            return false;
+        }
+        
+        // make the nodes visited
+        bank.removeAll(start);
+        char[] ar;
+        int index = 0;
+        char orig;
+        String intermediate;
+        Set<String> newStart = new HashSet<>();
+        
+        for(String current : start) {
+            ar = current.toCharArray();
+            while(index < ar.length) {
+                orig = ar[index];
+                for(char protein : gene) {
+                    if(protein == orig) {
+                        continue;
+                    }
+                    ar[index] = protein;
+                    intermediate = new String(ar);
+                    
+                    if(!bank.contains(intermediate)) {
+                        continue;
+                    }
+                        
+                    if(end.contains(intermediate)) {
+                        // level++;
+                        return true;
+                    } 
+                    newStart.add(intermediate);
+                }
+                ar[index] = orig;
+                index++;
+            }
+        }
+        // System.out.println(newStart);
+        level++;
+        // Visit the shorter list - important to understand
+        if(newStart.size() < end.size()) {
+            return bfs(newStart, end, bank, gene);
+        } else {
+            return bfs(end, newStart, bank, gene);
+        }
+    }
+}
