@@ -1,6 +1,47 @@
 
 public class Solution {
  
+   // Quick select algorithm implementations - QuickSelect - QuickSort(no complete)
+ 
+    public int[][] kClosest(int[][] points, int K) {
+        int left = 0;
+        int right = points.length - 1;
+        while(left < right) {
+            int pivot = quickSort(points, left, right);
+            if(pivot < K - 1) {
+                left = pivot + 1;
+            } else if(pivot > K - 1) {
+                right = pivot - 1;
+            } else {
+                break;
+            }
+        }
+        return Arrays.copyOfRange(points, 0, K);
+    }
+    
+    private int quickSort(int[][] points, int left, int right) {
+        int[] pivitPoint = points[left];
+        int pivit = distance(pivitPoint);
+        while(left < right) {
+            while(left < right && distance(points[right]) > pivit) right--;
+            // swapping underway
+            points[left] = points[right];
+            while(left < right && distance(points[left]) <= pivit) left++;
+            // swap second
+            points[right] = points[left];
+        }
+        // swap the pivit and left
+        points[left] = pivitPoint;
+        return left;
+    }
+    
+    private int distance(int[] point) {
+        return point[0] * point[0] + point[1] * point[1];
+    }
+
+ 
+ 
+ 
   static class Point {
   
         double distance;
