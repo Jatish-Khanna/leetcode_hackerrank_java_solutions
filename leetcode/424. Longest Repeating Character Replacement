@@ -1,0 +1,26 @@
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int toChange = 0;
+        int start = 0;
+        int maxLength = 0;
+        int[] freq = new int[26];
+        int maxOccurrance = 0;
+        
+        char[] ar = s.toCharArray();
+        int end  = 0;
+        while(end < ar.length)  {
+            freq[ar[end] - 'A']++;
+            maxOccurrance = Math.max(freq[ar[end] - 'A'], maxOccurrance);
+            
+            end++;
+        // Slide the window until the underlined characters to change are out of window
+            while(end - start - maxOccurrance > k) {
+                freq[ar[start] - 'A']--;
+                start++;
+            }
+            
+            maxLength = Math.max(maxLength, end - start);
+        }
+        return maxLength;
+    }
+}
