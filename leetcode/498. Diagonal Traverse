@@ -1,0 +1,65 @@
+class Solution {
+    public int[] findDiagonalOrder(int[][] matrix) {
+        
+        if(matrix == null || matrix.length == 0 ||matrix[0].length == 0) { return new int[]{}; }
+        
+        int[] result = new int[matrix.length * matrix[0].length];
+        int rIndex = 0;
+        result[rIndex++] = matrix[0][0];
+        
+        boolean down = true;
+        int row = 0;
+        int col = 0;
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        
+        int lastValidRow, lastValidCol;
+        
+        while(rIndex < result.length) {
+            
+            if(down) {
+                if(col < cols - 1) {
+                    col++;
+                } else {
+                    row++;
+                }
+                
+                lastValidRow = row;
+                lastValidCol = col;
+                
+                while(row < rows && col >= 0) {
+                    result[rIndex++] = matrix[row][col];
+                    lastValidRow = row;
+                    lastValidCol = col;
+                    row++;
+                    col--;
+                }
+                
+                row = lastValidRow;
+                col = lastValidCol;
+                
+            } else {
+                if(row < rows - 1) {
+                    row++;
+                } else {
+                    col++;
+                }
+                
+                lastValidRow = row;
+                lastValidCol = col;
+                
+                while(row >= 0 && col < cols) {
+                    result[rIndex++] = matrix[row][col];
+                    lastValidRow = row;
+                    lastValidCol = col;
+                    row--;
+                    col++;
+                }
+                row = lastValidRow;
+                col = lastValidCol;
+            }
+            down = !down;
+        }
+        return result;
+    }
+}
