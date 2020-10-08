@@ -1,0 +1,51 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(reachDestination());
+	}
+	
+	static int[][] dir = new int[][]{{0,-1},{-1,0},{0,1},{1,0}};
+	
+	private static boolean reachDestination() {
+	    int[][] matrix = {{0,0,1,0,0},
+                            {0,0,0,0,0},
+                            {0,0,1,1,0},
+                            {1,1,0,1,1},
+                            {0,0,0,0,0}};
+        int[] source = new int[]{0,4};
+        int[] destination = new int[]{3,2};
+        boolean[][] visited = new boolean[matrix.length][matrix[0].length];
+        
+        if(dfs(source, destination, matrix, visited)) {
+            return true;
+        }
+        return false;
+	}
+	
+	private static boolean dfs(int[] source, int[] destination, int[][] matrix, boolean[][] visited) {
+	    if(source[0] == destination[0] && source[1] == destination[1]) {
+	        return true;
+	    } else if(visited[source[0]][source[1]]) {
+	        return false;
+	    }
+	    // visit
+	    visited[source[0]][source[1]] = true;
+	    
+	    int newRow, newCol;
+	    
+	    for(int d = 0; d < dir.length; d++) {
+	        newRow = source[0] + dir[d][0];
+	        newCol = source[1] + dir[d][1];
+	        if(!isInvalid(newRow, newCol, matrix)) {
+	            if(dfs(new int[]{newRow, newCol}, destination, matrix, visited)) {
+	                return true;
+	            }
+	        }
+	    }
+	    return false;
+	}
+	
+	private static boolean isInvalid(int row, int col, int[][] matrix) {
+	    return row < 0 || col < 0 || row >= matrix.length || col >= matrix[0].length || matrix[row][col] == 1;
+	}
+}
