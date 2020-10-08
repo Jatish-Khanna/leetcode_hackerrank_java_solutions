@@ -1,0 +1,56 @@
+class Solution {
+    
+    static class Node {
+        int id;
+        int dist;
+        Node(int id, int dist) {
+            this.id = id;
+            this.dist = dist;
+        }
+    }
+    
+    public int networkDelayTime(int[][] times, int N, int K) {
+        // BFS
+        List<Node>[] graph = new ArrayList[N + 1];
+        // built a graph
+        for(int[] time : times) {
+            if(graph[time[0]] == null) {
+                graph[time[0]] = new ArrayList<>();
+            }
+            graph[time[0]].add(new Node(time[1], time[2]));
+        }
+        
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(new Node(K, 0));
+        
+        
+        int[] distance = new int[N + 1];
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        distance[K] = 0;
+        
+        while(!queue.isEmpty()) {
+            Node curr = queue.poll();
+            if(graph[curr.id] == null) { continue; }
+            for(Node neb : graph[curr.id]) {
+                if(neb.dist + curr.dist < distance[neb.id]) {
+                    distance[neb.id] = neb.dist + curr.dist;
+                    // neb.dist = neb.dist + curr.dist;
+                    queue.offer(new Node(neb.id, neb.dist + curr.dist));
+                }
+            }
+        }
+        
+        int max = 0;
+        distance[0] = 0;
+        for(int dis : distance) {
+            // System.out.println(dis);
+            if(dis == Integer.MAX_VALUE) {
+                return -1;
+            } else if(max < dis) {
+                max = dis;
+            }
+            
+        }
+        return max;
+    }
+}
