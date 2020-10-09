@@ -8,6 +8,45 @@
  * }
  */
 class Solution {
+
+  // Optimization
+  
+    int longest = 0;
+    public int longestUnivaluePath(TreeNode root) {
+        if(root == null) { return 0; }
+        
+        dfs(root);
+        return longest;
+    }
+    
+    private int dfs(TreeNode node) {
+        if(node == null || node.left == null && node.right == null) { return 0; }
+        
+        int left = dfs(node.left);
+        int right = dfs(node.right);
+        
+        int leftPath = 0;
+        int rightPath = 0;
+        // since, left path is increased by 1 if root is same as left child
+        if(node.left != null && node.left.val == node.val) {
+            leftPath = left + 1;
+        }
+        
+        // similarly, right path has been increased by 1 if root is same as right child
+        if(node.right != null && node.right.val == node.val) {
+            rightPath = right + 1;
+        }
+        
+        // new path(diameter,) of the longest paths available
+        longest = Math.max(longest, leftPath + rightPath);
+        // the longest path formed including left or right path of the tree
+        return Math.max(leftPath, rightPath);
+    }
+
+  
+  // slower
+
+
     int longest = 0;
     public int longestUnivaluePath(TreeNode root) {
         if(root == null) { return 0; }
