@@ -1,0 +1,70 @@
+class Main
+{
+    static int max = 0;
+    
+    static class Node {
+        int val;
+        Node left, right;
+        Node(int val) {
+            this.val = val;
+        }
+    }
+    
+	public static void main(String[] args) {
+        maxBST();
+        System.out.println(max);
+	}
+	
+	private static void maxBST() {
+	    Node root = new Node(50); 
+        root.left = new Node(10); 
+        root.right = new Node(60); 
+        root.left.left = new Node(5); 
+        root.left.right = new Node(20); 
+        root.right.left = new Node(55); 
+        root.right.left.left = new Node(45); 
+        root.right.right = new Node(70); 
+        root.right.right.left = new Node(65); 
+        root.right.right.right = new Node(80); 
+        
+        maxBST(root);
+	}
+	
+	private static class ReturnNode {
+	    int size;
+	    int min;
+	    int max;
+	    boolean isBst;
+	    ReturnNode(int min, int max, boolean isBst) {
+	        this.min = min;
+	        this.max = max;
+	        this.isBst = isBst;
+	        this.size = 0;
+	    }
+	    
+	    ReturnNode(boolean isBst) {
+	        this.min = Integer.MAX_VALUE;
+	        this.max = Integer.MIN_VALUE;
+	        this.isBst = isBst;
+	        this.size = 0;
+	    }
+	}
+	
+	private static ReturnNode maxBST(Node node) {
+	    if(node == null) { return new ReturnNode(true); } 
+	    
+	    ReturnNode left = maxBST(node.left);
+	    ReturnNode right = maxBST(node.right);
+	    
+	    ReturnNode current = new ReturnNode(true);
+	    current.min = Math.min(node.val, Math.min(right.min, left.min));
+	    current.max = Math.max(node.val, Math.min(right.max, left.max));
+	    
+	    if(left.isBst && right.isBst && node.val > left.max && node.val < right.min) {
+	        current.isBst = true;
+	        current.size = left.size + right.size + 1;
+	        max = Math.max(max, current.size);
+	    }
+	    return current;
+	}
+}
