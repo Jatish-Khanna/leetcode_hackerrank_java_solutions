@@ -1,0 +1,21 @@
+ class Main
+{
+	public static void main(String[] args) {
+		Arrays.stream(findIndex()).forEach(System.out::println);
+	}
+	
+	private static int[] findIndex() {
+	    Map<Integer, Integer> map = new HashMap<>();
+	    int[] A = {12, 28, 46, 32, 50};
+	    int[] B = {50, 12, 32, 46, 28};
+	    for(int index = 0; index < B.length; index++) {
+	        map.put(B[index], index);
+	    }
+	    
+	    int[] result = new int[A.length];
+	    for(int index = 0; index < A.length; index++) {
+	        result[index] = map.get(A[index]);
+	    }
+	    return result;
+	}
+}
