@@ -1,0 +1,17 @@
+class Solution {
+
+  // As per the question - Should be done in O(N) and O(1) but this has been done using O(Nlogn) and O(N)
+
+    public void wiggleSort(int[] nums) {
+        int[] sorted = Arrays.copyOf(nums, nums.length);
+        Arrays.sort(sorted);
+        int idx = nums.length - 1;
+        for(int index = 1; index < nums.length; index += 2) {
+            nums[index] = sorted[idx--];
+        }
+        
+        for(int index = 0; index < nums.length; index += 2) {
+            nums[index] = sorted[idx--];
+        }
+    }
+}
