@@ -1,4 +1,45 @@
 class Solution {
+
+  // Optimized version
+  // As we know from which location we can jump to which location over numpad, considering the fact
+  // it has been optimized
+  
+    int MOD = (int)(1e9+7);
+    public int knightDialer(int n) {
+        int[] moves = {1,1,1,1,1,1,1,1,1,1};
+        
+        while(n > 1) {
+            moves = performMoves(moves);
+            n--;
+        }
+        
+        int result = 0;
+        
+        for(int move : moves) {
+            result = (result + move) % MOD;
+        }
+        return result;
+    }
+    
+    private int[] performMoves(int[] moves) {
+        int[] target = new int[moves.length];
+        
+        target[0] = (moves[4] + moves[6]) % MOD;
+        target[1] = (moves[8] + moves[6]) % MOD;
+        target[2] = (moves[7] + moves[9]) % MOD;
+        target[3] = (moves[4] + moves[8]) % MOD;
+        target[4] = ((moves[0] + moves[3]) % MOD + moves[9]) %MOD;
+        target[5] = 0;
+        target[6] = ((moves[0] + moves[1]) % MOD + moves[7] ) %MOD;
+        target[7] = (moves[2] + moves[6]) % MOD;
+        target[8] = (moves[1] + moves[3]) % MOD;
+        target[9] = (moves[2] + moves[4]) % MOD;
+        
+        return target;
+    }
+
+    
+
     public int knightDialer(int n) {
         int[][] moves = new int[][]{
             {4,6},
