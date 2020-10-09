@@ -1,0 +1,19 @@
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        // get the last row and move upwards
+        int index = triangle.size() - 1;
+        int[] result = new int[index + 2];
+    
+        int eIndex = 0;
+        
+        while(index >= 0) {
+            List<Integer> current = triangle.get(index);
+            for(int i = 0; i < current.size(); i++) {  
+                result[i] = current.get(i) + Math.min(result[i], result[i + 1]);
+            }
+            index--;
+        }
+        
+       return result[0];
+    }
+}
