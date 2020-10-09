@@ -1,0 +1,30 @@
+ class HelloWorld{
+
+     public static void main(String []args){
+        Arrays.stream(build()).forEach(System.out::println);
+     }
+     
+     private static int[] build() {
+         String s = "DDIIIDD";
+         int[] result = new int[s.length() + 1];
+         ArrayDeque<Integer> stack = new ArrayDeque<>();
+         int index = 1;
+         int j = 0;
+         while(index <= s.length()) {
+             if(s.charAt(index - 1) == 'D') {
+                 stack.push(index);
+             } else {
+                stack.push(index);
+                while(!stack.isEmpty()) {
+                    result[j++] = stack.pop();
+                }
+             }
+             index++;
+         }
+         stack.push(index);
+         while(!stack.isEmpty()) {
+             result[j++] = stack.pop();
+         }
+         return result;
+     }
+}
