@@ -1,0 +1,29 @@
+class Solution {
+    public int rob(int[] nums) {
+        
+        if(nums.length == 1) { return nums[0]; }       
+        // rob the house
+        // starting with first, don't include last as they are connected
+        // starting with second we can include last house
+        return Math.max(rob(0, nums.length - 1, nums), rob(1, nums.length, nums));
+    }
+    
+    private int rob(int start, int end, int[] nums) {
+        // robbed first house
+        int including = nums[start];
+        int excluding = 0;
+        int total = 0;
+        
+        // from next to last till where we can rob
+        for(int house = start + 1; house < end; house++) {
+            // value we can robbing this house + excluding last
+            total = nums[house] + excluding;
+            if(including > excluding) {
+                excluding = including;
+            }
+            // rob value till last processed house
+            including = total;
+        }
+        return Math.max(including, excluding);
+    }
+}
