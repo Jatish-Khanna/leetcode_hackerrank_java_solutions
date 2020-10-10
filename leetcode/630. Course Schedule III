@@ -1,0 +1,55 @@
+class Solution {
+
+   // fastest
+   
+    public int scheduleCourse(int[][] courses) {
+        Arrays.sort(courses, ((a,b) -> a[1] - b[1]));
+        
+        // max times to replace
+        PriorityQueue<Integer> queue = new PriorityQueue<>((a, b) -> b - a);
+        int time = 0;
+        for(int[] course : courses) {
+            if(time + course[0] <= course[1]) {
+                queue.offer(course[0]);
+                time += course[0];
+            } else if(!queue.isEmpty() && queue.peek() > course[0]) {
+                time += course[0] - queue.poll();
+                queue.offer(course[0]);
+            }
+        }
+        
+        return queue.size();
+    }
+
+
+   // Slowest
+
+    public int scheduleCourse(int[][] courses) {
+        Arrays.sort(courses, ((a,b) -> a[1] - b[1]));
+        // int[][] cache = new int[courses.length][courses[courses.length - 1][1] + 1];
+        int time = 0;
+        int count = 0;
+        for(int index = 0 ; index < courses.length; index++) {
+            if(time + courses[index][0] <= courses[index][1]) {
+                count++;
+                time += courses[index][0];
+            } else {
+                int curr = index;
+                for(int prev = 0; prev < index; prev++) {
+                    // replace with the course max available time
+                    if(courses[prev][0] > courses[curr][0]) {
+                        curr = prev;
+                    }
+                }
+                    // course replaced
+                    if(courses[curr][0] > courses[index][0]) {
+                        // Add extra time available by replacing the first found course
+                        time += courses[index][0] - courses[curr][0];
+                    }
+                    courses[curr][0] = -1;
+                
+            }
+        }
+        return count;
+    }
+}
