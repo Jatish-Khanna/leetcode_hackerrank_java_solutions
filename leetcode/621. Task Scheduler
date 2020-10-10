@@ -1,0 +1,80 @@
+class Solution {
+    
+    // well optimized on storage and CPU cycles
+    public int leastInterval(char[] tasks, int n) {
+        int interval = 0;
+        int[] freq = new int[26];
+        int max = 0;
+        int count = 0;
+        for(char task : tasks) {
+            freq[task - 'A']++;
+        }
+        for(int curr : freq) {
+            if(curr > max) {
+                max = curr;
+                count = 1;
+            } else if(curr == max) {
+                count++;
+            }
+        }
+        
+        // Maximun context switch for a task * time difference allowed between a context switch of a same task
+        // Adding the task with same freq as it will only be schedule after the first task
+        // Or the max of task.length - i.e. the least amount of time to schedule all the task
+        return Math.max((max - 1) * (n + 1) + count, tasks.length);
+    }
+    
+    // Slow solution but clearly define
+    
+    
+    public int leastInterval(char[] tasks, int n) {
+        Map<Character, Integer> freq = new HashMap<>();
+        int interval = 0;    
+        for(char curr : tasks) {
+            freq.merge(curr, 1, ((o, nv) -> o + nv));
+        }
+        
+        PriorityQueue<Character> active = new PriorityQueue<>((key, key2) -> {
+            return freq.get(key2) - freq.get(key);
+        });
+        
+        for(char key : freq.keySet()) {
+            active.offer(key);
+        }
+        
+        Queue<Character> waiting = new LinkedList<>();
+        int time = 0;
+        char task, waitingTask;
+        
+        while(!active.isEmpty() || !waiting.isEmpty()) {
+            
+            if(freq.isEmpty()) { break; }
+            
+            if(!active.isEmpty()) {
+                task = active.poll();
+                
+                if(freq.get(task) > 1) {
+                    freq.put(task, freq.get(task) - 1);
+                    waiting.offer(task);
+                } else {
+                    freq.remove(task);
+                    waiting.offer('0');
+                }
+            } else {
+                waiting.offer('0');
+            }
+            interval++;
+            
+            if(waiting.size() > n) {
+                waitingTask = waiting.poll();
+                if(waitingTask == '0') {
+                    continue;
+                } else {
+                    active.offer(waitingTask);
+                }
+            }
+        }
+        
+        return interval;
+    }
+}
