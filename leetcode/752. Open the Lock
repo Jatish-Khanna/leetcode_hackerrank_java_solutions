@@ -1,0 +1,61 @@
+class Solution {
+    int level = 1;
+    public int openLock(String[] deadends, String target) {
+    
+        Set<String> dead = new HashSet<>();
+        for(String curr : deadends) {
+            dead.add(curr);
+        }
+        
+        if(dead.contains("0000")) {
+            return -1;
+        } else if("0000".equals(target)) {
+            return 0;
+        }
+        Set<String> start = new HashSet<>();
+        Set<String> end = new HashSet<>();
+        start.add("0000");
+        end.add(target);
+        
+        return bfs(start, end, dead);
+    }
+    
+    private int bfs(Set<String> start, Set<String> end, Set<String> dead) {
+        if(start.isEmpty()) {
+            return -1;
+        }
+        String intermediate;
+        char orig;
+        char[] ar;
+        dead.addAll(start);
+        Set<String> newStart = new HashSet<>();
+        int[] ops = {-1, 1};
+        
+        for(String current : start) {
+            // System.out.println(current);
+            ar = current.toCharArray();
+            
+            for(int index = 0; index < ar.length; index++) {
+                orig = ar[index];
+                for(int op : ops) {
+                    ar[index] = (char)((((orig - '0') + op + 10)%10) + '0');
+                    intermediate = new String(ar);
+                    if(dead.contains(intermediate)) {
+                      continue;
+                    } else if(end.contains(intermediate)) {
+                        return level;
+                    }
+                    newStart.add(intermediate);
+                    // }
+                    
+                }
+                ar[index] = orig;
+            }
+        }
+        // System.out.println(newStart);
+        level++;
+        return newStart.size() < end.size() ? 
+                bfs(newStart, end, dead) : bfs(end, newStart, dead);
+        
+    }
+}
