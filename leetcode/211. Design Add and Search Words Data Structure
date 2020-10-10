@@ -1,0 +1,82 @@
+class WordDictionary {
+
+    Trie trie;
+    /** Initialize your data structure here. */
+    public WordDictionary() {
+        trie = new Trie();
+    }
+    
+    /** Adds a word into the data structure. */
+    public void addWord(String word) {
+        trie.insert(word);
+    }
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    public boolean search(String word) {
+        return trie.findWord(word);
+    }
+    
+    static class Trie {
+        
+        TrieNode root;
+        static class TrieNode {
+            TrieNode[] children;
+            boolean isEnd;
+            TrieNode() {
+                this.isEnd = false;
+                children = new TrieNode[26];
+            }
+        }
+        
+        Trie() {
+            root = new TrieNode();
+        }
+        
+        void insert(String word) {
+            TrieNode current = root;
+            for(char ch : word.toCharArray()) {
+                if(current.children[ch - 'a'] == null) {
+                    current.children[ch-'a'] = new TrieNode();
+                }
+                current = current.children[ch - 'a'];
+            }
+            current.isEnd = true;
+        }
+        
+        boolean findWord(String word) {
+            TrieNode found = find(0, word.toCharArray(), root);
+            return found != null && found.isEnd;
+        }
+        
+        private TrieNode find(int index, char[] word, TrieNode current) {
+            if(current == null) {
+                return current;
+            } else if(index == word.length) {
+                return current;
+            }
+            
+            if(word[index] == '.') {
+                for(TrieNode child : current.children) {
+                    if(child == null) { continue; }
+                    TrieNode ret = find(index + 1, word, child);
+                    if(ret != null && ret.isEnd) {
+                        return ret;
+                    }
+                }
+            } else {
+                
+                return find(index + 1, word, current.children[word[index] - 'a']);
+            }
+            return null;
+        }
+        
+    }
+    
+}
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * boolean param_2 = obj.search(word);
+ */
