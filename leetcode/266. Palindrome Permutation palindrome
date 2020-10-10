@@ -1,0 +1,26 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(palindromePermutation());
+	}
+	
+	private static boolean palindromePermutation() {
+	    String str = "aaaaaaab";
+	    int[] ar = new int[26];
+	    for(char curr : str.toCharArray()) {
+	        ar[curr - 'a']++;
+	    }
+	    
+	    boolean isOdd = false;
+	    for(int index = 0; index < ar.length; index++) {
+	        if(ar[index] % 2 != 0) {
+	            if(isOdd) {
+	                return false;
+	            }
+	            isOdd = true;
+	        }
+	    }
+	    // empty string
+	    return true;
+	}
+}
