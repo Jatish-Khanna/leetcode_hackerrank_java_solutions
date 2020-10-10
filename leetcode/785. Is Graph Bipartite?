@@ -1,0 +1,38 @@
+class Solution {
+    public boolean isBipartite(int[][] graph) {
+        // Given the adj list - i.e. for each node
+        // indexed with zero - provided its adj nodes
+        
+        boolean[] color = new boolean[graph.length]; // nodes from 0 - (n - 1)
+        boolean[] visited = new boolean[graph.length];
+        
+        for(int index = 0; index < graph.length; index++) {
+            if(!visited[index]) {
+                if(!dfs(index, color, graph, visited)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    private boolean dfs(int index, boolean[] color, int[][] graph, boolean[] visited) {
+        visited[index] = true;
+        
+        // each neb
+        for(int neb : graph[index]) {
+            // asigned the color
+            if(!visited[neb]) {
+                color[neb] = !color[index];
+                if(!dfs(neb, color, graph, visited)) {
+                    return false;
+                }
+            } else {
+                if(color[neb] != !color[index]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
