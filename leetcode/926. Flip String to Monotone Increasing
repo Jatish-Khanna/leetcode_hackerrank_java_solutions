@@ -1,0 +1,31 @@
+class Solution {
+    public int minFlipsMonoIncr(String S) {
+        int ones = 0;
+        int zeros = 0;
+        int count = 0;
+        for(char curr : S.toCharArray()) {
+            if(curr == '0') {
+                zeros++;
+            }
+        }
+        
+        int result = zeros;
+        // At each point 
+        // We know number of zeros on the right of the array
+        // we know number of ones on the left of the array
+        // we take care of how many zeros to flip and ones
+        // Considering the current point as starting point
+        // Keep track of the min
+        for(char curr : S.toCharArray()) {
+            if(curr == '0') {
+                zeros--;
+            } else {
+                ones++;
+            }
+            if(zeros + ones < result) {
+                result = zeros + ones;
+            }
+        }
+        return result;
+    }
+}
