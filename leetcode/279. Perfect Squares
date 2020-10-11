@@ -1,0 +1,15 @@
+class Solution {
+    public int numSquares(int n) {
+        if(n == 0) { return 0; }
+        int[] dp = new int[n + 1];
+        int multiply;
+        for(int index = 1; index <= n; index++) {
+            dp[index] = index;
+            for(int mul = 1; mul * mul <= index; mul++) {
+                
+                dp[index] = Math.min(dp[index], dp[index - mul*mul] + 1);
+            }
+        }
+        return dp[n];
+    }
+}
