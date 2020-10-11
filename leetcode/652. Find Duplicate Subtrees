@@ -1,0 +1,51 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    Map<Long, TreeNode> duplicateTreesMap;
+    Map<Long, TreeNode> treesToHashValue;
+    List<TreeNode> ans;
+
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        duplicateTreesMap = new HashMap<Long, TreeNode>();
+        treesToHashValue = new HashMap<Long, TreeNode>();
+        ans = new ArrayList<TreeNode>();
+        lookup(root);
+        
+        for(TreeNode entry : duplicateTreesMap.values()){
+            ans.add(entry);
+        }
+        
+        return ans;
+    }
+
+    public long lookup(TreeNode root) {
+        if (root == null) return 31;
+        long left = lookup(root.left);
+        long right = lookup(root.right);
+        
+        // Add prime value
+        long val = root.val + 233;
+        long hash = val + val * left + val * left * right;
+        
+        // Seen first with the hash value
+        if (treesToHashValue.get(hash) == null) {
+            treesToHashValue.put(hash, root);
+        } else if (duplicateTreesMap.get(hash) == null) {
+            // this root has been seen second time with the hash value
+            duplicateTreesMap.put(hash, root);
+        }
+        return hash;
+    }}
