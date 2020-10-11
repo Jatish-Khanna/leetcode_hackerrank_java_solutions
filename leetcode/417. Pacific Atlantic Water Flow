@@ -1,0 +1,75 @@
+class Solution {
+    
+    int[][] dirs = {{0,-1}, {-1,0},{0,1},{1,0}};
+    
+    public List<List<Integer>> pacificAtlantic(int[][] matrix) {
+        if(matrix.length == 0 || matrix[0].length == 0) {
+            return new ArrayList<>();
+        }
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        boolean[][]  visitPacific = new boolean[rows][cols];
+        boolean[][]  visitAtlantic = new boolean[rows][cols];
+        Queue<int[]> queue = new LinkedList<>();
+                
+        // col wise addition
+        for(int row = 0; row < rows; row++) {
+            queue.offer(new int[]{row, 0});
+            visitPacific[row][0] = true;
+        }
+                
+        for(int col = 0; col < cols; col++) {
+            queue.offer(new int[]{0, col});
+            visitPacific[0][col] = true;
+        }
+        // System.out.println(queue);   
+        bfs(queue, visitPacific, matrix);
+        
+        // col wise addition
+        for(int row = 0; row < rows; row++) {
+            queue.offer(new int[]{row, cols-1});
+            visitAtlantic[row][cols-1] = true;
+        }
+                
+        for(int col = 0; col < cols; col++) {
+            queue.offer(new int[]{rows-1, col});
+            visitAtlantic[rows-1][col] = true;
+        }
+        
+        bfs(queue, visitAtlantic, matrix);
+        List<List<Integer>> result = new ArrayList<>();
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                if(visitPacific[row][col] && visitAtlantic[row][col]) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(row);
+                    list.add(col);
+                    result.add(list);
+                }
+            }
+        }
+        return result;
+    }
+    
+    private void bfs(Queue<int[]> queue, boolean[][] visited, int[][] matrix) {
+        int[] current;
+        int row, col;
+        while(!queue.isEmpty()) {
+            current = queue.poll();
+            for(int[] dir : dirs) {
+                row = dir[0] + current[0];
+                col = dir[1] + current[1];
+                if(!isInvalid(row, col, matrix, visited, current)) {
+                    queue.offer(new int[]{row, col});
+                    visited[row][col] = true;
+                }
+            }
+        }
+    }
+    
+    private boolean isInvalid(int row, int col, int[][] matrix, boolean[][] visited, int[] current) {
+        return row < 0 || col < 0 || row >= matrix.length || col >= matrix[0].length
+               || matrix[row][col] < matrix[current[0]][current[1]]
+               || visited[row][col];
+    }
+} 
