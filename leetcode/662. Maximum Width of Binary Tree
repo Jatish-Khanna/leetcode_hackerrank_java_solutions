@@ -1,0 +1,82 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    
+    // DFS 
+    int max = 0;
+    int count = 0;
+    public int widthOfBinaryTree(TreeNode root) {
+        if(root == null) { return 0; }
+        find(0, 1, root, new ArrayList<>());
+        return max;
+    }
+    
+    private void find(int level, int index, TreeNode node, List<Integer> list) {
+        if(node == null) { return; }
+        if(level == count) {
+            // first time seeing an index at left
+            list.add(index);
+            count++;
+        }
+        max = Math.max(max, index + 1 - list.get(level));
+        find(level + 1, index * 2, node.left, list);
+        find(level + 1, index * 2 + 1, node.right, list);
+    }
+
+    
+    
+    // BFS 
+    
+    static class Pair {
+        TreeNode node;
+        int idx;
+        Pair(TreeNode node, int idx) {
+            this.node = node;
+            this.idx = idx;
+        }
+    }
+    
+    public int widthOfBinaryTree(TreeNode root) {
+        if(root == null) { return 0; }
+        int max = 0;
+        int start = 0, size = 0, end = 0;
+        Pair current;
+        
+        Queue<Pair> queue = new LinkedList<>();
+        queue.offer(new Pair(root, 1));
+        
+        while(!queue.isEmpty()) {
+            size = queue.size();
+            start = queue.peek().idx;
+            while(size-- > 0) {
+                current = queue.poll();
+                end = current.idx;
+                
+                if(current.node.left != null) {
+                    queue.offer(new Pair(current.node.left, current.idx * 2));
+                }
+                
+                
+                if(current.node.right != null) {
+                    queue.offer(new Pair(current.node.right, current.idx * 2 + 1));
+                }
+            }
+            // System.out.println(end + " " + start);
+            max = Math.max(max, end - start + 1);
+        }
+        return max;
+    }
+}
