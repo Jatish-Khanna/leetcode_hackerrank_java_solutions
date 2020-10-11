@@ -1,0 +1,40 @@
+class Solution {
+
+  // A better approach (n logn)
+  int min = Integer.MAX_VALUE;
+    public int coinChange(int[] coins, int amount) {
+        Arrays.sort(coins);
+        dfs(0, coins.length - 1, coins, amount);
+        return min == Integer.MAX_VALUE ? -1 : min;
+    }
+    
+    private void dfs(int count, int index, int[] coins, int amount) {
+        if(amount == 0) {
+            min = Math.min(count, min);
+            return;
+        }
+        if(index < 0) { return; }
+        for(int value = amount / coins[index]; value >= 0 && count + value < min; value--) {
+            dfs(count + value, index - 1, coins, amount - value * coins[index]);
+        }
+    }
+
+  
+  // slower (Amount * coins.length)
+
+    public int coinChange(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0;
+        
+        for(int sum = 1; sum <= amount; sum++) {
+            for(int coin : coins) {
+                if(coin <= sum) {
+                    // Amount can be built using min of this or excluding
+                    dp[sum] = Math.min(dp[sum], dp[sum-coin] + 1);
+                }
+            }    
+        }
+        return dp[amount] == amount + 1 ? -1 : dp[amount];
+    }
+}
