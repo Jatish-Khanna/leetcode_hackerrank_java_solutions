@@ -1,0 +1,38 @@
+ class Main
+{
+    
+    static class Node {
+        int val;
+        Node left, right;
+        Node(int val) {
+            this.val = val;
+        }
+    }
+    
+	public static void main(String[] args) {
+		System.out.println(findLeaves());
+	}
+	
+	private static List<List<Integer>> findLeaves() {
+	    Node root = new Node(1); 
+        root.left = new Node(2); 
+        root.right = new Node(3); 
+        root.left.left = new Node(4); 
+        root.left.right = new Node(5); 
+        
+        List<List<Integer>> result = new ArrayList<>();
+        leaves(0, root, result);
+        return result;
+	}
+	static int max = -1;
+	private static void leaves(int level, Node node, List<List<Integer>> result) {
+	    if(node == null) { return; }
+	    if(max < level) {
+	        result.add(new ArrayList<>());
+	        max++;
+	    }
+	    result.get(level).add(node.val);
+	    leaves(level + 1, node.left, result);
+	    leaves(level + 1, node.right, result);
+	}
+}
