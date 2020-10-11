@@ -1,0 +1,53 @@
+ class Main
+{
+
+  // A better approach based on the fact that - only 1 zero is allowed to modift
+  
+    public int findLength(int[] nums) {
+      int max = 0;
+      int last = -1;
+      for(int prev = 0, next = 0; next < nums.length; next++) {
+        if(nums[next] == 0) {
+          // last poistion of zero
+          prev = last + 1;
+          last = next;
+        }
+        max = Math.max(max, next - prev + 1); 
+      }
+      return max;
+    }
+
+
+
+	public static void main(String[] args) {
+		System.out.println(maxOnes());
+	}
+	
+	private static int maxOnes() {
+	    int[] nums = {0,1,1,1,1,0,1,1,1};
+	    
+	    int zeros = 0;
+	    int ones = 0;
+	    int k = 1;
+	    int start = 0;
+	    int index = 0;
+	    int max = 0;
+	    while(index < nums.length) {
+	        if(nums[index] == 0) {
+	            zeros++;
+	        }
+	        
+	        if(zeros > k) {
+	            while(zeros > k) {
+	                if(nums[start] == 0) {
+	                    zeros--;
+	                }
+	                start++;
+	            }
+	        }
+	        max = Math.max(max, index - start + 1);
+	        index++;
+	    }
+	    return max;
+	}
+}
