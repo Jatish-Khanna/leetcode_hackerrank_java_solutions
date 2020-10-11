@@ -1,0 +1,20 @@
+class Solution {
+    public int longestSubstring(String s, int k) {
+        int[] freq = new int[26];
+        char[] ar = s.toCharArray();
+        for(char ch : ar) {
+            freq[ch - 'a']++;
+        }
+        int next;
+        for(int index = 0; index < ar.length; index++) {
+            if(freq[ar[index] - 'a'] >= k) { continue; }
+            next = index + 1;
+            while(next < ar.length && freq[ar[next] - 'a'] < k) {
+                next++;
+            }
+            return Math.max(longestSubstring(s.substring(0, index), k),
+                            longestSubstring(s.substring(next), k));
+        }
+        return ar.length;
+    }
+}
