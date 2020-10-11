@@ -1,4 +1,30 @@
 class Solution {
+
+    // Another approach - same usage except the substring
+    public int longestSubstring(String s, int k) {
+        return find(0, s.length(), s.toCharArray(), k);
+    }
+    
+    private int find(int left, int right, char[] ar, int k) {
+        int[] freq = new int[26];
+        for(int index = left; index < right; index++) {
+            freq[ar[index] -'a']++;
+        }
+        int next;
+        for(int index = left; index < right; index++) {
+            if(freq[ar[index] - 'a'] >= k) {
+                continue;
+            }
+            next = index + 1;
+            while(next < right && freq[ar[next] - 'a'] < k) {
+                next++;
+            }
+            return Math.max(find(left, index, ar, k),
+                            find(next, right, ar, k));
+        }
+        return right - left;
+    }
+
     public int longestSubstring(String s, int k) {
         int[] freq = new int[26];
         char[] ar = s.toCharArray();
