@@ -1,4 +1,50 @@
 class MagicDictionary {
+
+    // Fast solution with HashMap and tracking the length of the inserter words
+    Map<Integer, List<String>> map;
+    /** Initialize your data structure here. */
+    public MagicDictionary() {
+        map = new HashMap<>();
+    }
+    
+    public void buildDict(String[] dictionary) {
+        int length;
+        for(String word : dictionary) {
+            length = word.length();
+            if(!map.containsKey(length)) {
+                map.put(length, new ArrayList<>());
+            }
+            map.get(length).add(word);
+        }
+    }
+    
+    public boolean search(String searchWord) {
+        // int length = searchWord.length();
+        int diff = 0;
+        char[] stored, orig;
+        orig = searchWord.toCharArray();
+        
+        if(!map.containsKey(orig.length)) { return false; }
+        
+        for(String word : map.get(orig.length)) {
+            diff = 0;
+            stored = word.toCharArray();
+            for(int index = 0; index < orig.length; index++) {
+                if(stored[index] != orig[index]) {
+                    diff++;
+                    if(diff > 1) { break; }
+                }
+            }
+            if(diff == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    // Space effiecnt solution with Trie Datastructure
+
     Trie trie;
     /** Initialize your data structure here. */
     public MagicDictionary() {
