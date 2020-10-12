@@ -1,0 +1,44 @@
+class Solution {
+    public int nextGreaterElement(int n) {
+        char[] num = String.valueOf(n).toCharArray();
+        int rev = -1;
+        
+        int index = num.length - 2;
+        while(index >= 0) {
+            if(num[index] < num[index + 1]) {
+                break;
+            }
+            index--;
+        }
+        // it is not rotatable
+        if(index == -1) { return -1; }
+        int max = index + 1;
+        // System.out.println(max);
+        for(int j = index+1; j<num.length; j++)
+        {
+            if(num[index] < num[j] && num[max] > num[j]){
+                max = j;
+            }
+        }
+        swap(num, index, max);
+        // reverse(num, index + 1, num.length - 1);
+        Arrays.sort(num, index + 1, num.length);
+        long val = Long.parseLong(new String(num));
+        return val > Integer.MAX_VALUE ? -1 : (int)val;
+    }
+    
+    private void swap(char[] num, int first, int second) {
+        char tmp = num[first];
+            num[first] = num[second];
+            num[second] = tmp;
+    }
+    
+    private void reverse(char[] num, int first, int second) {
+        // int tmp;
+        while(first < second) {
+            swap(num, first, second);
+            first++;
+            second--;
+        }
+    }
+}
