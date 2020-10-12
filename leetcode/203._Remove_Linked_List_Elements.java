@@ -9,7 +9,31 @@ public class Solution {
     
   }
   
+  // simple
+  public ListNode removeElements(ListNode head, int val) {
+        
+        if(head == null) {
+            return null;
+        }
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        
+        ListNode removed = dummy;
+        ListNode current = head;
+        while(current != null) {
+            if(current.val != val) {
+                removed.next = current;
+                removed = removed.next;
+            }
+            current = current.next;
+        }
+        // Fix for the last element;
+        removed.next = null;
+        return dummy.next;
+    }
   
+  
+  // Lot of code caos
     public ListNode removeElements(ListNode head, int val) {
         
         if(head == null) {
