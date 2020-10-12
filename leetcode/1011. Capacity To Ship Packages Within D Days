@@ -1,0 +1,43 @@
+class Solution {
+    public int shipWithinDays(int[] weights, int D) {
+        int max = 0;
+        int total = 0;
+        
+        // We have the sum of capacity required
+        // we have the max of weight
+        for(int weight : weights) {
+            total += weight;
+            max = Math.max(weight, max);
+        }
+        
+        if(weights.length == D) { return max; }
+        
+        int low = max;
+        int high = total;
+        int mid;
+        while(low < high) {
+            mid = low + (high - low) / 2;
+            // Number of days to ship is inbounds
+            // Decrease the capacity required
+            if(count(weights, mid) <= D) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+    
+    private int count(int[] weights, int sum) {
+        int days = 1;
+        int total = 0;
+        for(int weight : weights) {
+            if(total + weight > sum) {
+                total = 0;
+                days++;
+            }
+            total += weight;
+        }
+        return days;
+    }
+}
