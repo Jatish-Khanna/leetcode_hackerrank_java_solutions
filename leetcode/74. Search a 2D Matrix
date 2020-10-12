@@ -1,4 +1,32 @@
 class Solution {
+    
+    // Solution with - O(n)
+    
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix == null || matrix.length == 0 || matrix[0].length == 0) { return false; }
+        
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        
+        if(target < matrix[0][0] || matrix[rows - 1][cols - 1] < target) { return false; }
+        
+        int row = 0;
+        int col = cols - 1;
+        while(row < rows && col >= 0) {
+            if(matrix[row][col] < target) {
+                row++;
+            } else if(matrix[row][col] == target) {
+                return true;
+            } else {
+                col--;
+            }
+        }
+        return false;
+    }
+
+    
+    // A bit slower solution as - O(n^1.58)
+    
     public boolean searchMatrix(int[][] matrix, int target) {
         if(matrix == null || matrix.length == 0 || matrix[0].length == 0) { return false; }
         
