@@ -1,0 +1,42 @@
+class Solution {
+    
+    int[][] dirs = {{0,-1},{-1,-1},{-1,0},{0,1},{1,1},{1,0}, {-1,1},{1,-1}};
+    
+    public void gameOfLife(int[][] board) {
+        int rows = board.length;
+        int cols = board[0].length;
+        int active = 0;
+        
+        int nr, nc;
+        
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                active = 0;
+                for(int[] dir : dirs) {
+                    nr = row + dir[0];
+                    nc = col + dir[1];
+                    if(nr<0||nr==rows||nc<0||nc==cols) continue;
+                    if((board[nr][nc] & 1) == 1) {
+                        active++;
+                    }
+                    
+                }
+                if((board[row][col] & 1) == 0) {
+                    if(active == 3) {
+                        board[row][col] |= 2;
+                    }
+                } else {
+                    if(active == 2 || active == 3) {
+                        board[row][col] |= 2;
+                    }
+                }
+            }
+        }
+        
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                board[row][col] >>= 1;
+            }
+        }
+    }
+}
