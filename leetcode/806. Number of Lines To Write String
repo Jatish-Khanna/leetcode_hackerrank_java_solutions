@@ -1,0 +1,17 @@
+class Solution {
+    public int[] numberOfLines(int[] widths, String S) {
+        int total = 0;
+        int count = 1;
+        int current = 0;
+        for(char ch : S.toCharArray()) {
+            current = widths[ch - 'a'];
+            if(total + current > 100) {
+                total = 0;
+                count++;
+                // continue;
+            } 
+            total += current;
+        }
+        return new int[]{count, total};
+    }
+}
