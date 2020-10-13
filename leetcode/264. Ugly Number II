@@ -1,0 +1,32 @@
+class Solution {
+    public int nthUglyNumber(int n) {
+        int[] dp = new int[n];
+        int i2 = 0;
+        int i3 = 0;
+        int i5 = 0;
+        dp[0] = 1;
+        int prev = -1;
+        int least;
+        for(int i = 1; i < n; i++) {
+            least = Math.min(dp[i2]*2, Math.min(dp[i3]*3, dp[i5]*5));
+            
+            if(least == dp[i2] * 2) {
+                i2++;
+            } else if(least == dp[i3]*3) {
+                i3++;
+            } else {
+                i5++;
+            }
+            
+            if(prev == least) {
+                i--;
+                continue;
+            }
+            
+            dp[i] = least;
+            prev = least;
+        }
+        // Arrays.stream(dp).forEach(System.out::println);
+        return dp[n-1];
+    }
+}
