@@ -1,0 +1,29 @@
+class Solution {
+    public int minFallingPathSum(int[][] A) {
+        int size = A.length;
+        int[][] rowSum = new int[size + 1][size];
+        int min;
+        
+        
+        
+        for(int row = size - 1; row >= 0; row--) {
+            for(int col = 0; col < size; col++) {
+                min = rowSum[row + 1][col];
+                if(col > 0) {
+                    min = Math.min(min, rowSum[row + 1][col - 1]);
+                }
+                if(col < size - 1) {
+                    min = Math.min(min, rowSum[row + 1][col  +1]);
+                }
+                rowSum[row][col] = min + A[row][col];
+            }
+        }
+        
+        min = Integer.MAX_VALUE;
+        for(int sum : rowSum[0]) {
+            min = Math.min(min, sum);
+            // System.out.println(sum);
+        }
+        return min;
+    }
+}
