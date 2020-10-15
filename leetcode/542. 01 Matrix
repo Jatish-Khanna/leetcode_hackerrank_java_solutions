@@ -1,0 +1,34 @@
+class Solution {
+    public int[][] updateMatrix(int[][] matrix) {
+        Queue<int[]> queue = new LinkedList<>();
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        boolean[][] visited = new boolean[rows][cols];
+        
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                if(matrix[row][col] == 0) {
+                    queue.offer(new int[]{row, col, 0});
+                    visited[row][col] = true;
+                }
+            }
+        }
+        int[][] dirs = {{0,-1},{-1,0},{0,1},{1,0}};
+        int[] current;
+        int nr, nc;
+        
+        while(!queue.isEmpty()) {
+            current = queue.poll();
+            for(int[] dir : dirs) {
+                nr = current[0] + dir[0];
+                nc = current[1] + dir[1];
+                if(nr >= 0 && nr < rows && nc >= 0 && nc < cols && !visited[nr][nc]) {
+                    matrix[nr][nc] = current[2] + 1;
+                    visited[nr][nc] = true;
+                    queue.offer(new int[]{nr, nc, matrix[nr][nc]});
+                }
+            }
+        }
+        return matrix;
+    }
+}
