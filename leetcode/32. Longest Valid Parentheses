@@ -1,0 +1,25 @@
+class Solution {
+    public int longestValidParentheses(String s) {
+        int index = 0;
+        int max = 0;
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        stack.push(-1);
+        for(char ch : s.toCharArray()) {
+            if(ch == '(') {
+                stack.push(index);
+            } else {
+                stack.pop();
+                if(stack.isEmpty()) {
+                    // new valid start
+                    stack.push(index);
+                } else {
+                    max = Math.max(max, index - stack.peek());
+                }
+            }
+            
+            
+            index++;
+        }
+        return max;
+    }
+}
