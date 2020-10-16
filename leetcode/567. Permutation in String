@@ -1,4 +1,54 @@
 class Solution {
+    // Modularized
+
+    public boolean checkInclusion(String s1, String s2) {
+        int[] f1 = new int[26];
+        int[] f2 = new int[26];
+        
+        char[] ar = s2.toCharArray();
+        int size  = 0;
+        if(s1.length() > ar.length) { return false; }
+        
+        for(char ch : s1.toCharArray()) {
+            f1[ch - 'a']++;
+            size++;
+        }
+        int i = 0;
+        
+        for(; i < size; i++) {
+            f2[ar[i] - 'a']++;
+        }
+        
+        int check;
+        // int limit = ar.length - size + 1;
+        while(i < ar.length) {
+            if(check(f1, f2)) {
+                return true;
+            }
+            f2[ar[i] - 'a']++;
+            f2[ar[i - size] - 'a']--;
+            i++;
+        }
+        return check(f1, f2);
+        
+    }
+    
+    private boolean check(int[] f1, int[] f2) {
+        int check = 0;
+        while(check < 26) {
+            if(f1[check] > f2[check]) {
+                break;
+            }
+            check++;
+        }
+            
+        
+        return check == 26;
+    }
+
+
+
+    // Worst code
     public boolean checkInclusion(String s1, String s2) {
         int[] f1 = new int[26];
         int[] f2 = new int[26];
