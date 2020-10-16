@@ -1,0 +1,10 @@
+class Solution {
+    public List<Integer> grayCode(int n) {
+        List<Integer> list = new ArrayList<>();
+        
+        for(int index = 0; index < (1 << n); index++) {
+            list.add(index ^ (index >> 1));
+        }
+        return list;
+    }
+}
