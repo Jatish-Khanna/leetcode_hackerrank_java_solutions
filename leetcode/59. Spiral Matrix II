@@ -1,0 +1,54 @@
+class Solution {
+    public int[][] generateMatrix(int n) {
+        // rows;
+        int top = 0;
+        int bottom = n - 1;
+        // Columns
+        int left = 0;
+        int right = n - 1;
+        int id;
+        
+        int[][] matrix = new int[n][n];
+        int count = 1;
+        
+        while(top <= bottom && left <= right) {
+            // top
+            id = left;
+            while(id <= right) {
+                matrix[top][id] = count;
+                count++;
+                id++;
+            }
+            top++;
+            
+            // right
+            id = top;
+            while(id <= bottom) {
+                // System.out.println(id + " " + bottom);
+                matrix[id][right] = count;
+                count++;
+                id++;
+            }
+            right--;
+            
+            // bottom
+            id = right;
+            while(id >= left) {
+                matrix[bottom][id] = count;
+                count++;
+                id--;
+            }
+            bottom--;
+            
+            // left
+            id = bottom;
+            while(id >= top) {
+                matrix[id][left] = count;
+                count++;
+                id--;
+            }
+            left++;
+        }
+        return matrix;
+    }
+}
