@@ -1,0 +1,25 @@
+class Solution {
+    // int count;
+    public int findTargetSumWays(int[] nums, int S) {
+        
+        int[][] dp = new int[nums.length][2001];
+        return dfs(0, 0, nums, S, dp);
+        
+    }
+    
+    private int dfs(int index, int sum, int[] nums, int S, int[][] dp) {
+        if(index == nums.length) {
+            if(sum == S) {
+                return 1;
+            }
+            return 0;
+        }
+        
+        if(dp[index][sum + 1000] != 0) { return dp[index][sum + 1000]; }
+        
+        int ways =  dfs(index + 1, sum - nums[index], nums, S, dp) 
+                  + dfs(index + 1, sum + nums[index], nums, S, dp);
+        dp[index][sum + 1000] = ways;
+        return ways;
+    }
+}
