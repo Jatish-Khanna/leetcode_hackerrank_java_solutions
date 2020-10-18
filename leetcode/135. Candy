@@ -1,0 +1,35 @@
+class Solution {
+    public int candy(int[] ratings) {
+        int[] degree = new int[ratings.length];
+        
+        for(int index = 0; index < ratings.length; index++) {
+            if(index != 0 && ratings[index - 1] > ratings[index]) {
+                degree[index-1]++;
+            }
+            if(index != ratings.length - 1 && ratings[index + 1] > ratings[index]) {
+                degree[index+1]++;
+            }
+        }
+        
+        Queue<Integer> queue = new LinkedList<>();
+        for(int index = 0; index < ratings.length; index++) {
+            if(degree[index] == 0) {
+                queue.offer(index);
+            }
+        }
+        int ans = 0;
+        int level = 1;
+        int current;
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            while(size-- > 0) {
+                ans += level;
+                current = queue.poll();
+                if(current != 0 && ratings[current - 1] > ratings[current] && --degree[current - 1] == 0) { queue.offer(current - 1); }
+                if(current != ratings.length -1  && ratings[current + 1] > ratings[current] && --degree[current + 1] == 0) { queue.offer(current + 1); }
+            }
+            level++;
+        }
+        return ans;
+    }
+}
