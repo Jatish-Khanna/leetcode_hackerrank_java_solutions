@@ -1,4 +1,34 @@
 class Solution {
+
+    // Dynamic programmic solution
+    
+    public int candy(int[] ratings) {
+    
+        int[] dp = new int[ratings.length];
+        Arrays.fill(dp, 1);
+        
+        for(int index = 1; index < ratings.length; index++) {
+            if(ratings[index - 1] < ratings[index]) {
+                dp[index] = dp[index - 1] + 1;
+            }
+        }
+        
+        for(int index = ratings.length - 2; index >= 0; index--) {
+            if(ratings[index] > ratings[index + 1]) {
+                dp[index] = Math.max(dp[index], dp[index + 1] + 1);
+            }
+        }
+        
+        int total = 0;
+        for(int num : dp) {
+            total += num;
+        }
+        return total;
+    }
+
+
+    // Topological sort solution
+    
     public int candy(int[] ratings) {
         int[] degree = new int[ratings.length];
         
