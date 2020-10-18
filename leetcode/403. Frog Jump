@@ -1,0 +1,34 @@
+class Solution {
+    public boolean canCross(int[] stones) {
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        for(int stone : stones) {
+            map.put(stone, new HashSet<>());
+        }
+        
+        int[] dirs = {-1, 0, 1};
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{0,0});
+        int last = stones[stones.length - 1];
+        
+        while(!queue.isEmpty()) {
+            int[] current = queue.poll();
+            // last stone found
+            if(current[0] == last) { return true; }
+            // for each direction we can move
+            for(int dir : dirs) {
+                // ensure possible moves are k-1, k, k + 1
+                int next = current[1] + dir;
+                
+                // 1 lower bound
+                // 2 upper bound
+                // jump + current stone to next stone doesn't exist
+                // jump + current stone to next already has jump param - visited
+                if(next <= 0 || next > last || !map.containsKey(next + current[0]) || map.get(next + current[0]).contains(next)) { continue; }
+                
+                map.get(next + current[0]).add(next);
+                queue.offer(new int[]{current[0] + next, next});
+            }
+        }
+        return false;
+    }
+}
