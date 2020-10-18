@@ -1,0 +1,71 @@
+ class Main
+{
+	public static void main(String[] args) {
+	    matrixCalculations();
+	}
+	
+	private static void matrixCalculations() {
+	    int[][] input = {{3,0,1,4,2},
+                        {5,6,3,2,1},
+                        {1,2,0,1,5},
+                        {4,1,0,1,7},
+                        {1,0,3,0,5}};
+        
+        NumMatrix nm = new NumMatrix(input);
+        System.out.println(nm.sumRegion(2,1,4,3));
+        nm.update(3,2,2);
+        System.out.println(nm.sumRegion(2,1,4,3));
+        
+	}
+	
+	static class NumMatrix {
+    	private int[][] matrix;
+        private int[][] tree;
+        private int height;
+        private int width;
+    
+        public NumMatrix(int[][] matrix) {
+            
+            this.height = matrix.length;
+            if(height == 0) { return; }
+            this.width = matrix[0].length;
+            if(width == 0) { return; }
+            this.matrix = new int[height][width];
+            tree = new int[height + 1][width + 1];
+            
+            for(int row = 0; row < height; row++) {
+                for(int col = 0; col < width; col++) {
+                    update(row, col, matrix[row][col]);
+                }
+            }
+            
+        }
+        
+        public void update(int row, int col, int val) {
+            int diff = val - matrix[row][col];
+            matrix[row][col] = val;
+            for(int r = row + 1; r <= height; r+=(r&-r)) {
+                for(int c = col + 1; c <= width; c+=(c&-c)) {
+                    tree[r][c] += diff;
+                }
+            }
+            
+            
+        }
+        
+        public int sumRegion(int row1, int col1, int row2, int col2) {
+
+            return sum(row2, col2) - sum(row1 - 1, col2) - sum(row2, col1 - 1) + sum(row1 - 1, col1 - 1);
+        }
+        
+        private int sum(int row, int col) {
+            int sum  = 0;
+            for(int r = row + 1; r > 0; r -= (r&-r)) {
+                for(int c = col + 1; c > 0; c -= (c & -c)) {
+                    sum += tree[r][c];
+                }
+            }
+            return sum;
+        }
+	}
+}
