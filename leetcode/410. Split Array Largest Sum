@@ -1,0 +1,46 @@
+// Same logic as 1011 
+// Tagging - Container Ship parts divide array into x parts
+
+class Solution {
+    
+    
+    public int splitArray(int[] nums, int m) {
+    
+        int sum = 0;
+        int max = -1;
+        for(int num : nums) {
+            sum += num;
+            max = Math.max(max, num);
+        }
+        
+        if(nums.length == m) { return max; } 
+        int mid;
+        
+        while(max < sum) {
+            mid = max + (sum - max) / 2;
+            if(parts(nums, mid) > m) {
+                max = mid + 1;
+            } else {
+                sum = mid;
+            }
+        }
+        return max;
+    }
+    
+    private int parts(int[] nums, int limit) {
+        int part = 1;
+        int sum  = 0;
+        for(int num : nums) {
+           
+            if(sum + num <= limit) {
+                sum += num;
+                
+            } else {
+                sum = num;
+                part++;
+            }
+        }
+        return part;
+    }
+    
+}
