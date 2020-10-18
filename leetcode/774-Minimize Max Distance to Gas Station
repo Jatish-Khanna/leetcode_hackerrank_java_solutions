@@ -1,0 +1,44 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(minimize());
+	}
+	
+	private static double minimize() {
+	    // position of each gas station
+	    int[] stations = {1, 2, 3 , 4, 5, 6, 7, 8, 9, 10};
+	    // More gas stations allowed
+	    int k = 9;
+	    return minmaxGasDist(stations, k);
+	}
+	
+	public static double minmaxGasDist(int[] stations, int k) {
+	    double start = 0;
+	    double end = stations[stations.length - 1] - stations[0];
+	    double eps = 1e-6;
+	    double mid;
+        
+        while (start + eps < end) {
+            mid = start + (end - start) / 2;
+	        
+            if (count(stations, mid) > k) {
+                // minimum stations added is > K
+                // so we nned to increase the mid
+                start = mid;
+            } else {
+                // minimum stations added is <= K
+                // so we need to narrow the mid
+                end = mid;
+            }
+	    }
+	    return start;
+	}
+	
+	private static int count(int[] stations, double mid) {
+	    int count = 0;
+	    for(int index = 1; index < stations.length; index++) {
+	        count += (int) ((stations[index] - stations[index - 1]) / mid);   
+	    }
+	    return count;
+	}
+}
