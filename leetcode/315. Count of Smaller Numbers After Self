@@ -1,0 +1,39 @@
+class Solution {
+    public List<Integer> countSmaller(int[] nums) {
+        
+        if(nums.length == 0) { return new ArrayList<>(); }
+        
+        LinkedList<Integer> result = new LinkedList<>();
+        int found;
+        List<Integer> dp = new ArrayList();
+        
+        result.add(0);
+        dp.add(nums[nums.length - 1]);
+        
+        for(int index = nums.length - 2; index >= 0; index--) {
+            found = find(dp, nums[index]);
+            dp.add(found, nums[index]);
+            result.addFirst(found);
+        }
+        
+        return result;
+    }
+    
+    private int find(List<Integer> dp, int target) {
+        int mid = 0;
+        int start = 0;
+        int end = dp.size();
+        
+        while(start < end) {
+            mid = start + (end - start) / 2;
+            if((mid == 0 || dp.get(mid - 1) < target) && target <= dp.get(mid)) {
+                return mid;
+            } else if(dp.get(mid) < target) {
+                start = mid + 1;
+            } else {
+                end = mid;
+            }
+        }
+        return end;
+    }
+}
