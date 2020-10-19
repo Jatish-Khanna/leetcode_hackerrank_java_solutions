@@ -1,0 +1,68 @@
+class Solution {
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        
+        // the start of the first and end of last word in line
+        int left = 0;
+        int right = 0;
+        
+        // to cater additional space counted for first word
+        int lineWidth = -1;
+        // int index = 0;
+        
+        // formation of the line and collection of lines
+        StringBuilder sb = new StringBuilder();
+        List<String> result = new LinkedList<>();
+        
+        int base = 0, more = 0;
+        
+        while(right < words.length) {
+            // For one space between two words
+            lineWidth += words[right].length() + 1;
+            // OOB
+            if(lineWidth > maxWidth) {
+                // remove current word
+                lineWidth -= (words[right].length() + 1);
+                int additionalSpaces = maxWidth - lineWidth;
+                
+                // distribute the spaces evenly between words [additionalSpaces]
+                // left goes +1 more than right in case odd distibution
+                // number of slots to distribute space between l ... r - 1
+                // Base has +1 to cater already included space between words
+                // System.out.println(result);
+                sb.append(words[left]);
+                if(left + 1 < right) {
+                    base = (additionalSpaces / (right - left - 1)) + 1;
+                    more = additionalSpaces % (right - left - 1);
+                } else {
+                    sb.append(" ".repeat(additionalSpaces));
+                }
+                // System.out.println(additionalSpaces+ " " + base + " " + more);
+                
+                for(int next = left + 1; next < right; next++) {
+                    sb.append(" ".repeat(base + (more-- > 0 ? 1 : 0)));
+                    sb.append(words[next]);
+                }
+                
+                // Reset
+                lineWidth = -1;
+                left = right;
+                result.add(sb.toString());
+                sb.setLength(0);
+                right--;
+            }
+            
+            // check appending next word;
+            right++;
+        }
+        
+        sb.append(words[left]);
+        for(int next = left + 1; next < right; next++) {
+            sb.append(" ").append(words[next]);
+        }
+        if(sb.length() < maxWidth) {
+            sb.append(" ".repeat(maxWidth - sb.length()));
+        }
+        result.add(sb.toString());
+        return result;
+    }
+}
