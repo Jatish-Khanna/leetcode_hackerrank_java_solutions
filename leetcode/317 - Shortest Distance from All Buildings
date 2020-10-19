@@ -1,0 +1,86 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println("distance to all the buidlings: "+ distance());
+	}
+	
+	private static int distance() {
+	    int[][] grid = {{1,0,2,0,1},
+                        {0,0,0,0,0},
+                        {0,0,1,0,0}};
+
+        return shortestDistance(grid);
+	}
+	
+    static int[][] dirs = {{0,-1},{-1,0},{0,1},{1,0}};
+    
+    public static int shortestDistance(int[][] grid) {
+        
+        int rows = grid.length;
+        int cols = grid[0].length;
+        List<int[]> queue = new ArrayList<>();
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                // if this is building
+                if(grid[row][col] == 1) {
+                    // this is building and having distance 0
+                    queue.add(new int[]{row, col, 0});
+                    
+                }
+                // mark all the nodes visited
+                // important: 0 and -0 will be same which is empty land
+                grid[row][col] = -grid[row][col];
+            }
+        }
+        // System.out.println(queue);   
+        int[][] dist = new int[grid.length][grid[0].length];
+        // for all the buildings perform BFS
+        for(int index = 0; index < queue.size(); index++) {
+            bfs(queue.get(index), index, dist, grid, rows, cols);
+        }
+            
+        int ans = -1;
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                if(grid[row][col] == queue.size() && (ans < 0 || dist[row][col] < ans) ) {
+                    ans = dist[row][col];
+                }
+            }
+        }
+        // System.out.println(Arrays.deepToString(grid));
+        // System.out.println(Arrays.deepToString(dist));
+        return ans;
+
+    }
+    
+    public static void bfs(int[] start, int currentBuilding, int[][] dist, int[][] grid, int rows, int cols) {
+        // System.out.println(Arrays.deepToString(grid));
+        // System.out.println(Arrays.deepToString(dist));
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(start);
+        int[] current;
+        int nr, nc;
+        // visit all the nodes reachable
+        while(!queue.isEmpty()) {
+            current = queue.poll();
+            // update the distance from it to all the buildings
+            dist[current[0]][current[1]] += current[2];
+            for(int[] dir : dirs) {
+                nr = current[0] + dir[0];
+                nc = current[1] + dir[1];
+                // is reachable
+                // grid[nr][nc] == currentBuilding ensures it was reachable by all the previous processings
+                if(!isInvalid(nr, nc, rows, cols, grid) && grid[nr][nc] == currentBuilding) {
+                    queue.offer(new int[]{nr, nc, current[2] + 1});
+                    // update to +1 so it can be visited in the next rounds
+                    grid[nr][nc] = currentBuilding + 1;
+                }
+            }
+        }
+
+    }
+    
+    private static boolean isInvalid(int row, int col, int rows, int cols, int[][] grid) {
+        return row < 0 || col < 0 || row >= rows || col >= cols;
+    }
+}
