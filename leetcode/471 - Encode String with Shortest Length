@@ -1,0 +1,56 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(encode());
+	}
+	
+	private static String encode() {
+	    String input = "abbbbba";
+	    int size = input.length();
+	    String[][] dp = new String[size][size];
+	    int end;
+	    
+	    if(size <= 4) { return input; }
+	    
+	    for(int row = 0; row < size; row++) {
+	        for(int col = 0; col < size; col++) {
+	            dp[row][col] = "";
+	        }
+	    }
+	    
+	    String sub, replace;
+	    
+	    for(int len = 1; len <= size; len++) {
+	        // until end with len Iterable
+	        for(int start = 0; start < size - len + 1; start++) {
+	            // End index so subtract 1
+	            end = start + len - 1;
+	            sub = input.substring(start, end + 1);
+	            dp[start][end] = sub;
+	            
+	            if(len <= 4) { continue; }
+	            
+	            int index = (sub+sub).indexOf(sub,1);
+	           // System.out.println(index+"........");
+	            if(index < sub.length()) {
+	                replace = (sub.length() / index) + "[" + dp[start][start+index-1] + "]";
+	                if(replace.length() < sub.length()) {
+	                    dp[start][end] = replace;
+	                    continue;
+	                }
+	            }
+	            
+	            for(int mid = start; mid < end; mid++) {
+	                String left = dp[start][mid];
+	                String right = dp[mid + 1][end];
+	                if(left.length() + right.length() < dp[start][end].length()) {
+	                    dp[start][end] = left + right;
+	                }
+	            }
+	            
+	        }
+	    }
+	    System.out.println(Arrays.deepToString(dp));
+	    return dp[0][size - 1];
+	}
+}
