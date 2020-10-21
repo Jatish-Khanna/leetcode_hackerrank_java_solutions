@@ -1,0 +1,37 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(longest());
+	}
+	
+	private static int longest() {
+	    char[] input = "aa".toCharArray();
+	    int k = 1;
+	    int count = 0;
+	    int longest = 0;
+	    
+	    int start = 0;
+	    int current = 0;
+	    
+	    int[] map = new int[26];
+	    int index;
+	    
+	    while(current < input.length) {
+	        index = input[current] - 'a';
+	        if(map[index] == 0) {
+	            count++;
+	        }
+	        map[index]++;
+	        if(count > k) {
+	            while(count > k) {
+	                count += map[input[start] - 'a']-- == 1 ? -1 : 0;
+	                start++;
+	            }
+	        }
+	        longest = Math.max(longest, current - start + 1);
+	        current++;
+	    }
+	    
+	    return longest;
+	}
+}
