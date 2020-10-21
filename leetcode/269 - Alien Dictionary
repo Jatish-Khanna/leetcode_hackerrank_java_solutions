@@ -1,0 +1,70 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(alienDictionay());
+	}
+	
+	private static String alienDictionay() {
+	    String[] words = {"wrt",
+                          "wrf",
+                          "er",
+                          "ett",
+                          "rftt"
+	    };
+        
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        int[] indegree = new int[26];
+        // Arrays.fill(indegree, -1);
+        buildGraph(words, graph, indegree);
+        String sorted = topologicalSort(indegree, graph);
+        return sorted.length() == graph.size() ? sorted : "";
+	}
+	
+	private static String topologicalSort(int[] indegree, Map<Integer, Set<Integer>> graph) {
+	    Queue<Integer> queue = new LinkedList<>();
+	    
+	    for(int index : graph.keySet()) {
+	        if(indegree[index] == 0) {
+	            queue.offer(index);
+	        }
+	    }
+	    StringBuilder sb = new StringBuilder();
+	    while(!queue.isEmpty()) {
+	        int current = queue.poll();
+	        sb.append((char)(current + 'a'));
+	        for(int neb : graph.get(current)) {
+	           // indegree[neb]--;
+	            if(--indegree[neb] == 0) {
+	                queue.offer(neb);
+	            }
+	        }
+	    }
+	    
+	    return sb.toString();
+	}
+	
+	private static void buildGraph(String[] words, Map<Integer, Set<Integer>> graph, int[] indegree) {
+	    for (String word : words) {
+            for (char c : word.toCharArray()) {
+                graph.put(c - 'a', new HashSet<>());
+            }
+        }
+	    
+	    char[] first, second;
+	    for(int index = 1; index < words.length; index++) {
+	        first = words[index - 1].toCharArray();
+	        second = words[index].toCharArray();
+	        
+	        int current = 0;
+	        while(current < Math.min(first.length, second.length)) {
+	            
+	            if(first[current] != second[current]) {
+	                graph.get(first[current] - 'a').add(second[current] - 'a');
+	                indegree[second[current] - 'a']++;
+	                break;
+	            }
+	            current++;
+	        }
+	    }
+	}
+}
