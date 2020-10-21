@@ -1,0 +1,46 @@
+class Solution {
+    public int maxEnvelopes(int[][] envelopes) {
+        if(envelopes.length <= 1) { return envelopes.length; }
+        
+        Arrays.sort(envelopes, (f, s) -> {
+           if(f[0] == s[0]) {
+               // reverse sort by end
+               return s[1] - f[1];
+           } 
+            return f[0] - s[0];
+        });
+        
+        int[] lis = new int[envelopes.length];
+        int last = 0;
+        lis[last++] = envelopes[0][1];
+        
+        int index = 1;
+        while(index < envelopes.length) {
+            
+            if(lis[last - 1] < envelopes[index][1]) {
+                lis[last++] = envelopes[index][1];
+            } else {
+                int found = binarySearch(envelopes[index][1], lis, 0, last - 1);
+                lis[found] = envelopes[index][1];
+            }
+            
+            index++;
+        }
+        return last;
+    }
+    
+    private int binarySearch(int target, int[] lis, int start, int end) {
+        int mid;
+        while(start <= end) {
+            mid = start + (end - start) / 2;
+            if(lis[mid] == target) {
+                return mid;
+            } else if(target < lis[mid]) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+}
