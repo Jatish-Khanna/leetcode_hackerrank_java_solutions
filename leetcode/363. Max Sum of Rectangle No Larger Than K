@@ -1,0 +1,50 @@
+class Solution {
+    public int maxSumSubmatrix(int[][] matrix, int k) {
+        if(matrix.length == 0) {
+            return 0;
+        }
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+    
+        int maxSum = Integer.MIN_VALUE;
+        
+        for(int col = 0; col < cols; col++) {
+            int[] sum = new int[rows];
+            
+            for(int nc = col; nc < cols; nc++) {
+                for(int row = 0; row < rows; row++) {
+                    sum[row] += matrix[row][nc];
+                }
+            
+                // apply kadanes algo
+
+                int cSum = 0;
+                int max = sum[0];
+                for(int val : sum) {
+                    cSum = Math.max(val, cSum + val);
+                    max = Math.max(max, cSum);
+                    if(max == k) {
+                        return k;
+                    }
+                }
+                // System.out.println(max);
+                // max sum found lower than K or limit
+                if(max < k) {
+                    maxSum = Math.max(maxSum, max);
+                } else {
+                    for(int r1 = 0; r1 < rows; r1++) {
+                        cSum = 0;
+                        for(int r2 = r1; r2 < rows; r2++) {
+                            cSum += sum[r2];
+                            if(cSum  <= k) {
+                                maxSum = Math.max(maxSum, cSum);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return maxSum;
+    }
+}
