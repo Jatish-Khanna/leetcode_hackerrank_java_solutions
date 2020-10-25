@@ -1,0 +1,30 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(findCombination());
+	}
+	
+	private static List<List<Integer>> findCombination() {
+	    List<List<Integer>> result = new ArrayList<>();
+	    find(1, 0, 5, result, new LinkedList<>());
+	    
+	    return result;
+	}
+	
+	private static void find(int start, int target, int number, List<List<Integer>> result, LinkedList<Integer> list) {
+	    
+	    if(target == number) {
+	        result.add(new ArrayList<>(list));
+	        return;
+	    }
+	    
+	   // LinkedList<Integer> list = new LinkedList<>();
+	    for(int n = start; n <= number; n++) {
+	        if(target + n > number) { return; }
+	        list.add(n);
+	        find(n, target + n, number, result, list);
+	        list.removeLast();
+	    }
+	}
+}
+
