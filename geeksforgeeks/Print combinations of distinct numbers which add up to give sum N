@@ -1,0 +1,27 @@
+
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(print());
+	}
+	
+	private static List<List<Integer>> print() {
+	    List<List<Integer>> result = new ArrayList<>();
+	    printList(1, 0, 3, new LinkedList<>(), result);
+	    return result;
+	}
+	
+	private static void printList(int start, int sum, int target, LinkedList<Integer> list, List<List<Integer>> result) {
+	    
+	    if(sum == target) {
+	        result.add(new ArrayList<>(list));
+	        return;
+	    }
+	    for(int index = start; index <= target; index++) {
+	        if(sum + index > target) { return; }
+	        list.add(index);
+	        printList(index + 1, sum + index, target, list, result);
+	        list.removeLast();
+	    }
+	}
+}
