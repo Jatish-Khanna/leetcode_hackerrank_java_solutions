@@ -1,0 +1,46 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(allPalindromes());
+	}
+	
+	private static List<List<String>> allPalindromes() {
+	    String input = "geeks";
+	    List<List<String>> result = new ArrayList<>();
+	    allPalindromes(0, input.length(), input, new LinkedList<>(), result);
+	    return result;
+	}
+	
+	private static void allPalindromes(int start, int length, String input, LinkedList<String> list, 
+	  List<List<String>> result) {
+	      if(start >= length) {
+	          result.add(new ArrayList<>(list));
+	          return;
+	      }
+	      
+	      for(int index = start; index < length; index++) {
+	          if(isPalindrome(input.substring(start, index+1))) {
+	              list.add(input.substring(start, index+1));
+	              allPalindromes(index + 1, length, input, list, result);
+	              list.removeLast();
+	          }
+	      }
+	  }
+	  
+	  private static boolean isPalindrome(String input) {
+	      int start = 0;
+	      int end = input.length() -1;
+	      char[] ar = input.toCharArray();
+	      
+	      
+	      while(start < end) {
+	          if(ar[start] != ar[end]) {
+	              return false;
+	          }
+	          start++;
+	          end--;
+	      }
+	      return true;
+	      
+	  }
+}
