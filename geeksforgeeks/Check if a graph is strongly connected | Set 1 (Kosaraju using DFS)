@@ -1,0 +1,93 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(kosarajuSCC());
+	}
+	
+	private static class Graph {
+	    int vertex;
+	    List<Integer> adj[];
+	    Graph(int vertex) {
+	        this.vertex = vertex;
+	        this.adj = new LinkedList[vertex];
+	        for(int index = 0; index < vertex; index++) {
+	            adj[index] = new LinkedList<>();
+	        }
+	    }
+	    
+	    // directed Graph
+	    public void addEdge(int source, int dest) {
+	        adj[source].add(dest);
+	    }
+	    
+	    public Graph getTranspose() {
+	        Graph transpose = new Graph(vertex);
+	        
+	        for(int index = 0; index < vertex; index++) {
+	            for(int neb : adj[index]) {
+	                transpose.adj[neb].add(index);
+	            }
+	        }
+	        return transpose;
+	    }
+	}
+	
+	private static boolean kosarajuSCC() {
+	    Graph g1 = new Graph(5); 
+        g1.addEdge(0, 1); 
+        g1.addEdge(1, 2); 
+        g1.addEdge(2, 3); 
+        g1.addEdge(3, 0); 
+        g1.addEdge(2, 4); 
+        g1.addEdge(4, 2);
+        
+        Graph g2 = new Graph(4); 
+        g2.addEdge(0, 1); 
+        g2.addEdge(1, 2); 
+        g2.addEdge(2, 3); 
+        if (isSCC(g2)) 
+            System.out.println("Yes"); 
+        else
+            System.out.println("No"); 
+        
+        return isSCC(g1);
+	}
+	
+	private static boolean isSCC(Graph graph) {
+	    boolean[] visited = new boolean[graph.vertex];
+	    // perform dfs
+	    dfs(0, visited, graph);
+	    
+	    // check all visited
+	    if(!checkVisited(visited)) {
+	        return false;
+	    }
+	    
+	    // transpose or reverse edge
+	    Graph transpose = graph.getTranspose();
+	    
+	    visited = new boolean[graph.vertex];
+	    // perform dfs
+	    dfs(0, visited, transpose);
+	    
+	    return checkVisited(visited);
+	}
+	
+	private static boolean checkVisited(boolean[] visited) {
+	    for(boolean visit : visited) {
+	        if(!visit) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	
+	private static void dfs(int node, boolean[] visited, Graph graph) {
+	    if(visited[node]) { return; }
+	    visited[node] = true;
+	    
+	    for(int neb : graph.adj[node]) {
+	        dfs(neb, visited, graph);
+	    }
+	}
+}
