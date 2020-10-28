@@ -1,0 +1,76 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(twoEgdeConnected());
+	}
+	
+	
+	
+	static class Edge {
+	    int source;
+	    int dest;
+	    Edge(int source, int dest) {
+	        this.source = source;
+	        this.dest = dest;
+	    }
+	    
+	    public String toString() {
+	        return this.source + " " + this.dest;
+	        //ret
+	    }
+	}
+	
+	static class Graph {
+	    int vertexCount;
+	    List<Integer>[] adjList;
+	    Graph(int vertexCount) {
+	        this.vertexCount = vertexCount;
+	        adjList = new ArrayList[vertexCount];
+	        for(int index = 0; index < vertexCount; index++) {
+	            adjList[index] = new ArrayList<>();
+	        }
+	    }
+	    public void addEdges(List<Edge> edges) {
+	        for(Edge edge : edges) {
+	            adjList[edge.source].add(edge.dest);
+	            adjList[edge.dest].add(edge.source);
+	        }
+	        
+	    }
+	}
+	
+	private static int dfs(int node, int time, boolean[] visit, int parent, int[] arrival, List<Edge> result, Graph graph) {
+	    
+	    visit[node] = true;
+	    arrival[node] = ++time;
+	    
+	    int current = arrival[node];
+	    for(int neb : graph.adjList[node]) {
+	        if(!visit[neb]) {
+	            current = Math.min(current, dfs(neb, time, visit, node, arrival, result, graph));
+	        } else if(neb != parent) {
+	            current = Math.min(current, arrival[neb]);
+	        }
+	    }
+	    // System.out.println(current + " " + arrival[node] + " " + parent);
+	    if(current == arrival[node] && parent != -1) {
+	        result.add(new Edge(parent, node));
+	    }
+	    return current;
+	}
+	
+	private static List<Edge> twoEgdeConnected() {
+	    List<Edge> edges = Arrays.asList(
+				new Edge(0, 2), new Edge(1, 2),
+				new Edge(2, 3), new Edge(2, 4),
+				new Edge(3, 4), new Edge(3, 5)
+		);
+        int vertexCount = 6;
+        Graph graph = new Graph(vertexCount);
+        graph.addEdges(edges);
+        List<Edge> result = new ArrayList<>();
+        int[] arrival = new int[vertexCount];
+        dfs(0, 0, new boolean[vertexCount], -1, arrival, result, graph);
+        return result;
+	}
+}
