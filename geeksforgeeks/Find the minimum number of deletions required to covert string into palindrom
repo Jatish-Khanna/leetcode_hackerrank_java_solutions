@@ -1,0 +1,26 @@
+class Solution{
+
+     public static void main(String[] args) {
+	    String input = "ACBCDBAA";
+		System.out.println(minDeletion(input, input.length()));
+	}
+	
+	private static int minDeletion(String input, int length) {
+	    int[][] dp = new int[length + 1][length + 1];
+	    String reverse = new StringBuilder(input).reverse().toString();
+	    char[] ar = input.toCharArray();
+	    char[] revAr = reverse.toCharArray();
+	    
+	    for(int f = 1; f <= length; f++) {
+	        for(int s = 1; s <= length; s++) {
+	            if(ar[f - 1] == revAr[s - 1]) {
+	                dp[f][s] = dp[f - 1][s - 1] + 1;
+	            } else {
+	                dp[f][s] = Math.max(dp[f-1][s], dp[f][s - 1]);
+	            }
+	        }
+	    }
+	    System.out.println(Arrays.deepToString(dp));
+	    return length - dp[length][length];
+	}
+}
