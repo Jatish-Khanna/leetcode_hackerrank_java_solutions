@@ -1,0 +1,19 @@
+class Solution {
+    public int maxLengthBetweenEqualCharacters(String s) {
+        int[] last = new int[26];
+        Arrays.fill(last, -1);
+        char[] ar = s.toCharArray();
+        int max = -1;
+        int prev;
+        for(int index = 0; index < ar.length; index++) {
+            prev = last[ar[index] - 'a'];
+            if(prev != -1) {
+                max = Math.max(max, index - prev - 1);
+            } else {
+                last[ar[index] - 'a'] = index;
+            }
+            
+        }
+        return max;
+    }
+}
