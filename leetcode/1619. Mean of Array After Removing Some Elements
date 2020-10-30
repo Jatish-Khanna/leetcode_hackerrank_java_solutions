@@ -1,4 +1,58 @@
 class Solution {
+
+  // with quick select
+
+    public double trimMean(int[] arr) {
+        int start = arr.length / 20;
+        int end = arr.length - start;
+        
+        // Use quickselect for better performance
+        // QuickSelect (start)
+        // QuickSelect (end) - As actual sorting is not required
+        // Arrays.sort(arr);
+        quickSelect(0, arr.length - 1, arr, start);        
+        quickSelect(start, arr.length - 1, arr, end - 1);
+
+        int length = end - start;
+        double sum = 0.0;
+        while(start < end) {
+            sum += arr[start];
+            start++;
+        }
+        return sum / length;
+    }
+    
+    private void quickSelect(int start, int end, int[] ar, int k) {
+        // System.out.println(k + " "+start+ " " + end);
+        int pivitIndex;
+        while(start < end) {
+            pivitIndex = partition(start, end, ar);
+           
+            if(pivitIndex > k) {
+                end = pivitIndex - 1;
+            } else if(pivitIndex < k) {
+                start = pivitIndex + 1;
+            } else {
+                break;
+            }
+        }
+    }
+    
+    private int partition(int start, int end, int[] ar) {
+        int pivit = ar[start];
+        while(start < end) {
+            while(start < end && pivit < ar[end]) end--;
+            ar[start] = ar[end];
+            while(start < end && pivit >= ar[start]) start++;
+            ar[end] = ar[start];
+        }
+        ar[start] = pivit;
+        return start;
+    }
+
+
+  // With Arrays sort (nlogn)
+
     public double trimMean(int[] arr) {
         int start = arr.length / 20;
         int end = arr.length - start;
