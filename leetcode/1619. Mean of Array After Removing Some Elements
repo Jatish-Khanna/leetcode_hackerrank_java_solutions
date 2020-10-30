@@ -1,0 +1,19 @@
+class Solution {
+    public double trimMean(int[] arr) {
+        int start = arr.length / 20;
+        int end = arr.length - start;
+        
+        // Use quickselect for better performance
+        // QuickSelect (start)
+        // QuickSelect (end) - As actual sorting is not required
+        Arrays.sort(arr);
+        
+        int length = end - start;
+        double sum = 0.0;
+        while(start < end) {
+            sum += arr[start];
+            start++;
+        }
+        return sum / length;
+    }
+}
