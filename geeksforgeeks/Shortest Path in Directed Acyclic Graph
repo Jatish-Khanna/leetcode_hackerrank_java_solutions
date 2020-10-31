@@ -1,0 +1,113 @@
+ class Main
+{
+	public static void main(String[] args) {
+		// initialize edges as per above diagram
+		// (u, v, w) triplet represent undirected edge from
+		// vertex u to vertex v having weight w
+		List<Edge> edges = Arrays.asList(
+				new Edge(0, 1, 10), new Edge(0, 4, 3),
+				new Edge(1, 2, 2), new Edge(1, 4, 4),
+				new Edge(2, 3, 9), new Edge(3, 2, 7),
+				new Edge(4, 1, 1), new Edge(4, 2, 8),
+				new Edge(4, 3, 2)
+		);
+
+		// Set number of vertices in the graph
+		final int N = 5;
+
+		// construct graph
+		Graph graph = new Graph(edges, N);
+
+		int source = 0;
+		Arrays.stream(bellmanFord(graph, source, N)).forEach(e -> System.out.print(" " + e));
+		System.out.println();
+		Arrays.stream(dijkastra(graph, source, N)).forEach(e -> System.out.print(" " + e));
+	}
+	
+	static class Node {
+	    int dest;
+	    int weight;
+	    Node(int dest, int weight) {
+	        this.dest = dest;
+	        this.weight = weight;
+	    }
+	}
+	
+	// O( V + ElogE)
+	static int[] dijkastra(Graph graph, int source, int vertexCount) {
+	    int[] distance = new int[vertexCount];
+	    Arrays.fill(distance, Integer.MAX_VALUE);
+	    distance[source] = 0;
+	    PriorityQueue<Node> pq = new PriorityQueue<>((first, second) -> {
+	        return first.weight - second.weight;
+	    });
+	    
+	    boolean[] visited = new boolean[vertexCount];
+	    pq.offer(new Node(source,0));
+	    Node current;
+	    while(!pq.isEmpty()) {
+	        current = pq.poll();
+	        for(Edge edge : graph.adjList[current.dest]) {
+	            if(!visited[edge.dest] && edge.weight + distance[current.dest] < distance[edge.dest]) {
+	                distance[edge.dest] = edge.weight + distance[current.dest];
+	                pq.offer(new Node(edge.dest, distance[edge.dest]));
+	            }
+	        }
+	        System.out.println(pq);
+	        visited[current.dest] = true;
+	    }
+	    return distance;
+	}
+	
+	// O(V * E)
+	static int[] bellmanFord(Graph graph, int source, int vertexCount) {
+	    int[] distance = new int[vertexCount];
+	    Arrays.fill(distance, Integer.MAX_VALUE);
+	    distance[source] = 0;
+	    // BFS
+	    Queue<Integer> queue = new LinkedList<>();
+	    queue.offer(source);
+	    int current;
+	    
+	    while(!queue.isEmpty()) {
+	        current = queue.poll();
+	        if(graph.adjList[current] != null) {
+	            for(Edge edge : graph.adjList[current]) {
+	                if(distance[current] + edge.weight < distance[edge.dest]) {
+	                    distance[edge.dest] = distance[current] + edge.weight;
+	                    queue.offer(edge.dest);
+	                }
+	            }
+	        }
+	    }
+	    return distance;
+	}
+	
+	static class Edge {
+	    int source;
+	    int dest;
+	    int weight;
+	    
+	    Edge(int source, int dest, int weight) {
+	        this.source = source;
+	        this.dest = dest;
+	        this.weight = weight;
+	    }
+	}
+	
+	static class Graph {
+	    int vertexCount;
+	    List<Edge>[] adjList;
+	    
+	    Graph(List<Edge> edges, int vertexCount) {
+	        this.vertexCount = vertexCount;
+	        adjList = new ArrayList[vertexCount];
+	        for(int index = 0 ; index < vertexCount; index++) {
+	            adjList[index] = new ArrayList<>();
+	        }
+	        for(Edge edge : edges) {
+	            adjList[edge.source].add(edge);
+	        }
+	    }
+	} 
+}
