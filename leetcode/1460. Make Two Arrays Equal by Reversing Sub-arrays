@@ -1,0 +1,16 @@
+class Solution {
+    public boolean canBeEqual(int[] target, int[] arr) {
+        int[] map = new int[1001];
+        // int index = 0;
+        for(int element : target) {
+            map[element]++;
+        }
+        
+        for(int element : arr) {
+            if(map[element]-- == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
