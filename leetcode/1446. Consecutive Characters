@@ -1,0 +1,18 @@
+class Solution {
+    public int maxPower(String s) {
+        char prev = '0';
+        int count = 0;
+        int max = 0;
+        for(char current : s.toCharArray()) {
+            if(current == prev) {
+                count++;
+            } else {
+                max = Math.max(count, max);
+                count = 1;
+                prev = current;
+            }
+        }
+        return Math.max(count, max);
+        // return 
+    }
+}
