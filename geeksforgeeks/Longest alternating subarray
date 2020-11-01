@@ -1,0 +1,24 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(longestAlternatingSequence());
+	}
+	
+	private static int longestAlternatingSequence() {
+	    int[] input = {1, -2, 6, -4, 3, 2, -4, -3};
+	    int length = 1;
+	    int max = 0;
+	    
+	    for(int index = 1; index < input.length; index++) {
+	        
+	        if(input[index - 1] * input[index] < 0) {
+	            length++;
+	            max = Math.max(length, max);
+	        } else {
+	            length = 1;
+	        }
+	    }
+	    return max;
+	    
+	}
+}
