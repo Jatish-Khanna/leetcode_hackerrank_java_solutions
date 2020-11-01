@@ -1,0 +1,29 @@
+class Solution {
+    public int isPrefixOfWord(String sentence, String searchWord) {
+        int index = 0;
+        int length = searchWord.length();
+        for(String word : sentence.split(" ")) {
+            ++index;
+            if(word.length() < length) { continue; }
+            if(searchWord.equals(word.substring(0, length))) {
+                return index;
+            }    
+            
+        }
+        return -1;
+    }
+    
+    private boolean isPrefix(String word, String prefix) {
+        if(word.length() < prefix.length()) { return false; }
+        int index = 0;
+        char[] p = prefix.toCharArray();
+        char[] w = word.toCharArray();
+        while(index < p.length) {
+            if(p[index] != w[index]) {
+                return false;
+            }
+            index++;
+        }
+        return true;
+    }
+}
