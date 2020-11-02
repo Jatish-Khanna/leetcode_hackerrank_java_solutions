@@ -1,0 +1,32 @@
+ class Main
+{
+	public static void main(String[] args) {
+				int[] v = { 20, 5, 10, 40, 15, 25 };
+		int[] w = {  1, 2,  3,  8,  7, 4 };
+
+		// Knapsack capacity
+		int W = 10;
+
+		System.out.println("Knapsack value is "
+				+ knapSack(v, w, W));
+	}
+	
+	private static int knapSack(int[] values, int[] weights, int limit) {
+	    int[][] calculatedValues = new int[values.length + 1][limit + 1];
+	    
+	    for(int value = 1; value <= values.length; value++) {
+	        for(int weight = 1; weight <= limit; weight++) {
+	            // exclude
+	            calculatedValues[value][weight] = calculatedValues[value - 1][weight];
+	            
+	            // include
+	            if(weights[value - 1] <= weight) {
+	                calculatedValues[value][weight] = Math.max(calculatedValues[value][weight],
+	                                                    calculatedValues[value - 1][weight - weights[value - 1]] +
+	                                                    values[value - 1]);
+	            }
+	        }
+	    }
+	    return calculatedValues[values.length][limit];
+	}
+}
