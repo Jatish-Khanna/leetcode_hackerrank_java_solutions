@@ -1,5 +1,22 @@
 class Solution {
 
+   // Linear with two variables
+    public int maxProduct(int[] nums) {
+        int first = Integer.MIN_VALUE;
+        int second = first;
+        
+        for(int element : nums) {
+            if(first <= element) {
+                second = first;
+                first = element;
+            } else if(second < element) {
+                second = element;
+            }
+        }
+        return (first - 1) * (second - 1);
+    }
+
+  
 
    // Quick Select approach - slower than O(N)
 
