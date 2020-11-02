@@ -1,0 +1,40 @@
+class Solution {
+
+
+   // Quick Select approach - slower than O(N)
+
+    public int maxProduct(int[] nums) {
+       if(nums.length > 2) {
+        quickSelect(0, nums.length - 1, nums, nums.length - 3); 
+       }
+        int last = nums.length - 1;
+       return (nums[last] - 1) * (nums[last - 1] - 1);
+    }
+    
+    private void quickSelect(int start, int end, int[] nums, int k) {
+        while(start < end) {
+            int index = partition(start, end, nums);
+            if(index > k) {
+                end = index - 1;
+            } else if(index < k) {
+                start = index + 1;
+            } else {
+                break;
+            }
+            
+        }
+        Arrays.stream(nums).forEach(e -> System.out.print(" " + e));
+    }
+    
+    private int partition(int start, int end, int[] nums) {
+        int pivit = nums[start];
+        while(start < end) {
+            while(start < end && nums[end] > pivit) { end--; }
+            nums[start] = nums[end];
+            while(start < end && nums[start] <= pivit) { start++; }
+            nums[end] = nums[start];
+        }
+        nums[start] = pivit;
+        return start;
+    }
+}
