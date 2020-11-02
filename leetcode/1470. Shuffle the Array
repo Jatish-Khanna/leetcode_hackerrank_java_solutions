@@ -1,0 +1,10 @@
+class Solution {
+    public int[] shuffle(int[] nums, int n) {
+        int[] shuffled = new int[nums.length];
+        for(int index = 0, j = 0; j < n; index+=2, j++) {
+            shuffled[index] = nums[j];
+            shuffled[index + 1] = nums[n + j];
+        }
+        return shuffled;
+    }
+}
