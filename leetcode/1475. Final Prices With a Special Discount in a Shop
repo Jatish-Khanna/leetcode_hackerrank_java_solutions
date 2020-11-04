@@ -1,0 +1,20 @@
+class Solution {
+    public int[] finalPrices(int[] prices) {
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        int[] result = new int[prices.length];
+        for(int index = prices.length - 1; index >= 0; index--) {
+            
+            while(!stack.isEmpty() && prices[stack.peek()] > prices[index]) {
+                stack.pop();        
+            }
+            if(stack.isEmpty()) {
+                result[index] = prices[index];
+            } else {
+                result[index] = prices[index] - prices[stack.peek()];
+            }
+            
+            stack.push(index);
+        }
+        return result;
+    }
+}
