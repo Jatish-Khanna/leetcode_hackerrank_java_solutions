@@ -1,0 +1,42 @@
+ class Main
+{
+	public static void main(String[] args) {
+		System.out.println(findWays());
+	}
+	
+	static LinkedList<String> list = new LinkedList<>();
+	private static int findWays() {
+	    int[] input = {4,2,1,4};
+	    int target = 3;
+	    int[][] dp = new int[input.length][100001];
+	    
+	    return findWays(0, input.length - 1, 0, input, target, dp);
+	}
+	
+	private static int findWays(int start, int end, int sum, int[] input, int target, int[][] dp) {
+	    if(sum == target) {
+	        System.out.println(list+"**");
+	        return 1;
+	    } 
+	   // System.out.println(start);
+	    if(start > end) {
+	        System.out.println(list);
+	        return 0; 
+	    }
+	    if(dp[start][sum + 1000] != 0) { 
+	        System.out.println("d:"+dp[start][sum+1000]);
+	        return dp[start][sum + 1000]; 
+	    }
+	    int count = 0;
+	    for(int index = start; index <= end; index++) {
+	        list.add("+"+input[index]);
+	       count += findWays(index + 1, end, sum + input[index], input, target, dp);
+	       list.removeLast();
+	       list.add("-"+input[index]);
+	       count += findWays(index + 1, end, sum - input[index], input, target, dp);
+	       list.removeLast();
+	    }
+	    dp[start][sum + 1000] = count;
+	    return count;
+	}
+}
