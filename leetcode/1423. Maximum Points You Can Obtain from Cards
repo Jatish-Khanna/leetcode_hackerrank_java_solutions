@@ -1,0 +1,23 @@
+class Solution {
+    public int maxScore(int[] cardPoints, int k) {
+        int max = 0;
+        // include first K elements
+        for(int index = 0; index < k; index++) {
+            max += cardPoints[index];
+        }
+        
+        k--;
+        int current = max;
+        int index = cardPoints.length - 1;
+        while(k >= 0) {
+            current += cardPoints[index] - cardPoints[k];
+            if(current > max) {
+                max = current;
+            }
+            k--;
+            index--;
+        }
+        return max;
+    }
+    
+}
