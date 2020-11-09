@@ -1,4 +1,33 @@
 class Solution {
+
+  // Optimized solution
+
+    public int minCut(String s) {
+        int length = s.length();
+        int[] cuts = new int[length];
+        char[] ar = s.toCharArray();
+        Arrays.fill(cuts, length);
+        
+        for(int index = 0; index < length; index++) {
+            // odd length
+            fill(index, index, cuts, ar);
+            // even length
+            fill(index, index + 1, cuts, ar);
+        }
+        return cuts[length - 1];
+    }
+    
+    private void fill(int left, int right, int[] cuts, char[] ar) {
+        while(left >= 0 && right < cuts.length && ar[left] == ar[right]) {
+            cuts[right] = Math.min(cuts[right], left == 0 ? 0 : cuts[left - 1] + 1);
+            left--;
+            right++;
+        }
+    }
+
+
+   // O(N^2) solution
+
     public int minCut(String s) {
         int length = s.length();
         int[] cuts = new int[length];
