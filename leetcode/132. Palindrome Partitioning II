@@ -1,0 +1,31 @@
+class Solution {
+    public int minCut(String s) {
+        int length = s.length();
+        int[] cuts = new int[length];
+        Arrays.fill(cuts, Integer.MAX_VALUE);
+        char[] ar = s.toCharArray();
+        cuts[0] = 0;
+        for(int index = 1; index < length; index++) {
+            if(isPalindrome(ar, 0, index)) {
+                cuts[index] = 0;
+            } else {
+                for(int sub = index - 1; sub >= 0; sub--) {
+                    if(cuts[sub] != Integer.MAX_VALUE && isPalindrome(ar, sub + 1, index )) {
+                        cuts[index] = Math.min(cuts[sub] + 1, cuts[index]);
+                        // break;
+                    }
+                }
+            }
+        }
+        return cuts[length -1];
+    }
+    
+    private boolean isPalindrome(char[] ar, int start, int end) {
+        while(start < end) {
+            if(ar[start] != ar[end]) { return false; }
+            start++;
+            end--;
+        }
+        return true;
+    }
+}
