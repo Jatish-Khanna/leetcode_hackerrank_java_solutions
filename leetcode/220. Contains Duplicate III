@@ -1,4 +1,7 @@
 class Solution {
+
+    // O(N log K) with K space solution
+
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
         
         if(k <= 0) { return false; }
@@ -24,4 +27,31 @@ class Solution {
         }
         return false;
     }
+
+
+  // O(N2) solution
+  
+  
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        
+        if(k <= 0) {return false;}
+        int end; 
+        int start;
+        int lastIndex = nums.length - 1;
+        for(int index = 0; index < nums.length; index++) {
+            end = Math.min(index + k, lastIndex);
+            start = index + 1;
+            while(start <= end) {
+                if(Math.abs((long)nums[start] - (long)nums[index]) <= t) {
+                    return true;
+                }
+                start++;
+            }
+        }
+        return false;
+    }
+
+
+
 }
+
