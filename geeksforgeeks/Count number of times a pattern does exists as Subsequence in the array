@@ -1,0 +1,35 @@
+ class Main
+{
+	public static void main(String[] args) {
+		String X = "subsequence";   // input String
+		String Y = "sue";		// pattern
+
+		System.out.print(count(X, Y, X.length(), Y.length()));
+	}
+	
+	private static int count(String source, String pattern, int sourceLength, int pattLength) {
+	    int[][] appearance = new int[sourceLength + 1][pattLength + 1];
+	    
+	    char[] sArr = source.toCharArray();
+	    char[] pArr = pattern.toCharArray();
+	    
+	    // Empty pattern makes 1 subsequence
+	    for(int s = 0; s < sourceLength; s++) {
+	        appearance[s][0] = 1;
+	    }
+	    
+	    for(int s = 1; s <= sourceLength; s++) {
+	        for(int p = 1; p <= pattLength; p++) {
+	            // if both the char match
+	            // 1. Exclude both the CharSequence
+	            // 2. Exclude only source
+	            
+	            // if both doesn't match
+	            // 1. Exclude only source
+	            appearance[s][p] = (sArr[s - 1] == pArr[p - 1] ?  appearance[s - 1][p - 1] : 0)
+	                                                + appearance[s - 1][p];
+	        }
+	    }
+	    return appearance[sourceLength][pattLength];
+	}
+}
