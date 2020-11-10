@@ -1,0 +1,27 @@
+class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        
+        if(k <= 0) { return false; }
+        TreeSet<Long> elementsInWindow = new TreeSet<>();
+        
+        Long smallestMax;
+        Long largestMin;
+        
+        for(int index = 0; index < nums.length; index++) {
+            smallestMax = elementsInWindow.ceiling((long)nums[index]);
+            largestMin = elementsInWindow.floor((long)nums[index]);
+            
+            if(smallestMax != null && smallestMax - nums[index] <= t) {
+                return true;
+            } else if(largestMin != null && nums[index] - largestMin <= t) {
+                return true;
+            }
+            
+            if(elementsInWindow.size() == k) {
+                elementsInWindow.remove((long)nums[index - k]);
+            }
+            elementsInWindow.add((long)nums[index]);
+        }
+        return false;
+    }
+}
