@@ -1,0 +1,32 @@
+class Main
+{
+	public static void main(String[] args) {
+		System.out.println(longestAlternatingSubsequence());
+	}
+	
+	static int[][] cache;
+	private static int longestAlternatingSubsequence() {
+	    int[] input = {8, 9, 6, 4, 5, 7, 3, 2, 4 };
+	    cache = new int[input.length + 1][2];
+	    return 1 + Math.max(longest(0, 1, input.length, 1, input),
+	                        longest(0, 1, input.length, 0, input));
+	}
+	
+	private static int longest(int last, int start, int end, int isLarge, int[] input) {
+	    int count = 0;
+	    
+	    if(cache[start][isLarge] != 0) { return cache[start][isLarge]; }
+	    
+	    for(int index = start; index < end; index++) {
+	        if(isLarge == 1 && input[last] < input[index]) {
+	            count = Math.max(count, 1 + longest(index, index + 1, end, 1-isLarge, input));
+	        } else if(isLarge == 0 && input[last] > input[index]) {
+	            count = Math.max(count, 1 + longest(index, index + 1, end, 1 - isLarge, input));
+	        } else {
+	            count = Math.max(count, longest(last, index + 1, end, isLarge, input));
+	        }
+	    }
+	    cache[start][isLarge] = count;
+	    return count;
+	}
+}
