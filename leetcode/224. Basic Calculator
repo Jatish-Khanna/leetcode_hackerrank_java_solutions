@@ -1,0 +1,46 @@
+class Solution {
+    public int calculate(String s) {
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        // positive or negative
+        int sign = 1;
+        int number = 0;
+        
+        char[] arr = s.toCharArray();
+        char current;
+        
+        for(int index  = 0; index < arr.length; index++) {
+            current = arr[index];
+            if(current == '(') {
+                stack.push(number);
+                stack.push(sign);
+                
+                // reset
+                sign = 1;
+                number = 0;
+                
+            } else if(current == '+') {
+                sign = 1;
+            } else  if(current == '-') {
+                sign = -1;
+            } else if(isDigit(current)) {
+                int num = 0;
+                do{
+                    num = num * 10 + (arr[index] - '0');
+                    index++;
+                } while(index < arr.length && isDigit(arr[index]));
+                
+                number += num * sign;
+                index--; // the index to be reprocessed
+                
+            } else if(current == ')') {
+                number *= stack.pop(); // sign
+                number += stack.pop(); // operate
+            }
+        }
+        return number;
+    }
+    
+    private boolean isDigit(char current) {
+        return current >= '0' && current <= '9';
+    }
+}
