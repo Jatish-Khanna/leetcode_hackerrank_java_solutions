@@ -1,0 +1,17 @@
+class Solution {
+    public int totalHammingDistance(int[] nums) {
+        int hammingDistance = 0;
+        int length = nums.length;
+        
+        int count;
+        
+        for(int index = 0; index < 32; index++) {
+            count = 0;
+            for(int num : nums) {
+                count += ((num >> index) & 1);
+            }
+            hammingDistance += count * (length - count);
+        }
+        return hammingDistance;
+    }
+}
