@@ -1,0 +1,27 @@
+class Solution {
+    public int findSubstringInWraproundString(String p) {
+        if(p == null || p.isEmpty()) { return 0; }
+        char[] arr = p.toCharArray();
+        int subLength = 1;
+        char prev = arr[0];
+        int[] dp = new int[26];
+        dp[prev - 'a'] = 1;
+        
+        for(int index = 1; index < arr.length; index++) {
+            if(prev + 1 == arr[index] || (prev == 'z' && arr[index] == 'a')) {
+                subLength++;
+            } else {
+                subLength = 1;
+            }
+            // ensure the unique substrings
+            // Only the substring starting with current char but max length counted
+            dp[arr[index] - 'a'] = Math.max(dp[arr[index] - 'a'], subLength);
+            prev = arr[index];
+        }
+        int sum = 0;
+        for(int value : dp) {
+            sum += value;
+        }
+        return sum;
+    }
+}
