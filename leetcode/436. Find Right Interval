@@ -1,0 +1,25 @@
+class Solution {
+    public int[] findRightInterval(int[][] intervals) {
+        TreeMap<Integer, Integer> treeMap = new TreeMap<>();
+        
+        int index = 0;
+        for(int[] interval : intervals) {
+            treeMap.put(interval[0], index);
+            index++;
+        }
+        
+        int[] result = new int[intervals.length];
+        index = 0;
+        
+        for(int[] interval : intervals) {
+            Map.Entry<Integer,Integer> maxRight = treeMap.ceilingEntry(interval[1]);
+            if(maxRight != null) {
+                result[index] = maxRight.getValue();
+            }  else {
+                result[index] = -1;
+            }
+            index++;
+        }
+        return result;
+    }
+}
