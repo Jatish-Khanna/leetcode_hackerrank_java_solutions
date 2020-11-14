@@ -1,0 +1,23 @@
+class Solution {
+    public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+        Map<Integer, Integer> twoSum = new HashMap<>();
+        for(int first : A) {
+            for(int second : B) {
+                twoSum.merge(first + second, 1, ((old, n) -> old + n));
+            }
+        }
+        
+        int count = 0;
+        int intermediateSum;
+        
+        for(int third : C) {
+            for(int fourth : D) {
+                intermediateSum = -(third + fourth);
+                if(twoSum.containsKey(intermediateSum)) {
+                    count += twoSum.get(intermediateSum);
+                }
+            }
+        }
+        return count;
+    }
+}
