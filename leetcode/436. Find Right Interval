@@ -1,4 +1,46 @@
 class Solution {
+
+    // Faster solution
+    // 1. find the min and max element present in the array
+    // 2. We have the range in which elements are present
+    // 3. Create a new array initialized with -1 as the places
+    // 4. Mark all the start indexes with the interval location
+    // 5. Iterate from the right and mark the position with next greater if no such start index is present
+    // 6. Iterate over intervals and find the next greater element present using the range array 
+    public int[] findRightInterval(int[][] intervals) {
+    
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        
+        // find the range
+        for(int[] interval : intervals) {
+            min = Math.min(interval[0], min);
+            max = Math.max(interval[1], max);
+        }
+        
+        int[] range = new int[max - min + 1];
+        Arrays.fill(range, -1);
+        
+        // fill the index for the starting positions
+        for(int index = 0; index < intervals.length; index++) {
+            range[intervals[index][0] - min] = index;
+        }
+        
+        // fill all the next greater for this position
+        for(int index = range.length - 2; index >= 0; index--) {
+            if(range[index] == -1) {
+                range[index] = range[index + 1];
+            }
+        }
+        int[] result = new int[intervals.length];
+        for(int index = 0; index < intervals.length; index++) {
+            result[index] = range[intervals[index][1] - min];
+        }
+        return result;
+    }
+
+    // SLower with O(nlogn) as the starting postions are sorted and HashMap gives (1)
+
     public int[] findRightInterval(int[][] intervals) {
         TreeMap<Integer, Integer> treeMap = new TreeMap<>();
         
