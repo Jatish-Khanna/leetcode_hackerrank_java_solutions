@@ -1,0 +1,52 @@
+class Solution {
+    public int findLUSlength(String[] strs) {
+        Set<String> collection = new HashSet<>();
+        Set<String> unique = new HashSet<>();
+        for(String string : strs) {
+            if(collection.contains(string)) {
+                unique.remove(string);
+            } else {
+                collection.add(string);
+                unique.add(string);
+            }
+        }
+        
+        boolean include;
+        int max = -1;
+        for(String first : unique) {
+            include = true;
+            if(first.length() < max) { continue; }
+            for(String second : collection) {
+                if(!first.equals(second) && isSubsequence(first, second)) {
+                    include = false;
+                    break;
+                }
+            }
+            
+            if(include) {
+                max = Math.max(max, first.length());
+            }
+        }
+        
+        return max;
+    }
+    
+    private boolean isSubsequence(String primary, String second) {
+        if(primary.length() > second.length()) {
+            return false;
+        }
+        
+        char[] f = primary.toCharArray();
+        char[] t = second.toCharArray();
+        int fIndex = 0;
+        int tIndex = 0;
+        while(fIndex < f.length && tIndex < t.length) {
+            if(f[fIndex] == t[tIndex]) {
+                fIndex++;
+            }
+            tIndex++;
+        }
+        
+        return fIndex == f.length;
+    }
+}
