@@ -1,0 +1,26 @@
+class Solution {
+    public boolean checkSubarraySum(int[] nums, int k) {
+        if(nums.length < 2) { return false; }
+        // if(k < 0) { k = -k; }
+        
+        Set<Integer> seenSum = new HashSet<>();
+        int sum = 0;
+        int index = 0;
+        int excluding = 0;
+        int rem;
+        
+        while(index < nums.length) {
+            sum += nums[index];
+            if(k!= 0) sum  = sum % k;
+            // System.out.println(seenSum + " " + sum);
+            if(seenSum.contains(sum)) {
+                return true;
+            }
+            // else will fail for test case - [23,2,7,6] - ensures length 2
+            seenSum.add(excluding);
+            excluding = sum;
+            index++;
+        }
+        return false;   
+    }
+}
