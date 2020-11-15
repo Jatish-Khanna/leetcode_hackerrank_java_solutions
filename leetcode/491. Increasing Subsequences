@@ -1,0 +1,35 @@
+class Solution {
+    
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        List<List<Integer>> lisSequences = new ArrayList<>();
+        
+        if(nums.length < 2) {
+            return lisSequences;
+        }
+        
+        generate(0, nums.length - 1, new LinkedList<>(), lisSequences, -101, nums);
+        return lisSequences;
+    }
+    
+    private void generate(int start, int end, LinkedList<Integer> list, List<List<Integer>> lisSequences, int last, int[] nums) {
+        
+        if(start > end) {
+            
+            if(list.size() > 1) {
+                List<Integer> cloned = new ArrayList<>(list);
+                lisSequences.add(cloned);
+            }
+            return;
+        }
+    
+        if(last <= nums[start]) {
+            list.add(nums[start]);
+            generate(start + 1, end, list, lisSequences, nums[start], nums);
+            list.removeLast();
+        }
+        
+        if(nums[start] == last) { return; }
+        
+        generate(start + 1, end, list, lisSequences, last, nums);
+    }
+}
