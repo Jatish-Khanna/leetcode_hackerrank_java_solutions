@@ -1,0 +1,23 @@
+class Solution {
+    public int arrayNesting(int[] nums) {
+        int[] result = new int[nums.length];
+        Arrays.fill(result, -1);
+        
+        int max = 0;
+        for(int index = 0; index < nums.length; index++) {
+            max = Math.max(max, dfs(nums, index, result));
+        }
+        return max;
+    }
+    
+    private int dfs(int[] nums, int index, int[] result) {
+        // if(index < 0 || index >= nums.length) { return 0; }
+        
+        if(result[index] != -1) { return result[index]; }
+        // visited
+        result[index] = 0;
+        result[index] = dfs(nums, nums[index], result) + 1;
+        
+        return result[index];
+    }
+}
