@@ -1,0 +1,17 @@
+class Solution {
+    public int partitionDisjoint(int[] A) {
+        int runningMax = A[0];
+        int max = runningMax;
+        int last = 0;
+        
+        for(int index = 1; index < A.length; index++) {
+            if(A[index] < max) {
+                max = runningMax;
+                last = index;
+            }
+            runningMax = Math.max(runningMax, A[index]);
+        }
+        // length
+        return last + 1;
+    }
+}
