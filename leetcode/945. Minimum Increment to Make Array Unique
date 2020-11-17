@@ -1,0 +1,32 @@
+class Solution {
+    public int minIncrementForUnique(int[] A) {
+        
+        if(A.length == 0) { return 0; }
+        
+        int[] freq = new int[40000];
+        int max = Integer.MIN_VALUE;
+        
+        for(int element : A) {
+            freq[element]++;
+            max = Math.max(max, element);
+        }
+        
+        int totalMoves = 0;
+        int extraSteps;
+        
+        for(int index = 0; index < max; index++) {
+            if(freq[index] > 1) {
+                extraSteps = freq[index] - 1;
+                freq[index + 1] += extraSteps;
+                totalMoves += extraSteps;
+                freq[index] = 1;
+            }
+        }
+        
+        if(freq[max] > 1) {
+            extraSteps = freq[max] - 1;
+            totalMoves += (extraSteps * (extraSteps + 1)) / 2;
+        }
+        return totalMoves;
+    }
+}
