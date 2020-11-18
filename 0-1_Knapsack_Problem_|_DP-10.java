@@ -1,6 +1,5 @@
 class Solution {
 
-
 	private static int knapSack (int bagWeight, int []itemsWeight, int []itemsValue, int length) {
 	
 		int [][]dpSol = new int[length+1][bagWeight+1];
