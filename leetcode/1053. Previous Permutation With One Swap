@@ -1,0 +1,26 @@
+class Solution {
+    public int[] prevPermOpt1(int[] A) {
+        int index = A.length - 2;
+        for(; index >= 0; index--) {
+            if(A[index + 1] < A[index]) {
+                break;
+            }
+        }
+        
+        if(index == -1) { return A; }
+        
+        int lastSmaller = A.length - 1;
+        while(lastSmaller > index) {
+            if(A[lastSmaller] < A[index]) {
+                break;
+            }
+            lastSmaller--;
+        }
+        // System.out.println(lastSmaller + " " + index);
+        // lastSmaller++;
+        int temp = A[lastSmaller];
+        A[lastSmaller] = A[index];
+        A[index] = temp;
+        return A;
+    }
+}
