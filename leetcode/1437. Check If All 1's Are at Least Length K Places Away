@@ -3,10 +3,10 @@ class Solution {
   
   
     public boolean kLengthApart(int[] nums, int k) {
-        if(nums.length == 0) {
+        if(nums.length == 0 || k == 0) {
             return true;
         }
-        int zc = 0;
+
         int count = k;
         for(int num : nums) {
             // System.out.println(count + " " + num);
