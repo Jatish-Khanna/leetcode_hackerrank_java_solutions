@@ -1,0 +1,15 @@
+class Solution {
+    public int[] maxDepthAfterSplit(String seq) {
+        char[] sequence = seq.toCharArray();
+        int[] solution = new int[sequence.length];
+        
+        for(int index = 1; index < sequence.length; index++) {
+            if(sequence[index - 1] != sequence[index]) {
+                solution[index] = solution[index - 1];
+            } else {
+                solution[index] = 1 - solution[index - 1];
+            }
+        }
+        return solution;
+    }
+}
