@@ -12,7 +12,7 @@ class Solution {
             // System.out.println(count + " " + num);
             if(num == 0) {
                 count++;
-            } else if(count != -1 && count < k) {
+            } else if(count < k) {
                 return false;
             } else {
                 count = 0;
