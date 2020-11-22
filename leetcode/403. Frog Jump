@@ -1,4 +1,38 @@
 class Solution {
+
+    // fastest with DFs
+
+
+    public boolean canCross(int[] stones) {
+        HashSet<Integer> stoneLocation = new HashSet<>();
+        
+        for(int index = 1; index < stones.length; index++) {
+            if(stones[index] - stones[index - 1] > index) {
+                return false;
+            }
+            stoneLocation.add(stones[index]);
+        }
+        // visited = new boolean[stones[stones.length - 1]][stones.length];
+        return dfs(1, stones[stones.length - 1], 1, stoneLocation);
+    }
+    
+    private boolean dfs(int current, int target, int lastStep, HashSet<Integer> stoneLocation) {
+        if(current == target) { return true; }
+        else if(current > target || lastStep <= 0 || !stoneLocation.contains(current)) {
+            return false;
+        }
+        
+        // if(visited[current][lastStep]) { return false; }
+        // visited[current][lastStep] = true;
+        
+        return dfs(current + lastStep + 1, target, lastStep + 1, stoneLocation)
+            || dfs(current + lastStep, target, lastStep, stoneLocation)
+            || dfs(current + lastStep - 1, target, lastStep - 1, stoneLocation);
+    }
+
+
+    // Slower
+
     public boolean canCross(int[] stones) {
         Map<Integer, Set<Integer>> map = new HashMap<>();
         for(int stone : stones) {
