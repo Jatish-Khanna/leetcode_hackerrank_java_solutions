@@ -1,0 +1,17 @@
+class Solution {
+    public int longestSubsequence(int[] arr, int difference) {
+        int[] exists = new int[40005];
+        
+        int longest = 1;
+        int lastWithDifference;
+        
+        for(int element : arr) {
+            lastWithDifference = element + 20000 - difference;
+            if(exists[lastWithDifference] > 0) {
+                longest = Math.max(longest, 1 + exists[lastWithDifference]);
+            }
+            exists[element + 20000] = 1 + exists[lastWithDifference]; 
+        }
+        return longest;
+    }
+}
