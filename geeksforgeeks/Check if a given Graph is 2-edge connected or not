@@ -3,9 +3,7 @@
 	public static void main(String[] args) {
 		System.out.println(twoEgdeConnected());
 	}
-	
-	
-	
+
 	static class Edge {
 	    int source;
 	    int dest;
