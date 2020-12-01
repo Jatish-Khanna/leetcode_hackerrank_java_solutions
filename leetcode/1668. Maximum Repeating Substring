@@ -1,0 +1,29 @@
+class Solution {
+    public int maxRepeating(String sequence, String word) {
+        int max = 0;
+        int count = 0;
+        
+        char[] original = sequence.toCharArray();
+        char[] pattern = word.toCharArray();
+        
+        int m1, m2;
+        
+        for(int index = 0; index < original.length - pattern.length + 1; index++) {
+            if(original[index] == pattern[0]) {
+                m1 = index;
+                m2 = 0;
+                count = 0;
+                while(m1 < original.length && original[m1] == pattern[m2 % pattern.length]) {
+                    m1++;
+                    m2++;
+                    if(m2 == pattern.length) {
+                        count++;
+                        max = Math.max(count, max);
+                        m2 = 0;
+                    }
+                }
+            }
+        }
+        return max;
+    }
+}
