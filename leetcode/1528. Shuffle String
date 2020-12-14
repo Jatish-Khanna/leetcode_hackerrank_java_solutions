@@ -1,0 +1,12 @@
+class Solution {
+    public String restoreString(String s, int[] indices) {
+        char[] restoredString = new char[indices.length];
+        char[] originalString = s.toCharArray();
+        
+        
+        for(int index = 0; index < indices.length; index++) {
+            restoredString[indices[index]] = originalString[index];
+        }
+        return new String(restoredString);
+    }
+}
