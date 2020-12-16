@@ -1,0 +1,19 @@
+class Solution {
+    public String interpret(String command) {
+        StringBuilder sb = new StringBuilder();
+        char[] commandCharacters = command.toCharArray();
+        
+        for(int index = 0; index < commandCharacters.length; index++) {
+            if(commandCharacters[index] == 'G') {
+                sb.append("G");
+            } else if(commandCharacters[index + 1] == 'a') {
+                sb.append("al");
+                index += 3;
+            } else {
+                sb.append("o");
+                index++;
+            }
+        }
+        return sb.toString();
+    }
+}
