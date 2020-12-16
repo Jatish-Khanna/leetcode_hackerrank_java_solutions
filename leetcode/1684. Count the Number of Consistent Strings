@@ -1,0 +1,29 @@
+class Solution {
+    public int countConsistentStrings(String allowed, String[] words) {
+        boolean[] allowedCharacters = new boolean[26];
+        
+        for(char current : allowed.toCharArray()) {
+            allowedCharacters[current - 'a'] = true;
+        }
+        
+        boolean[] seenCharacters;
+        int consistentStringCount = 0;
+        for(String word : words) {
+            seenCharacters = new boolean[26];
+            if(isConsistentString(word, allowedCharacters)) {
+                consistentStringCount++;
+            }
+        }
+        
+        return consistentStringCount;
+    }
+    
+    private boolean isConsistentString(String word, boolean[] allowedCharacters) {
+        for(char current : word.toCharArray()) {
+            if(!allowedCharacters[current - 'a']) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
