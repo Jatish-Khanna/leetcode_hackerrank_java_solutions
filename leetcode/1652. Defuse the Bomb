@@ -1,0 +1,25 @@
+class Solution {
+    public int[] decrypt(int[] code, int k) {
+        int[] decryptedCode = new int[code.length];
+        if(k == 0) { return decryptedCode; }
+        
+        int minIndex = k < 0 ? code.length + k : 1;
+        int maxIndex = k < 0 ? code.length - 1 : k;
+        
+        int runningSum = 0;
+        int current = minIndex;
+        while(current <= maxIndex) {
+            runningSum += code[current];
+            current++;
+        }
+        
+        for(int index = 0; index < code.length; index++) {
+            decryptedCode[index] = runningSum;
+            runningSum -= code[minIndex];
+            minIndex = (minIndex + 1) % code.length;
+            maxIndex = (maxIndex + 1) % code.length;
+            runningSum += code[maxIndex];
+        }
+        return decryptedCode;
+    }
+}
