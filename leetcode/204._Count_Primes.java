@@ -14,6 +14,7 @@ public class Solution {
         // Loop only through odd numbers
         for(int i = 3; i < limit; i += 2){
             if (!notPrime[i]) {
+                // Look for all the number with 2 as factor in it
                 for (int j = i * i; j < n; j += 2 * i){
                     if(!notPrime[j]){
                         notPrime[j] = true;
